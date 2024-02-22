@@ -1,7 +1,7 @@
 
 import { Intervention } from "../models/intervention.mjs";
+import { Observateur } from "../models/observateur.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-import mongoose from "mongoose";
 
 const create = async(request, response) => {
 
@@ -54,6 +54,7 @@ const deleteOne = async(request, response) => {
     try {
         const result = await Intervention.deleteOne({ _id : request.params.interventionId });
         if(result.acknowledged == true && result.deletedCount == 1) {
+            await Observateur.deleteMany({ interventionId : request.params.interventionId });
             response.status(200).json(true);
         }
 

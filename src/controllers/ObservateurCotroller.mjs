@@ -1,7 +1,6 @@
 
 import { Observateur } from "../models/observateur.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-import mongoose from "mongoose";
 
 const create = async(request, response) => {
 
@@ -36,13 +35,11 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-
-        const observateurs = await Observateur.findById(observateurId).sort({date:-1});
-        console.log(observateurs)
-
+        const observateurs = await Observateur.find({ interventionId : observateurId}).sort({date:-1});
         if(observateurs == null) {
             return response.status(404).json({ msg : "Il n'y a aucune Appareil(s), équipement(s) ou installation(s) " });
         } else {
+            console.log(observateurs)
             return response.status(200).json(observateurs);
         }
 
@@ -68,13 +65,12 @@ const update = async(request, response) => {
 const deleteOne = async(request, response) => {
     try {
 
-        const result = await Observateur.deleteOne({ _id : request.params.bservateurId });
+        const result = await Observateur.deleteOne({ _id : request.params.observateurId });
         if(result.acknowledged == true && result.deletedCount == 1) {
             response.status(200).json(true);
         }
 
     } catch (error) {
-        console.log(error)
         response.status(400).json(error);
     }
 }

@@ -2,10 +2,10 @@ import { Router } from "express";
 const router = Router();
 import ObservateurCotroller from "../controllers/ObservateurCotroller.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-import { validationInterventionSchemas } from "../utils/validationInterventionSchemas.mjs"
-import { resolveTypesDataIntervention } from "../middelwares/intervention/resolveTypesDataIntervention.mjs"
+import { validationObservateurSchemas } from "../utils/validationObservateurSchemas.mjs"
+import { resolveTypesDataObservateur } from "../middelwares/observateur/resolveTypesDataObservateur.mjs"
 
-router.post("/create", resolveTypesDataIntervention, checkSchema(validationInterventionSchemas), ObservateurCotroller.create);
+router.post("/create", resolveTypesDataObservateur, checkSchema(validationObservateurSchemas), ObservateurCotroller.create);
 router.put("/:observateurId", ObservateurCotroller.update);
 router.delete("/:observateurId", ObservateurCotroller.deleteOne);
 router.get("/", ObservateurCotroller.read);

@@ -1,44 +1,49 @@
 import mongoose from "mongoose";
 const ObservateurSchema = new mongoose.Schema({
 
-    date : {
-        type : mongoose.Schema.Types.Date,
-        required : false,
-    },
-
-    type : {
+    categorieAppareil: {
         type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    mission : {
-        type : mongoose.Schema.Types.String,
-        required : false,
+        required : false
     },
 
     constructeur : {
         type : mongoose.Schema.Types.String,
-        required : false,
+        required : false
     },
 
-    numeroSerie : {
-        type : mongoose.Schema.Types.String,
-        required : false,
+    date: {
+        type : mongoose.Schema.Types.Date,
+        required : false
     },
 
-    numeroInterne : {
+    interventionId : {
         type : mongoose.Schema.Types.String,
-        required : false,
+        required : false
     },
 
     localisation : {
         type : mongoose.Schema.Types.String,
-        required : false,
+        required : false
     },
 
-    controle : {
+    marquage : {
         type : mongoose.Schema.Types.String,
-        required : false,
+        required : false
+    },
+
+    numeroInterne : {
+        type : mongoose.Schema.Types.String,
+        required : false
+    },
+
+    numeroSerie : {
+        type : mongoose.Schema.Types.String,
+        required : false
+    },
+
+    typeVerification : {
+        type : mongoose.Schema.Types.String,
+        required : false
     }
 
 })
