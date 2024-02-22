@@ -1,18 +1,15 @@
 export const validationInspecteurSchemas = {
     email : {
         isEmail : {
-            errorMessage : "Please Insert Email"
+            errorMessage : "Veuillez insérer un E-mail"
         },
         notEmpty : {
-            errorMessage : "email cannot be empty"
-        },
-        isString : {
-            errorMessage : "name must be a string"
+            errorMessage : "L'E-mail ne peut pas être vide"
         }
     },
     password : {
         notEmpty : {
-            errorMessage : "name cannot be empty"
+            errorMessage : "Mot de passe ne peut pas être vide"
         }
     }
 }

@@ -1,46 +1,47 @@
 import mongoose from "mongoose";
-const ObjetSchema = new mongoose.Schema({
+const ObservateurSchema = new mongoose.Schema({
 
     date : {
         type : mongoose.Schema.Types.Date,
-        required : true,
+        required : false,
     },
 
     type : {
         type : mongoose.Schema.Types.String,
-        required : true,
+        required : false,
     },
 
     mission : {
         type : mongoose.Schema.Types.String,
-        required : true,
+        required : false,
     },
 
     constructeur : {
         type : mongoose.Schema.Types.String,
-        required : true,
+        required : false,
     },
 
     numeroSerie : {
         type : mongoose.Schema.Types.String,
-        required : true,
+        required : false,
     },
 
     numeroInterne : {
         type : mongoose.Schema.Types.String,
-        required : true,
+        required : false,
     },
 
     localisation : {
         type : mongoose.Schema.Types.String,
-        required : true,
+        required : false,
     },
 
     controle : {
         type : mongoose.Schema.Types.String,
-        required : true,
+        required : false,
     }
 
 })
 
-export const Objet = mongoose.model("Objet", ObjetSchema);
+export const Observateur = mongoose.model("Observateur", ObservateurSchema);
+
