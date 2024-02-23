@@ -13,6 +13,7 @@ export const resolveTypesDataObservateur = (request, response, next) => {
             numeroInterne : String(request.body.numeroInterne),
             localisation : String(request.body.localisation),
             marquage : String(request.body.marquage),
+            accompagnateur : String(request.body.accompagnateur),
         }
 
         request.body = body;

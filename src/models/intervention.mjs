@@ -40,6 +40,11 @@ const InterventionSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.String,
         required : false,
     },
+
+    pays : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
     
     metier : {
         type : mongoose.Schema.Types.String,
@@ -49,7 +54,7 @@ const InterventionSchema = new mongoose.Schema({
     dateCreated : {
         type : mongoose.Schema.Types.Date,
         default : new Date()
-    },
+    }
 })
 
 export const Intervention = mongoose.model("Intervention", InterventionSchema);

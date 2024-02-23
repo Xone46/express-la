@@ -44,6 +44,11 @@ const ObservateurSchema = new mongoose.Schema({
     typeVerification : {
         type : mongoose.Schema.Types.String,
         required : false
+    },
+
+    accompagnateur : {
+        type : mongoose.Schema.Types.String,
+        required : false
     }
 
 })

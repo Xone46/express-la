@@ -88,6 +88,17 @@ export const validationInterventionSchemas = {
         }
     },
 
+    pays : {
+
+        isString : {
+            errorMessage : "Vous devez saisir Pays valide"
+        },
+
+        notEmpty : {
+            errorMessage : "Pays Postal ne peut pas être vide"
+        }
+    },
+
     metier : {
 
         isString : {
@@ -97,6 +108,6 @@ export const validationInterventionSchemas = {
         notEmpty : {
             errorMessage : "Métier Postal ne peut pas être vide"
         }
-    },
+    }
 
 }

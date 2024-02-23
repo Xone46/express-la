@@ -97,6 +97,17 @@ export const validationObservateurSchemas = {
         notEmpty : {
             errorMessage : "Marquage ne peut pas être vide"
         }
+    },
+
+    accompagnateur : {
+
+        isString : {
+            errorMessage : "Vous devez saisir Accompagnateur valide"
+        },
+
+        notEmpty : {
+            errorMessage : "Accompagnateur ne peut pas être vide"
+        }
     }
 
 }

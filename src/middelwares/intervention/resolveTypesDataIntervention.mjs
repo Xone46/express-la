@@ -2,6 +2,8 @@ export const resolveTypesDataIntervention = (request, response, next) => {
 
     try {
 
+        console.log(request.body)
+
         // fixed types data request
         const body = {
             date: request.body.date,
@@ -12,6 +14,7 @@ export const resolveTypesDataIntervention = (request, response, next) => {
             adresse: String(request.body.adresse),
             codePostal: String(request.body.codePostal),
             ville: String(request.body.ville),
+            pays: String(request.body.pays),
             metier: String(request.body.metier)
         }
 
