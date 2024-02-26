@@ -2,7 +2,6 @@ export const resolveTypesDataIntervention = (request, response, next) => {
 
     try {
 
-        console.log(request.body)
 
         // fixed types data request
         const body = {

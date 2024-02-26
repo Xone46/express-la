@@ -13,6 +13,7 @@ import chekinRouter from "./routes/chekin.mjs"
 import inspecteurRouter from "./routes/inspecteurs.mjs"
 import interventionRouter from "./routes/interventions.mjs"
 import observateurRouter from "./routes/observateurs.mjs"
+import renseignementRouter from "./routes/renseignement.mjs"
 
 mongoose.connect("mongodb://localhost/control")
 .then(() => {
@@ -29,7 +30,7 @@ app.use(cookieParser(process.env.SECRET_COOKIE));
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8081');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -66,6 +67,7 @@ app.use("/api/v1/chekins", chekinRouter);
 app.use("/api/v1/inspecteurs", inspecteurRouter);
 app.use("/api/v1/interventions", interventionRouter);
 app.use("/api/v1/observateurs", observateurRouter);
+app.use("/api/v1/renseignements", renseignementRouter);
 
 // generate cookie for client ID
 app.get("/", (request, response) => {
