@@ -14,6 +14,7 @@ import inspecteurRouter from "./routes/inspecteurs.mjs"
 import interventionRouter from "./routes/interventions.mjs"
 import observateurRouter from "./routes/observateurs.mjs"
 import renseignementRouter from "./routes/renseignement.mjs"
+import descriptionRouter from "./routes/descriptions.mjs"
 
 mongoose.connect("mongodb://localhost/control")
 .then(() => {
@@ -68,6 +69,7 @@ app.use("/api/v1/inspecteurs", inspecteurRouter);
 app.use("/api/v1/interventions", interventionRouter);
 app.use("/api/v1/observateurs", observateurRouter);
 app.use("/api/v1/renseignements", renseignementRouter);
+app.use("/api/v1/descriptions", descriptionRouter);
 
 // generate cookie for client ID
 app.get("/", (request, response) => {
