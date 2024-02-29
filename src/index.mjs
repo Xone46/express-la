@@ -17,6 +17,7 @@ import renseignementRouter from "./routes/renseignement.mjs"
 import descriptionRouter from "./routes/descriptions.mjs"
 import examenRouter from "./routes/examen.mjs"
 import photoRouter from "./routes/photo.mjs"
+import conclusionRouter from "./routes/conclusion.mjs"
 
 mongoose.connect("mongodb://localhost/control")
 .then(() => {
@@ -74,6 +75,7 @@ app.use("/api/v1/renseignements", renseignementRouter);
 app.use("/api/v1/descriptions", descriptionRouter);
 app.use("/api/v1/examens", examenRouter);
 app.use("/api/v1/photos", photoRouter);
+app.use("/api/v1/conclusions", conclusionRouter);
 
 // generate cookie for client ID
 app.get("/", (request, response) => {

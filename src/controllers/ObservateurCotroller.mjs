@@ -85,7 +85,7 @@ const select = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         const observateurs = await Observateur.find({ interventionId: observateurId }).sort({ date: -1 });
         if (observateurs == null) {
-            return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)" });
+            return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)ult" });
         } else {
             console.log(observateurs)
             return response.status(200).json(observateurs);

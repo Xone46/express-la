@@ -5,5 +5,4 @@ import { resolveTypesDataExamen } from "../middelwares/examens/resolveTypesDataE
 
 router.post("/create", resolveTypesDataExamen, ExamenController.create);
 
-
 export default router;
