@@ -19,6 +19,11 @@ const ConclusionSchema = new mongoose.Schema({
     commentaire: {
         type: mongoose.Schema.Types.String,
         required: false
+    },
+
+    observateurId: {
+        type: mongoose.Schema.Types.String,
+        required: false
     }
 
 });

@@ -9,7 +9,8 @@ export const resolveTypesDataDescription = (request, response, next) => {
             modeInstallation: String(request.body.modeInstallation),
             modeInstallationDetails: String(request.body.modeInstallationDetails),
             modeInstallationDetailsAutre: String(request.body.modeInstallationDetailsAutre),
-            sourceDenergie: request.body.sourceDenergie
+            sourceDenergie: request.body.sourceDenergie,
+            observateurId: request.body.observateurId
         }
 
         request.body = body;

@@ -8,6 +8,11 @@ const PhotoSchema = new mongoose.Schema({
     mimetype : {
         type : mongoose.Schema.Types.String,
         required : false,
+    },
+
+    observateurId : {
+        type : mongoose.Schema.Types.String,
+        required : false,
     }
 });
 

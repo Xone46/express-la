@@ -13,7 +13,8 @@ const create = async (request, response) => {
                 modeInstallation,
                 modeInstallationDetails,
                 modeInstallationDetailsAutre,
-                sourceDenergie
+                sourceDenergie,
+                observateurId
             }
         } = request;
 
@@ -26,10 +27,11 @@ const create = async (request, response) => {
                 modeInstallation : modeInstallation,
                 modeInstallationDetails : modeInstallationDetails,
                 modeInstallationDetailsAutre : modeInstallationDetailsAutre,
-                sourceDenergie : sourceDenergie
+                sourceDenergie : sourceDenergie,
+                observateurId : observateurId
             })
             .save()
-            .then(async(result) => {
+            .then(async() => {
                 response.status(201).json({ msg: "Enregistré avec succès" });
             })
             .catch((error) => {
@@ -43,4 +45,20 @@ const create = async (request, response) => {
 }
 
 
-export default { create }
+const select = async (request, response) => {
+
+    try {
+
+        const observateurId = String(request.params.observateurId);
+        const description = await Description.findOne({ observateurId : observateurId });
+        response.status(200).json(description);
+
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+export default { create, select }

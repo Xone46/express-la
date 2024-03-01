@@ -1,5 +1,5 @@
 export const resolveTypesDataExamen = (request, response, next) => {
-    console.log(request.body)
+
     try {
         // fixed types data request
         const body = {
@@ -13,7 +13,8 @@ export const resolveTypesDataExamen = (request, response, next) => {
             h: request.body.h,
             i: request.body.i,
             j: request.body.j,
-            k: request.body.k
+            k: request.body.k,
+            observateurId: request.body.observateurId
         }
 
         request.body = body;

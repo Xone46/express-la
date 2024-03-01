@@ -6,23 +6,16 @@ import { query, body, validationResult, matchedData, checkSchema } from "express
 
 const create = async (request, response) => {
 
+
     try {
 
-        const result = validationResult(request);
-
-        if (!result.isEmpty()) {
-            const errors = result.errors.map((error) => { return error.msg; })
-            return response.status(400).send({ errors: errors });
-        }
-
-        const data = matchedData(request);
-
-        await Renseignement(data)
+        await Renseignement(request.body)
             .save()
-            .then(async () => {
+            .then(async (result) => {
                 response.status(201).json({ msg: "Enregistré avec succès" });
             })
             .catch((error) => {
+                console.log(error)
                 response.status(400).json(error);
             });
 
@@ -33,5 +26,21 @@ const create = async (request, response) => {
 
 }
 
+const select = async (request, response) => {
 
-export default { create }
+    try {
+
+        const observateurId = String(request.params.observateurId);
+        const observateur = await Renseignement.findOne({ observateurId : observateurId });
+        response.status(200).json(observateur);
+
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+
+export default { create, select }

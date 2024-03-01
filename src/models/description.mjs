@@ -39,6 +39,11 @@ const DescriptiontSchema = new mongoose.Schema({
     sourceDenergie : {
         type : mongoose.Schema.Types.Array,
         required : false,
+    },
+
+    observateurId : {
+        type : mongoose.Schema.Types.String,
+        required : false
     }
 
 });

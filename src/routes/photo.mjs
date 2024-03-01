@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Photo } from "../models/photo.mjs";
+import PhotoController from "../controllers/PhotoController.mjs"
 const router = Router();
 import multer from 'multer'
 
@@ -25,7 +26,8 @@ router.post("/create", upload.single('file'), async (request, response) => {
 
         const photo = new Photo({
             filename: request.file.filename,
-            mimetype : mimetype
+            mimetype : mimetype,
+            observateurId : request.body.observateurId
         });
 
         const result = await photo.save();
@@ -40,5 +42,9 @@ router.post("/create", upload.single('file'), async (request, response) => {
     }
 
 });
+
+router.get("/:observateurId", PhotoController.select);
+
+
 
 export default router;

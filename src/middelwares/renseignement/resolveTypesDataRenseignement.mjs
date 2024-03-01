@@ -1,8 +1,8 @@
 export const resolveTypesDataRenseignement = (request, response, next) => {
 
-    console.log(request.body);
-
     try {
+
+
         const body = {
             typeConstructeur : String(request.body.typeConstructeur),
             anneeMiseService : String(request.body.anneeMiseService),
@@ -20,7 +20,8 @@ export const resolveTypesDataRenseignement = (request, response, next) => {
             realiseesMiseEnService : request.body.realiseesMiseEnService,
             epreuveDateDerniereVerficationPeriodique : String(request.body.epreuveDateDerniereVerficationPeriodique),
             realiseesDateDerniereVerficationPeriodique : request.body.realiseesDateDerniereVerficationPeriodique,
-            poidsKg : parseFloat(request.body.poidsKg)
+            poidsKg : parseFloat(request.body.poidsKg),
+            observateurId : String(request.body.observateurId)
         }
 
         request.body = body;
@@ -28,6 +29,7 @@ export const resolveTypesDataRenseignement = (request, response, next) => {
         next();
 
     } catch (error) {
+        console.log(error)
         response.status(400).json(error);
     }
 

@@ -89,7 +89,13 @@ const RenseignementSchema = new mongoose.Schema({
     poidsKg : {
         type : mongoose.Schema.Types.Number,
         required : false,
+    },
+
+    observateurId : {
+        type : mongoose.Schema.Types.String,
+        required : false,
     }
+
 })
 
 export const Renseignement = mongoose.model("Renseignement", RenseignementSchema);

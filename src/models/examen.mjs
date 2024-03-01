@@ -54,6 +54,11 @@ const ExamenSchema = new mongoose.Schema({
     k : {
         type : mongoose.Schema.Types.Array,
         required : false,
+    },
+
+    observateurId : {
+        type : mongoose.Schema.Types.String,
+        required : false,
     }
 })
 

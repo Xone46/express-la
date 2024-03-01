@@ -10,5 +10,6 @@ router.put("/:observateurId", ObservateurCotroller.update);
 router.delete("/:observateurId", ObservateurCotroller.deleteOne);
 router.get("/", ObservateurCotroller.read);
 router.get("/:observateurId", ObservateurCotroller.select);
+router.get("/apercu/:observateurId", ObservateurCotroller.apercu);
 
 export default router;
