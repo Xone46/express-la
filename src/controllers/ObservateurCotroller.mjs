@@ -5,9 +5,9 @@ import { Examen } from "../models/examen.mjs";
 import { Description } from "../models/description.mjs";
 import { Conclusion } from "../models/conclusion.mjs";
 import { Photo } from "../models/photo.mjs";
-import docxConverter from 'docx-pdf';
-import convert from 'node-convert';
-import conversion from '@groupdocs/groupdocs.conversion';
+// import docxConverter from 'docx-pdf';
+// import convert from 'node-convert';
+// import conversion from '@groupdocs/groupdocs.conversion';
 
 
 
@@ -108,16 +108,6 @@ const apercu = async (request, response) => {
     const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
 
     if (flagSuccesWrite == undefined) {
-
-        // Load the input DOCX file
-        const converter = new conversion.Converter(pathFile);
-
-        // Set the conversion options for PDF format
-        const options = new conversion.PdfConvertOptions();
-
-        // Save output PDF to disk
-        converter.convert("output.pdf", options);
-
         response.status(201).json({ msg: "Enregistré avec succès" });
     }
 

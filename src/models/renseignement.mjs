@@ -21,6 +21,11 @@ const RenseignementSchema = new mongoose.Schema({
         required : false,
     },
 
+    numeroInterneAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
     valueNumeroInterne : {
         type : mongoose.Schema.Types.String,
         required : false,
@@ -87,7 +92,7 @@ const RenseignementSchema = new mongoose.Schema({
     },
 
     poidsKg : {
-        type : mongoose.Schema.Types.Number,
+        type : mongoose.Schema.Types.String,
         required : false,
     },
 

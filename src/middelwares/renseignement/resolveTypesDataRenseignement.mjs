@@ -8,6 +8,7 @@ export const resolveTypesDataRenseignement = (request, response, next) => {
             anneeMiseService : String(request.body.anneeMiseService),
             numeroSerie : String(request.body.numeroSerie),
             numeroInterne : String(request.body.numeroInterne),
+            numeroInterneAutre : String(request.body.numeroInterneAutre),
             valueNumeroInterne : String(request.body.valueNumeroInterne),
             localisation : String(request.body.localisation),
             typeAppareil : String(request.body.typeAppareil),
@@ -20,7 +21,7 @@ export const resolveTypesDataRenseignement = (request, response, next) => {
             realiseesMiseEnService : request.body.realiseesMiseEnService,
             epreuveDateDerniereVerficationPeriodique : String(request.body.epreuveDateDerniereVerficationPeriodique),
             realiseesDateDerniereVerficationPeriodique : request.body.realiseesDateDerniereVerficationPeriodique,
-            poidsKg : parseFloat(request.body.poidsKg),
+            poidsKg : String(request.body.poidsKg),
             observateurId : String(request.body.observateurId)
         }
 
