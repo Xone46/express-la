@@ -3,25 +3,29 @@ export const resolveTypesDataRenseignement = (request, response, next) => {
     try {
 
 
+
         const body = {
+            typeConstructeur : String(request.body.typeConstructeur),
+            anneeMiseService : String(request.body.anneeMiseService),
+            numeroSerie : String(request.body.numeroSerie),
             typeConstructeur : String(request.body.typeConstructeur),
             anneeMiseService : String(request.body.anneeMiseService),
             numeroSerie : String(request.body.numeroSerie),
             numeroInterne : String(request.body.numeroInterne),
             numeroInterneAutre : String(request.body.numeroInterneAutre),
-            valueNumeroInterne : String(request.body.valueNumeroInterne),
             localisation : String(request.body.localisation),
             typeAppareil : String(request.body.typeAppareil),
-            modification : String(request.body.modification),
-            description : String(request.body.description),
-            essaischarge : String(request.body.essaischarge),
-            miseEnService : String(request.body.miseEnService),
-            epreuvemMiseEnService : String(request.body.epreuvemMiseEnService),
+            typeAppareilAutre : String(request.body.typeAppareilAutre),
+            miseEnServiceRapport : String(request.body.miseEnServiceRapport),
+            miseEnServiceEpreuves : String(request.body.miseEnServiceEpreuves),
+            miseEnServiceEpreuvesAutre : String(request.body.miseEnServiceEpreuvesAutre),
             dateDerniereVerficationPeriodique : String(request.body.dateDerniereVerficationPeriodique),
-            realiseesMiseEnService : request.body.realiseesMiseEnService,
-            epreuveDateDerniereVerficationPeriodique : String(request.body.epreuveDateDerniereVerficationPeriodique),
-            realiseesDateDerniereVerficationPeriodique : request.body.realiseesDateDerniereVerficationPeriodique,
-            poidsKg : String(request.body.poidsKg),
+            dateDerniereVerficationPeriodiqueAutre : String(request.body.dateDerniereVerficationPeriodiqueAutre),
+            dateDerniereVerficationPeriodiqueRapport : String(request.body.dateDerniereVerficationPeriodiqueRapport),
+            essaischarge :  String(request.body.essaischarge),
+            essaischargeAutre : String(request.body.essaischargeAutre),
+            modification : String(request.body.modification),
+            modificationAutre : String(request.body.modificationAutre),
             observateurId : String(request.body.observateurId)
         }
 

@@ -12,7 +12,7 @@ const create = async (request, response) => {
         await Renseignement(request.body)
             .save()
             .then(async (result) => {
-                response.status(201).json({ msg: "Enregistré avec succès" });
+                response.status(201).json({ msg: "Enregistré avec succès" , renseignementId : result._id });
             })
             .catch((error) => {
                 console.log(error)
@@ -32,6 +32,7 @@ const select = async (request, response) => {
 
         const observateurId = String(request.params.observateurId);
         const observateur = await Renseignement.findOne({ observateurId : observateurId });
+        console.log(observateur)
         response.status(200).json(observateur);
 
 

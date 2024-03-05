@@ -26,11 +26,6 @@ const RenseignementSchema = new mongoose.Schema({
         required : false,
     },
 
-    valueNumeroInterne : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
     localisation : {
         type : mongoose.Schema.Types.String,
         required : false,
@@ -41,32 +36,22 @@ const RenseignementSchema = new mongoose.Schema({
         required : false,
     },
 
-    autreTypeAppareil : {
+    typeAppareilAutre : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    modification : {
+    miseEnServiceRapport : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    description : {
+    miseEnServiceEpreuves : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    essaischarge : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    miseEnService : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    epreuvemMiseEnService : {
+    miseEnServiceEpreuvesAutre : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
@@ -76,26 +61,37 @@ const RenseignementSchema = new mongoose.Schema({
         required : false,
     },
 
-    realiseesMiseEnService : {
-        type : mongoose.Schema.Types.Date,
-        required : false,
-    },
-
-    epreuveDateDerniereVerficationPeriodique : {
+    dateDerniereVerficationPeriodiqueAutre : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    realiseesDateDerniereVerficationPeriodique : {
-        type : mongoose.Schema.Types.Date,
-        required : false,
-    },
-
-    poidsKg : {
+    dateDerniereVerficationPeriodiqueRapport : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
+    essaischarge : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    essaischargeAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    modification : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    modificationAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    
     observateurId : {
         type : mongoose.Schema.Types.String,
         required : false,
