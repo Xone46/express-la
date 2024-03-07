@@ -31,6 +31,7 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
+        
         const observateur = await Renseignement.findOne({ observateurId : observateurId });
         console.log(observateur)
         response.status(200).json(observateur);
