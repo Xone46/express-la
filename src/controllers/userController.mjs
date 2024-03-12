@@ -1,6 +1,5 @@
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { users } from "../models/users.mjs"
-import session from "express-session";
 
 const create = (request, response) => {
 

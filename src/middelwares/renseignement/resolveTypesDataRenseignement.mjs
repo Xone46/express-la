@@ -6,9 +6,7 @@ export const resolveTypesDataRenseignement = (request, response, next) => {
 
         const body = {
             typeConstructeur : String(request.body.typeConstructeur),
-            anneeMiseService : String(request.body.anneeMiseService),
             numeroSerie : String(request.body.numeroSerie),
-            typeConstructeur : String(request.body.typeConstructeur),
             anneeMiseService : String(request.body.anneeMiseService),
             numeroSerie : String(request.body.numeroSerie),
             numeroInterne : String(request.body.numeroInterne),

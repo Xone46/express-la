@@ -6,6 +6,7 @@ import { query, body, validationResult, matchedData, checkSchema } from "express
 import { resolveTypesDataRenseignement } from "../middelwares/renseignement/resolveTypesDataRenseignement.mjs"
 
 router.post("/create", resolveTypesDataRenseignement, RenseignementController.create);
+router.put("/update", RenseignementController.update);
 router.get("/:observateurId", RenseignementController.select);
 
 export default router;
