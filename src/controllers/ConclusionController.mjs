@@ -8,17 +8,45 @@ const create = async (request, response) => {
 
     try {
 
-        const { observationsComplémentairesTableSelected, poids, conclusionTableSelected, commentaire, observateurId } = request.body;
+        const { a, b, c, d, e, f, g, poids, commentaire, observateurId } = request.body;
 
-        await Conclusion({ observationsComplémentairesTableSelected, poids, conclusionTableSelected, commentaire, observateurId })
+        await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId })
             .save()
-            .then(async (result) => {
+            .then(async () => {
                 response.status(201).json({ msg: "Enregistré avec succès" });
             })
             .catch((error) => {
                 response.status(400).json(error);
                 console.log(error)
             });
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+const update = async (request, response) => {
+
+    try {
+
+        const conclusion = await Conclusion.findOne({ observateurId : request.body.observateurId });
+
+        if(conclusion) {
+
+            const { a, b, c, d, e, f, g, poids, commentaire, observateurId } = request.body;
+
+            await Conclusion.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, poids : poids, commentaire : commentaire }})
+            .then(async () => {
+                response.status(201).json({ msg: "Modifié avec succès" });
+            })
+            .catch((error) => {
+                response.status(400).json(error);
+                console.log(error)
+            });
+        }
+
 
     } catch (error) {
         console.log(error)
@@ -44,4 +72,4 @@ const select = async (request, response) => {
 
 }
 
-export default { create , select }
+export default { create , select, update }

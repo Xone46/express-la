@@ -1,18 +1,43 @@
 import mongoose from "mongoose";
 const ConclusionSchema = new mongoose.Schema({
 
-    observationsComplémentairesTableSelected: {
-        type: mongoose.Schema.Types.Array,
+    a: {
+        type: mongoose.Schema.Types.String,
+        required: false
+    },
+
+    b: {
+        type: mongoose.Schema.Types.String,
+        required: false
+    },
+
+    c: {
+        type: mongoose.Schema.Types.String,
+        required: false
+    },
+
+    d: {
+        type: mongoose.Schema.Types.String,
+        required: false
+    },
+
+    e: {
+        type: mongoose.Schema.Types.String,
+        required: false
+    },
+
+    f: {
+        type: mongoose.Schema.Types.String,
+        required: false
+    },
+
+    g: {
+        type: mongoose.Schema.Types.String,
         required: false
     },
 
     poids: {
         type: mongoose.Schema.Types.String,
-        required: false
-    },
-
-    conclusionTableSelected: {
-        type: mongoose.Schema.Types.Array,
         required: false
     },
 

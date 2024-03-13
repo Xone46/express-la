@@ -5,14 +5,10 @@ import { Examen } from "../models/examen.mjs";
 import { Description } from "../models/description.mjs";
 import { Conclusion } from "../models/conclusion.mjs";
 import { Photo } from "../models/photo.mjs";
+import { Commentaire } from "../models/commentaire.mjs";
 // import docxConverter from 'docx-pdf';
 // import convert from 'node-convert';
 // import conversion from '@groupdocs/groupdocs.conversion';
-
-
-
-
-
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import fs from "fs";
@@ -31,23 +27,23 @@ const apercu = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     const observateur = await Observateur.findById(observateurId);
     console.log(observateur)
-    const renseignement = await Renseignement.findOne({ observateurId : observateurId});
+    const renseignement = await Renseignement.findOne({ observateurId: observateurId });
     console.log(renseignement)
-    const examen = await Examen.findOne({ observateurId : observateurId });
+    const examen = await Examen.findOne({ observateurId: observateurId });
     console.log(examen)
-    const description = await Description.findOne({ observateurId : observateurId });
+    const description = await Description.findOne({ observateurId: observateurId });
     console.log(description)
-    const conclusion = await Conclusion.findOne({ observateurId : observateurId });
+    const conclusion = await Conclusion.findOne({ observateurId: observateurId });
     console.log(conclusion)
-    const photo = await Photo.findOne({ observateurId : observateurId });
+    const photo = await Photo.findOne({ observateurId: observateurId });
 
     const pathFile = path.resolve(__dirname, `../rapports/${observateur.interventionId}.docx`);
     fs.unlink(pathFile, (err) => {
-    if (err) {
-        console.error(err);
-    } else {
-        console.log('File is deleted.');
-    }
+        if (err) {
+            console.error(err);
+        } else {
+            console.log('File is deleted.');
+        }
     });
 
 
@@ -180,7 +176,32 @@ const deleteOne = async (request, response) => {
     try {
 
         const result = await Observateur.deleteOne({ _id: request.params.observateurId });
+
+
         if (result.acknowledged == true && result.deletedCount == 1) {
+
+            await Renseignement.deleteOne({ observateurId: request.params.observateurId });
+            await Description.deleteOne({ observateurId: request.params.observateurId });
+            await Examen.deleteOne({ observateurId: request.params.observateurId });
+            await Conclusion.deleteOne({ observateurId: request.params.observateurId });
+            await Commentaire.deleteOne({ observateurId: request.params.observateurId });
+            const photo = await Photo.findOne({ observateurId: request.params.observateurId })
+            await Photo.deleteOne({ observateurId: request.params.observateurId })
+                .then(() => {
+
+                    const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
+                    fs.unlink(pathFile, (err) => {
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            response.status(200).json({ msg: "Done Deleted!" })
+                        }
+                    });
+                })
+                .catch((error) => {
+                    response.status(400).json(error);
+                })
+
             response.status(200).json(true);
         }
 
