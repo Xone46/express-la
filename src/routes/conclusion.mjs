@@ -4,6 +4,6 @@ import ConclusionController from "../controllers/ConclusionController.mjs";
 
 router.post("/create", ConclusionController.create);
 router.get("/:observateurId", ConclusionController.select);
-router.put("/update/:observateurId", ConclusionController.update);
+router.delete("/reset/:observateurId", ConclusionController.reset);
 
 export default router;

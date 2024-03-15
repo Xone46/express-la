@@ -177,35 +177,59 @@ const deleteOne = async (request, response) => {
 
         const result = await Observateur.deleteOne({ _id: request.params.observateurId });
 
-
         if (result.acknowledged == true && result.deletedCount == 1) {
 
-            await Renseignement.deleteOne({ observateurId: request.params.observateurId });
-            await Description.deleteOne({ observateurId: request.params.observateurId });
-            await Examen.deleteOne({ observateurId: request.params.observateurId });
-            await Conclusion.deleteOne({ observateurId: request.params.observateurId });
-            await Commentaire.deleteOne({ observateurId: request.params.observateurId });
-            const photo = await Photo.findOne({ observateurId: request.params.observateurId })
-            await Photo.deleteOne({ observateurId: request.params.observateurId })
-                .then(() => {
+            await Renseignement.deleteOne({ observateurId: request.params.observateurId })
+            .then(async () => {
+                await Description.deleteOne({ observateurId: request.params.observateurId })
+                .then(async() => {
+                    await Examen.deleteOne({ observateurId: request.params.observateurId })
+                    .then(async () => {
+                        await Conclusion.deleteOne({ observateurId: request.params.observateurId })
+                        .then(async () => {
+                            await Commentaire.deleteOne({ observateurId: request.params.observateurId })
+                            .then(async() => {
 
-                    const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
-                    fs.unlink(pathFile, (err) => {
-                        if (err) {
-                            console.error(err);
-                        } else {
-                            response.status(200).json({ msg: "Done Deleted!" })
-                        }
+                                const photo = await Photo.findOne({ observateurId: request.params.observateurId })
+                                await Photo.deleteOne({ observateurId: request.params.observateurId })
+                                    .then(() => {
+                                        const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
+                                        fs.unlink(pathFile, (err) => {
+                                            if (err) {
+                                                console.error(err);
+                                            } else {
+                                                response.status(200).json({ msg: "Done Deleted!" })
+                                            }
+                                        });
+                                    })
+                                    .catch((error) => {
+                                        response.status(400).json(error);
+                                    });
+                            })
+                            .catch((error) => {
+                                response.status(400).json(error);
+                            });
+                        })
+                        .catch((error) => {
+                            response.status(400).json(error);
+                        });
+                    })
+                    .catch((error) => {
+                        response.status(400).json(error);
                     });
                 })
                 .catch((error) => {
                     response.status(400).json(error);
-                })
+                });
+            })
+            .catch((error) => {
+                response.status(400).json(error)
+            });
 
-            response.status(200).json(true);
         }
 
     } catch (error) {
+        console.log(error)
         response.status(400).json(error);
     }
 }

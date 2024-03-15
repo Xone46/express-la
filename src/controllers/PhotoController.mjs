@@ -17,7 +17,32 @@ const select = async (request, response) => {
             const urlImage = path.resolve(__dirname, `../uploads/${photo.filename}`);
             if (fs.existsSync(urlImage)) {
                    response.status(200).json({ img : photo.filename });
-            }
+            } 
+        } else {
+            response.status(200).json({ img : null });
+        }
+
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+const reset = async (request, response) => {
+
+    try {
+
+        const observateurId = String(request.params.observateurId);
+        const photo = await Photo.findOne({ observateurId : observateurId });
+        const deleted = await Photo.deleteOne({ observateurId : observateurId });
+        if(deleted) {
+            const urlImage = path.resolve(__dirname, `../uploads/${photo.filename}`);
+            fs.unlink(urlImage, function (err) {
+                if (err) throw err;
+                response.status(200).json({ msg : "Deleted Done!"})
+              });
         }
 
 
@@ -46,4 +71,4 @@ const display = async (request, response) => {
 
 }
 
-export default { select, display }
+export default { select, display, reset }

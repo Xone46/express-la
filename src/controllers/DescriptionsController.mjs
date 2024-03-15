@@ -17,6 +17,8 @@ const create = async (request, response) => {
                 observateurId
             }
         } = request;
+        
+        console.log(caracteristiques)
 
         await Description({
                 marquage : marquage,
@@ -61,4 +63,25 @@ const select = async (request, response) => {
 
 }
 
-export default { create, select }
+
+const reset = async (request, response) => {
+
+    try {
+        const observateurId = String(request.params.observateurId);
+        await Description.deleteOne({ observateurId: observateurId })
+            .then(async () => {
+                response.status(201).json({ msg: "Deleted Done!" });
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+export default { create, select, reset }

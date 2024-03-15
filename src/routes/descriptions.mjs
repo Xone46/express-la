@@ -5,7 +5,8 @@ import { query, body, validationResult, matchedData, checkSchema } from "express
 // import { validationRenseignementSchemas } from "../utils/validationRenseignementSchemas.mjs"
 import { resolveTypesDataDescription } from "../middelwares/description/resolveTypesDataDescription.mjs"
 
-router.post("/create", resolveTypesDataDescription, DescriptionsController.create);
+router.post("/create", DescriptionsController.create);
 router.get("/:observateurId", DescriptionsController.select);
+router.delete("/reset/:observateurId", DescriptionsController.reset);
 
 export default router;

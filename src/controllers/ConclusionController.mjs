@@ -9,7 +9,6 @@ const create = async (request, response) => {
     try {
 
         const { a, b, c, d, e, f, g, poids, commentaire, observateurId } = request.body;
-
         await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId })
             .save()
             .then(async () => {
@@ -27,26 +26,14 @@ const create = async (request, response) => {
 
 }
 
-const update = async (request, response) => {
+const reset = async (request, response) => {
 
     try {
-
-        const conclusion = await Conclusion.findOne({ observateurId : request.body.observateurId });
-
-        if(conclusion) {
-
-            const { a, b, c, d, e, f, g, poids, commentaire, observateurId } = request.body;
-
-            await Conclusion.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, poids : poids, commentaire : commentaire }})
-            .then(async () => {
-                response.status(201).json({ msg: "Modifié avec succès" });
-            })
-            .catch((error) => {
-                response.status(400).json(error);
-                console.log(error)
-            });
+        const observateurId = String(request.params.observateurId);
+        const conclusion = await Conclusion.deleteOne({ observateurId : observateurId });
+        if(conclusion.deletedCount == 1) {
+                response.status(201).json({ msg: "Reset avec succès", observateurId : observateurId });
         }
-
 
     } catch (error) {
         console.log(error)
@@ -72,4 +59,4 @@ const select = async (request, response) => {
 
 }
 
-export default { create , select, update }
+export default { create , select, reset }

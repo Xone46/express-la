@@ -57,6 +57,27 @@ const select = async (request, response) => {
 
 }
 
+const reset = async (request, response) => {
+
+    try {
+
+        const observateurId = String(request.params.observateurId);
+        await Examen.deleteOne({ observateurId : observateurId })
+        .then(() => {
+            response.status(200).json({ msg : "Deleted Done!" });
+        })
+        .catch((error) => {
+            response.status(400).json(error);
+        });
+
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
 const updateStatus = async (request, response) => {
 
     try {
@@ -259,4 +280,4 @@ const changeStatusCritique = async (request, response) => {
 
 }
 
-export default { create, select, updateStatus, changeStatusCritique }
+export default { create, select, updateStatus, changeStatusCritique, reset }
