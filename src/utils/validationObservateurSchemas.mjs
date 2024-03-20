@@ -44,6 +44,17 @@ export const validationObservateurSchemas = {
         }
     },
 
+    equipement : {
+
+        isString : {
+            errorMessage : "Vous devez saisir Equipement"
+        },
+
+        notEmpty : {
+            errorMessage : "Equipement ne peut pas être vide"
+        }
+    },
+
     constructeur : {
 
         isString : {

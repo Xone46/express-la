@@ -6,6 +6,11 @@ const ObservateurSchema = new mongoose.Schema({
         required : false
     },
 
+    equipement: {
+        type : mongoose.Schema.Types.String,
+        required : false
+    },
+
     constructeur : {
         type : mongoose.Schema.Types.String,
         required : false
