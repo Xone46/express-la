@@ -39,11 +39,18 @@ const apercu = async (request, response) => {
     const observateur = await Observateur.findById(observateurId);
     // console.log(observateur);
 
-    const pathFile = path.resolve(__dirname, `../rapports/${observateur.interventionId}.docx`);
+    const pathFile = path.resolve(__dirname, `../rapports/output.docx`);
     fs.unlink(pathFile, (err) => {
         if (!err) {
-            console.log('File is deleted.');
-        } 
+            console.log('File output docx is deleted.');
+        }
+    });
+
+    const pathFilePDF = path.resolve(__dirname, `../rapports/output-tow.pdf`);
+    fs.unlink(pathFilePDF, (err) => {
+        if (!err) {
+            console.log('File output pdf is deleted.');
+        }
     });
 
     const renseignement = await Renseignement.findOne({ observateurId: observateurId });
@@ -56,13 +63,13 @@ const apercu = async (request, response) => {
     const description = await Description.findOne({ observateurId: observateurId });
     // console.log(description);
 
-    for(let j in description.sourceDenergie) {
+    for (let j in description.sourceDenergie) {
         for (const [key, value] of Object.entries(description.sourceDenergie[j])) {
-            if(value != null && value != undefined && value != "") {
+            if (value != null && value != undefined && value != "") {
                 sourceEnergie.push({
-                    name : `${key} : ${value}`
+                    name: `${key} : ${value}`
                 });
-            } 
+            }
         }
     }
 
@@ -82,842 +89,842 @@ const apercu = async (request, response) => {
 
     const aExamen = new Array();
 
-    for(let i = 0; i < examen.a.length; i++) {
+    for (let i = 0; i < examen.a.length; i++) {
 
-        if(examen.a[i].be == true) {
+        if (examen.a[i].be == true) {
             aExamen.push({
-                titre : examen.a[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.a[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.a[i].fc == true) {
+        if (examen.a[i].fc == true) {
             aExamen.push({
-                titre : examen.a[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.a[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.a[i].sa == true) {
+        if (examen.a[i].sa == true) {
             aExamen.push({
-                titre : examen.a[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.a[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.a[i].nv == true) {
+        if (examen.a[i].nv == true) {
             aExamen.push({
-                titre : examen.a[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.a[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.a[i].so == true) {
+        if (examen.a[i].so == true) {
             aExamen.push({
-                titre : examen.a[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.a[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.a[i].o == true) {
+        if (examen.a[i].o == true) {
             aExamen.push({
-                titre : examen.a[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.a[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
 
     }
 
     const bExamen = new Array();
-    for(let i = 0; i < examen.b.length; i++) {
+    for (let i = 0; i < examen.b.length; i++) {
 
-        if(examen.b[i].be == true) {
+        if (examen.b[i].be == true) {
             bExamen.push({
-                titre : examen.b[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.b[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.b[i].fc == true) {
+        if (examen.b[i].fc == true) {
             bExamen.push({
-                titre : examen.b[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.b[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.b[i].sa == true) {
+        if (examen.b[i].sa == true) {
             bExamen.push({
-                titre : examen.b[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.b[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.b[i].nv == true) {
+        if (examen.b[i].nv == true) {
             bExamen.push({
-                titre : examen.b[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.b[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.b[i].so == true) {
+        if (examen.b[i].so == true) {
             bExamen.push({
-                titre : examen.b[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.b[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.b[i].o == true) {
+        if (examen.b[i].o == true) {
             bExamen.push({
-                titre : examen.b[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.b[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
 
     const cExamen = new Array();
-    for(let i = 0; i < examen.c.length; i++) {
+    for (let i = 0; i < examen.c.length; i++) {
 
-        if(examen.c[i].be == true) {
+        if (examen.c[i].be == true) {
             cExamen.push({
-                titre : examen.c[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.c[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.c[i].fc == true) {
+        if (examen.c[i].fc == true) {
             cExamen.push({
-                titre : examen.c[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.c[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.c[i].sa == true) {
+        if (examen.c[i].sa == true) {
             cExamen.push({
-                titre : examen.c[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.c[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.c[i].nv == true) {
+        if (examen.c[i].nv == true) {
             cExamen.push({
-                titre : examen.c[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.c[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.c[i].so == true) {
+        if (examen.c[i].so == true) {
             cExamen.push({
-                titre : examen.c[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.c[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.c[i].o == true) {
+        if (examen.c[i].o == true) {
             cExamen.push({
-                titre : examen.c[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.c[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
 
     const dExamen = new Array();
-    for(let i = 0; i < examen.d.length; i++) {
+    for (let i = 0; i < examen.d.length; i++) {
 
-        if(examen.d[i].be == true) {
+        if (examen.d[i].be == true) {
             dExamen.push({
-                titre : examen.d[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.d[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.d[i].fc == true) {
+        if (examen.d[i].fc == true) {
             dExamen.push({
-                titre : examen.d[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.d[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.d[i].sa == true) {
+        if (examen.d[i].sa == true) {
             dExamen.push({
-                titre : examen.d[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.d[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.d[i].nv == true) {
+        if (examen.d[i].nv == true) {
             dExamen.push({
-                titre : examen.d[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.d[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.d[i].so == true) {
+        if (examen.d[i].so == true) {
             dExamen.push({
-                titre : examen.d[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.d[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.d[i].o == true) {
+        if (examen.d[i].o == true) {
             dExamen.push({
-                titre : examen.d[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.d[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
 
     const eExamen = new Array();
-    for(let i = 0; i < examen.e.length; i++) {
+    for (let i = 0; i < examen.e.length; i++) {
 
-        if(examen.e[i].be == true) {
+        if (examen.e[i].be == true) {
             eExamen.push({
-                titre : examen.e[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.e[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.e[i].fc == true) {
+        if (examen.e[i].fc == true) {
             eExamen.push({
-                titre : examen.e[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.e[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.e[i].sa == true) {
+        if (examen.e[i].sa == true) {
             eExamen.push({
-                titre : examen.e[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.e[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.e[i].nv == true) {
+        if (examen.e[i].nv == true) {
             eExamen.push({
-                titre : examen.e[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.e[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.e[i].so == true) {
+        if (examen.e[i].so == true) {
             eExamen.push({
-                titre : examen.e[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.e[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.e[i].o == true) {
+        if (examen.e[i].o == true) {
             eExamen.push({
-                titre : examen.e[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.e[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
 
     const fExamen = new Array();
-    for(let i = 0; i < examen.f.length; i++) {
+    for (let i = 0; i < examen.f.length; i++) {
 
-        if(examen.f[i].be == true) {
+        if (examen.f[i].be == true) {
             fExamen.push({
-                titre : examen.f[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.f[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.f[i].fc == true) {
+        if (examen.f[i].fc == true) {
             fExamen.push({
-                titre : examen.f[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.f[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.f[i].sa == true) {
+        if (examen.f[i].sa == true) {
             fExamen.push({
-                titre : examen.f[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.f[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.f[i].nv == true) {
+        if (examen.f[i].nv == true) {
             fExamen.push({
-                titre : examen.f[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.f[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.f[i].so == true) {
+        if (examen.f[i].so == true) {
             fExamen.push({
-                titre : examen.f[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.f[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.f[i].o == true) {
+        if (examen.f[i].o == true) {
             fExamen.push({
-                titre : examen.f[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.f[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
     const gExamen = new Array();
-    for(let i = 0; i < examen.g.length; i++) {
+    for (let i = 0; i < examen.g.length; i++) {
 
-        if(examen.g[i].be == true) {
+        if (examen.g[i].be == true) {
             gExamen.push({
-                titre : examen.g[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.g[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.g[i].fc == true) {
+        if (examen.g[i].fc == true) {
             gExamen.push({
-                titre : examen.g[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.g[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.g[i].sa == true) {
+        if (examen.g[i].sa == true) {
             gExamen.push({
-                titre : examen.g[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.g[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.g[i].nv == true) {
+        if (examen.g[i].nv == true) {
             gExamen.push({
-                titre : examen.g[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.g[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.g[i].so == true) {
+        if (examen.g[i].so == true) {
             gExamen.push({
-                titre : examen.g[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.g[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.g[i].o == true) {
+        if (examen.g[i].o == true) {
             gExamen.push({
-                titre : examen.g[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.g[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
     const hExamen = new Array();
-    for(let i = 0; i < examen.h.length; i++) {
+    for (let i = 0; i < examen.h.length; i++) {
 
-        if(examen.h[i].be == true) {
+        if (examen.h[i].be == true) {
             hExamen.push({
-                titre : examen.h[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.h[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.h[i].fc == true) {
+        if (examen.h[i].fc == true) {
             hExamen.push({
-                titre : examen.h[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.h[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.h[i].sa == true) {
+        if (examen.h[i].sa == true) {
             hExamen.push({
-                titre : examen.h[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.h[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.h[i].nv == true) {
+        if (examen.h[i].nv == true) {
             hExamen.push({
-                titre : examen.h[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.h[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.h[i].so == true) {
+        if (examen.h[i].so == true) {
             hExamen.push({
-                titre : examen.h[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.h[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.h[i].o == true) {
+        if (examen.h[i].o == true) {
             hExamen.push({
-                titre : examen.h[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.h[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
     const iExamen = new Array();
-    for(let i = 0; i < examen.i.length; i++) {
+    for (let i = 0; i < examen.i.length; i++) {
 
-        if(examen.i[i].be == true) {
+        if (examen.i[i].be == true) {
             iExamen.push({
-                titre : examen.i[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.i[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.i[i].fc == true) {
+        if (examen.i[i].fc == true) {
             iExamen.push({
-                titre : examen.i[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.i[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.i[i].sa == true) {
+        if (examen.i[i].sa == true) {
             iExamen.push({
-                titre : examen.i[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.i[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.i[i].nv == true) {
+        if (examen.i[i].nv == true) {
             iExamen.push({
-                titre : examen.i[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.i[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.i[i].so == true) {
+        if (examen.i[i].so == true) {
             iExamen.push({
-                titre : examen.i[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.i[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.i[i].o == true) {
+        if (examen.i[i].o == true) {
             iExamen.push({
-                titre : examen.i[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.i[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
     const jExamen = new Array();
-    for(let i = 0; i < examen.j.length; i++) {
+    for (let i = 0; i < examen.j.length; i++) {
 
-        if(examen.j[i].be == true) {
+        if (examen.j[i].be == true) {
             jExamen.push({
-                titre : examen.j[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.j[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.j[i].fc == true) {
+        if (examen.j[i].fc == true) {
             jExamen.push({
-                titre : examen.j[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.j[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.j[i].sa == true) {
+        if (examen.j[i].sa == true) {
             jExamen.push({
-                titre : examen.j[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.j[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.j[i].nv == true) {
+        if (examen.j[i].nv == true) {
             jExamen.push({
-                titre : examen.j[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.j[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.j[i].so == true) {
+        if (examen.j[i].so == true) {
             jExamen.push({
-                titre : examen.j[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.j[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.j[i].o == true) {
+        if (examen.j[i].o == true) {
             jExamen.push({
-                titre : examen.j[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.j[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
 
     const kExamen = new Array();
-    for(let i = 0; i < examen.k.length; i++) {
+    for (let i = 0; i < examen.k.length; i++) {
 
-        if(examen.k[i].be == true) {
+        if (examen.k[i].be == true) {
             kExamen.push({
-                titre : examen.k[i].titre,
-                be : "X",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.k[i].titre,
+                be: "X",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.k[i].fc == true) {
+        if (examen.k[i].fc == true) {
             kExamen.push({
-                titre : examen.k[i].titre,
-                be : "",
-                fc : "X",
-                sa : "",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.k[i].titre,
+                be: "",
+                fc: "X",
+                sa: "",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.k[i].sa == true) {
+        if (examen.k[i].sa == true) {
             kExamen.push({
-                titre : examen.k[i].titre,
-                be : "",
-                fc : "",
-                sa : "X",
-                nv : "",
-                so : "",
-                o : ""
+                titre: examen.k[i].titre,
+                be: "",
+                fc: "",
+                sa: "X",
+                nv: "",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.k[i].nv == true) {
+        if (examen.k[i].nv == true) {
             kExamen.push({
-                titre : examen.k[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "X",
-                so : "",
-                o : ""
+                titre: examen.k[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "X",
+                so: "",
+                o: ""
             });
         }
 
-        if(examen.k[i].so == true) {
+        if (examen.k[i].so == true) {
             kExamen.push({
-                titre : examen.k[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "X",
-                o : ""
+                titre: examen.k[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "X",
+                o: ""
             });
         }
 
-        if(examen.k[i].o == true) {
+        if (examen.k[i].o == true) {
             kExamen.push({
-                titre : examen.k[i].titre,
-                be : "",
-                fc : "",
-                sa : "",
-                nv : "",
-                so : "",
-                o : "X"
+                titre: examen.k[i].titre,
+                be: "",
+                fc: "",
+                sa: "",
+                nv: "",
+                so: "",
+                o: "X"
             });
         }
     }
@@ -938,96 +945,96 @@ const apercu = async (request, response) => {
     doc.render({
 
         // Partie One
-        refClient : "<<G-T-H-X-P-R>>",
-        numeroAffaire : "<<G-T-H-X-P-R>>",
-        numeroRapport : "<<G-T-H-X-P-R>>",
-        annee : new Date().getFullYear(),
+        refClient: "<<G-T-H-X-P-R>>",
+        numeroAffaire: "<<G-T-H-X-P-R>>",
+        numeroRapport: "<<G-T-H-X-P-R>>",
+        annee: new Date().getFullYear(),
 
         //Partie Tow
-        equipement : observateur.equipement,
-        categorieAppareil : observateur.categorieAppareil,
-        etablissement : intervention.etablissement,
-        adresse : intervention.adresse,
-        codePostal : intervention.codePostal,
-        ville : intervention.ville,
-        pays : intervention.pays,
+        equipement: observateur.equipement,
+        categorieAppareil: observateur.categorieAppareil,
+        etablissement: intervention.etablissement,
+        adresse: intervention.adresse,
+        codePostal: intervention.codePostal,
+        ville: intervention.ville,
+        pays: intervention.pays,
 
         // Partie Tree
-        constructeur : observateur.constructeur,
-        marquage : observateur.marquage,
-        typeVerification : observateur.typeVerification,
-        numeroSerie : observateur.numeroSerie,
-        localisation : observateur.localisation,
-        dateVerfication : new Date(observateur.date).toLocaleDateString(),
-        inspecteur : `${inspecteur.nom} ${inspecteur.prenom}`,
-        accompagnateur : observateur.accompagnateur,
-        dateEmission  : new Date().toLocaleDateString(),
+        constructeur: observateur.constructeur,
+        marquage: observateur.marquage,
+        typeVerification: observateur.typeVerification,
+        numeroSerie: observateur.numeroSerie,
+        localisation: observateur.localisation,
+        dateVerfication: new Date(observateur.date).toLocaleDateString(),
+        inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
+        accompagnateur: observateur.accompagnateur,
+        dateEmission: new Date().toLocaleDateString(),
 
         //Partie Four
         // constructeur : observateur.constructeur, (Deja)
-        typeConstructeur : renseignement.typeConstructeur,
-        anneeMiseService : renseignement.anneeMiseService,
-        numeroSerieRenseignement : renseignement.numeroSerie,
-        numeroInterneRenseignement : renseignement.numeroInterne,
-        numeroInterneAutre : renseignement.numeroInterneAutre,
-        localistationRenseignement : renseignement.localisation,
-        typeAppareil : renseignement.typeAppareil,
-        typeAppareilAutre : renseignement.typeAppareilAutre,
-        miseEnServiceRapport : renseignement.miseEnServiceRapport,
-        miseEnServiceEpreuves : renseignement.miseEnServiceEpreuves,
-        miseEnServiceEpreuvesAutre : renseignement.miseEnServiceEpreuvesAutre,
-        dateDerniereVerficationPeriodique : renseignement.dateDerniereVerficationPeriodique,
-        dateDerniereVerficationPeriodiqueAutre : renseignement.dateDerniereVerficationPeriodiqueAutre,
-        dateDerniereVerficationPeriodiqueRapport : renseignement.dateDerniereVerficationPeriodiqueRapport,
-        essaischarge : renseignement.essaischarge,
+        typeConstructeur: renseignement.typeConstructeur,
+        anneeMiseService: renseignement.anneeMiseService,
+        numeroSerieRenseignement: renseignement.numeroSerie,
+        numeroInterneRenseignement: renseignement.numeroInterne,
+        numeroInterneAutre: renseignement.numeroInterneAutre,
+        localistationRenseignement: renseignement.localisation,
+        typeAppareil: renseignement.typeAppareil,
+        typeAppareilAutre: renseignement.typeAppareilAutre,
+        miseEnServiceRapport: renseignement.miseEnServiceRapport,
+        miseEnServiceEpreuves: renseignement.miseEnServiceEpreuves,
+        miseEnServiceEpreuvesAutre: renseignement.miseEnServiceEpreuvesAutre,
+        dateDerniereVerficationPeriodique: renseignement.dateDerniereVerficationPeriodique,
+        dateDerniereVerficationPeriodiqueAutre: renseignement.dateDerniereVerficationPeriodiqueAutre,
+        dateDerniereVerficationPeriodiqueRapport: renseignement.dateDerniereVerficationPeriodiqueRapport,
+        essaischarge: renseignement.essaischarge,
         essaischargeAutre: renseignement.essaischargeAutre,
         modification: renseignement.modification,
         modificationAutre: renseignement.modificationAutre,
 
         // Partie Five
-        marquage : description.marquage,
-        modeDeLevage : description.modeDeLevage,
-        chargeMaximaleUtile : description.caracteristiques[0].chargeMaximaleUtile,
-        hauteurDeLevage : description.caracteristiques[0].hauteurDeLevage,
-        portee : description.caracteristiques[0].portee,
-        porteFaux : description.caracteristiques[0].porteFaux,
-        longueurDuCheminDeRoulement : description.caracteristiques[0].longueurDuCheminDeRoulement,
-        mouflage : description.caracteristiques[0].mouflage,
-        diametre : description.caracteristiques[0].diametre,
+        marquage: description.marquage,
+        modeDeLevage: description.modeDeLevage,
+        chargeMaximaleUtile: description.caracteristiques[0].chargeMaximaleUtile,
+        hauteurDeLevage: description.caracteristiques[0].hauteurDeLevage,
+        portee: description.caracteristiques[0].portee,
+        porteFaux: description.caracteristiques[0].porteFaux,
+        longueurDuCheminDeRoulement: description.caracteristiques[0].longueurDuCheminDeRoulement,
+        mouflage: description.caracteristiques[0].mouflage,
+        diametre: description.caracteristiques[0].diametre,
 
-        sansObjet : description.levageAuxiliaire[0].sansObjet,
-        chargeMaximale : description.levageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
-        mouflageLevage : description.levageAuxiliaire[0].mouflage,
-        diametreLevage : description.levageAuxiliaire[0].diametre,
-        modeInstallation : description.modeInstallation,
-        modeInstallationDetails : description.modeInstallationDetails,
-        modeInstallationDetailsAutre : description.modeInstallationDetailsAutre,
-        sourceEnergie : sourceEnergie,
+        sansObjet: description.levageAuxiliaire[0].sansObjet,
+        chargeMaximale: description.levageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
+        mouflageLevage: description.levageAuxiliaire[0].mouflage,
+        diametreLevage: description.levageAuxiliaire[0].diametre,
+        modeInstallation: description.modeInstallation,
+        modeInstallationDetails: description.modeInstallationDetails,
+        modeInstallationDetailsAutre: description.modeInstallationDetailsAutre,
+        sourceEnergie: sourceEnergie,
 
 
         //Partie Six
-        aExamen : aExamen,
-        bExamen : bExamen,
-        cExamen : cExamen,
-        dExamen : dExamen,
-        eExamen : eExamen,
-        fExamen : fExamen,
-        gExamen : gExamen,
-        hExamen : hExamen,
-        iExamen : iExamen,
-        jExamen : jExamen,
-        kExamen : kExamen,
+        aExamen: aExamen,
+        bExamen: bExamen,
+        cExamen: cExamen,
+        dExamen: dExamen,
+        eExamen: eExamen,
+        fExamen: fExamen,
+        gExamen: gExamen,
+        hExamen: hExamen,
+        iExamen: iExamen,
+        jExamen: jExamen,
+        kExamen: kExamen,
 
         //Partie Eight
-        a : a,
-        b : b,
-        c : c,
-        d : d,
-        e : e,
-        f : f,
-        g : g,
-        poids : poids,
-        commentaire : commentaire
+        a: a,
+        b: b,
+        c: c,
+        d: d,
+        e: e,
+        f: f,
+        g: g,
+        poids: poids,
+        commentaire: commentaire
     });
 
     const buf = doc.getZip().generate({
@@ -1036,41 +1043,49 @@ const apercu = async (request, response) => {
     });
 
     const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
-    console.log(flagSuccesWrite);
+    if (flagSuccesWrite == undefined) {
+        const executePython = async (script, args) => {
 
-    const executePython = async (script, args) => {
-        const arg = args.map(arg => arg.toString());
-        const py = spawn("python", [script, ...arg]);
-        const result = await new Promise((resolve, reject) => {
+            const arg = args.map(arg => arg.toString());
+            const py = spawn("python", [script, ...arg]);
+            const result = await new Promise((resolve, reject) => {
 
-            let output;
-            py.stdout.on("data", (data) => {
-                output = JSON.parse(data);
+                let output;
+                py.stdout.on("data", (data) => {
+                    output = JSON.parse(data);
+                });
+
+                py.stderr.on("data", (data) => {
+                    console.error(`[Python] Error occured :${data}`);
+                    reject(`Error accured in ${script}`);
+                });
+
+                py.on("exit", (code) => {
+                    console.error(`child procces exited ith code :${code}`);
+                    resolve(output);
+                });
+
             });
 
-            py.stderr.on("data", (data) => {
-                console.error(`[Python] Error occured :${data}`);
-                reject(`Error accured in ${script}`);
+            return result;
+        }
+
+        try {
+            const result = await executePython('python/script.py', [5, 2]);
+            console.log(result);
+            var tempFilePath = path.join(__dirname, `../rapports/output-tow.pdf`);
+            response.download(tempFilePath, function (err) {
+                if (err) {
+                    throw err;
+                }
             });
-
-            py.on("exit", (code) => {
-                console.error(`child procces exited ith code :${code}`);
-                resolve(output);
-            });
-
-        });
-
-        return result;
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({ error: error });
+        }
     }
 
-    try {
-        const result = await executePython('python/script.py', [5, 2]);
-        console.log(result);
-        response.status(200).json({ result : result });
-    } catch(error){
-        console.log(error);
-        response.status(500).json({ error : error });
-    }
+
 
 
 
@@ -1148,51 +1163,51 @@ const deleteOne = async (request, response) => {
         if (result.acknowledged == true && result.deletedCount == 1) {
 
             await Renseignement.deleteOne({ observateurId: request.params.observateurId })
-            .then(async () => {
-                await Description.deleteOne({ observateurId: request.params.observateurId })
-                .then(async() => {
-                    await Examen.deleteOne({ observateurId: request.params.observateurId })
-                    .then(async () => {
-                        await Conclusion.deleteOne({ observateurId: request.params.observateurId })
+                .then(async () => {
+                    await Description.deleteOne({ observateurId: request.params.observateurId })
                         .then(async () => {
-                            await Commentaire.deleteOne({ observateurId: request.params.observateurId })
-                            .then(async() => {
+                            await Examen.deleteOne({ observateurId: request.params.observateurId })
+                                .then(async () => {
+                                    await Conclusion.deleteOne({ observateurId: request.params.observateurId })
+                                        .then(async () => {
+                                            await Commentaire.deleteOne({ observateurId: request.params.observateurId })
+                                                .then(async () => {
 
-                                const photo = await Photo.findOne({ observateurId: request.params.observateurId })
-                                await Photo.deleteOne({ observateurId: request.params.observateurId })
-                                    .then(() => {
-                                        const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
-                                        fs.unlink(pathFile, (err) => {
-                                            if (err) {
-                                                console.error(err);
-                                            } else {
-                                                response.status(200).json({ msg: "Done Deleted!" })
-                                            }
+                                                    const photo = await Photo.findOne({ observateurId: request.params.observateurId })
+                                                    await Photo.deleteOne({ observateurId: request.params.observateurId })
+                                                        .then(() => {
+                                                            const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
+                                                            fs.unlink(pathFile, (err) => {
+                                                                if (err) {
+                                                                    console.error(err);
+                                                                } else {
+                                                                    response.status(200).json({ msg: "Done Deleted!" })
+                                                                }
+                                                            });
+                                                        })
+                                                        .catch((error) => {
+                                                            response.status(400).json(error);
+                                                        });
+                                                })
+                                                .catch((error) => {
+                                                    response.status(400).json(error);
+                                                });
+                                        })
+                                        .catch((error) => {
+                                            response.status(400).json(error);
                                         });
-                                    })
-                                    .catch((error) => {
-                                        response.status(400).json(error);
-                                    });
-                            })
-                            .catch((error) => {
-                                response.status(400).json(error);
-                            });
+                                })
+                                .catch((error) => {
+                                    response.status(400).json(error);
+                                });
                         })
                         .catch((error) => {
                             response.status(400).json(error);
                         });
-                    })
-                    .catch((error) => {
-                        response.status(400).json(error);
-                    });
                 })
                 .catch((error) => {
-                    response.status(400).json(error);
+                    response.status(400).json(error)
                 });
-            })
-            .catch((error) => {
-                response.status(400).json(error)
-            });
 
         }
 

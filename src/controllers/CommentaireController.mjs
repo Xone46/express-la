@@ -5,11 +5,11 @@ const create = async (request, response) => {
 
     try {
 
-        const { titreReserve, commentaires, observateurId } = request.body;
+        const { observateurId, ref, number, titre, modelSelected } = request.body;
 
-        const exist = await Commentaire.findOne({ titreReserve : titreReserve, observateurId : observateurId });
+        const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre, modelSelected :modelSelected });
         if(exist) {
-            await Commentaire.updateOne({observateurId : observateurId }, { $set : { commentaires : commentaires }})
+            await Commentaire.updateOne({observateurId : observateurId }, { $set : { ref : ref, number : number, titre : titre, modelSelected :modelSelected }})
             .then(() => {
                 response.status(201).json({ msg: "Modifié avec succès" })
             })
@@ -18,7 +18,7 @@ const create = async (request, response) => {
             });
 
         } else {
-            await Commentaire({ titreReserve, commentaires, observateurId })
+            await Commentaire({ observateurId, ref, number, titre, modelSelected })
             .save()
             .then(async (result) => {
                 response.status(201).json({ msg: "Enregistré avec succès" });
