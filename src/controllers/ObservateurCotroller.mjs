@@ -8,9 +8,9 @@ import { Description } from "../models/description.mjs";
 import { Conclusion } from "../models/conclusion.mjs";
 import { Photo } from "../models/photo.mjs";
 import { Commentaire } from "../models/commentaire.mjs";
-// import docxConverter from 'docx-pdf';
-// import convert from 'node-convert';
-// import conversion from '@groupdocs/groupdocs.conversion';
+import { convertWordFiles } from 'convert-multiple-files';
+import { spawn } from 'child_process';
+
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import fs from "fs";
@@ -19,6 +19,7 @@ import { fileURLToPath } from 'url';
 
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,7 +54,7 @@ const apercu = async (request, response) => {
 
     const sourceEnergie = new Array();
     const description = await Description.findOne({ observateurId: observateurId });
-    console.log(description);
+    // console.log(description);
 
     for(let j in description.sourceDenergie) {
         for (const [key, value] of Object.entries(description.sourceDenergie[j])) {
@@ -1004,8 +1005,6 @@ const apercu = async (request, response) => {
         sourceEnergie : sourceEnergie,
 
 
-
-
         //Partie Six
         aExamen : aExamen,
         bExamen : bExamen,
@@ -1037,10 +1036,45 @@ const apercu = async (request, response) => {
     });
 
     const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
+    console.log(flagSuccesWrite);
 
-    if (flagSuccesWrite == undefined) {
-        response.status(201).json({ msg: "Enregistré avec succès" });
+    const executePython = async (script, args) => {
+        const arg = args.map(arg => arg.toString());
+        const py = spawn("python", [script, ...arg]);
+        const result = await new Promise((resolve, reject) => {
+
+            let output;
+            py.stdout.on("data", (data) => {
+                output = JSON.parse(data);
+            });
+
+            py.stderr.on("data", (data) => {
+                console.error(`[Python] Error occured :${data}`);
+                reject(`Error accured in ${script}`);
+            });
+
+            py.on("exit", (code) => {
+                console.error(`child procces exited ith code :${code}`);
+                resolve(output);
+            });
+
+        });
+
+        return result;
     }
+
+    try {
+        const result = await executePython('python/script.py', [5, 2]);
+        console.log(result);
+        response.status(200).json({ result : result });
+    } catch(error){
+        console.log(error);
+        response.status(500).json({ error : error });
+    }
+
+
+
+
 
 }
 

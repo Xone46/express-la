@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/Xone46/express-la#readme",
   "dependencies": {
+    "@pdftron/pdfnet-node": "^10.7.0",
+    "convert-multiple-files": "^1.2.5",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "docx-pdf": "^0.0.1",
