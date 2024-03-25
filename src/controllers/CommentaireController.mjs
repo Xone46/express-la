@@ -7,7 +7,7 @@ const create = async (request, response) => {
 
         const { observateurId, ref, number, titre, modelSelected } = request.body;
 
-        const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre, modelSelected :modelSelected });
+        const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
         if(exist) {
             await Commentaire.updateOne({observateurId : observateurId }, { $set : { ref : ref, number : number, titre : titre, modelSelected :modelSelected }})
             .then(() => {
@@ -20,7 +20,7 @@ const create = async (request, response) => {
         } else {
             await Commentaire({ observateurId, ref, number, titre, modelSelected })
             .save()
-            .then(async (result) => {
+            .then(() => {
                 response.status(201).json({ msg: "Enregistré avec succès" });
             })
             .catch((error) => {
@@ -43,12 +43,12 @@ const select = async (request, response) => {
 
     try {
 
-        const observateurId = String(request.body.observateurId);
-        const titreReserve = String(request.body.titreReserve);
+        const { observateurId, ref, number, titre } = request.body;
 
-        const commentaire = await Commentaire.findOne({ observateurId : observateurId, titreReserve : titreReserve });
-        response.status(200).json(commentaire);
-
+        const commentaire = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
+        if(commentaire) {
+            response.status(200).json(commentaire);
+        }
 
     } catch (error) {
         console.log(error)

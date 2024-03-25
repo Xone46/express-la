@@ -61,7 +61,6 @@ const apercu = async (request, response) => {
 
     const sourceEnergie = new Array();
     const description = await Description.findOne({ observateurId: observateurId });
-    // console.log(description);
 
     for (let j in description.sourceDenergie) {
         for (const [key, value] of Object.entries(description.sourceDenergie[j])) {
@@ -87,8 +86,46 @@ const apercu = async (request, response) => {
     const photo = await Photo.findOne({ observateurId: observateurId });
     // console.log(photo)
 
-    const aExamen = new Array();
+    const cri = new Array();
+    const ncri = new Array();
 
+    const comment = await Commentaire.find();
+    if(comment) {
+
+        for(let i = 0; i < comment.length; i++) {
+
+            const tab = new Array();
+            
+            for(let j = 0; j < comment[i].modelSelected.length; j++) {
+                tab.push(comment[i].modelSelected[j].name)
+                if(comment[i].modelSelected[j].status == "critique") {
+                
+                    cri.push({
+                        ref : `${comment[i].ref}${comment[i].number}`,
+                        tab : tab
+                    });
+                }
+        
+                if(comment[i].modelSelected[j].status == "non critique") {
+        
+                    ncri.push({
+                        ref : `${comment[i].ref}${comment[i].number}`,
+                        tab : tab
+                    });
+                }
+            }
+    
+
+        }
+    }
+
+
+
+    console.log(cri)
+    console.log(ncri)
+
+
+    const aExamen = new Array();
     for (let i = 0; i < examen.a.length; i++) {
 
         if (examen.a[i].be == true) {
@@ -1025,7 +1062,7 @@ const apercu = async (request, response) => {
         jExamen: jExamen,
         kExamen: kExamen,
 
-        //Partie Eight
+        //Partie seven
         a: a,
         b: b,
         c: c,
@@ -1034,7 +1071,11 @@ const apercu = async (request, response) => {
         f: f,
         g: g,
         poids: poids,
-        commentaire: commentaire
+        commentaire: commentaire,
+
+        //Partie Eight
+        cri : cri,
+        ncri : ncri
     });
 
     const buf = doc.getZip().generate({
@@ -1142,6 +1183,25 @@ const select = async (request, response) => {
     }
 }
 
+const selected = async (request, response) => {
+
+    try {
+
+        const observateurId = String(request.params.observateurId);
+        const observateur = await Observateur.findById(observateurId);
+
+        if (observateur == null) {
+            return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)ult" });
+        } else {
+            return response.status(200).json(observateur);
+        }
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+}
+
 const read = async (request, response) => {
     try {
         return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s) " });
@@ -1217,4 +1277,4 @@ const deleteOne = async (request, response) => {
     }
 }
 
-export default { create, read, update, deleteOne, select, apercu }
+export default { create, read, update, deleteOne, select, apercu, selected }

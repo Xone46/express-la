@@ -33,17 +33,17 @@ const ChekinSchema = new mongoose.Schema({
 
     ll : {
         type : mongoose.Schema.Types.Array,
-        required : true,
+        required : false,
     },
 
     metro : {
         type : mongoose.Schema.Types.Number,
-        required : true,
+        required : false,
     },
 
     area : {
         type : mongoose.Schema.Types.Number,
-        required : true,
+        required : false,
     }
 })
 

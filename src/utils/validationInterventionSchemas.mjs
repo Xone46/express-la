@@ -24,7 +24,7 @@ export const validationInterventionSchemas = {
 
     site : {
 
-        isNumber : {
+        isDecimal : {
             errorMessage : "Vous devez saisir Site valide"
         },
 
@@ -48,10 +48,6 @@ export const validationInterventionSchemas = {
 
         isString : {
             errorMessage : "Vous devez saisir Repère valide"
-        },
-
-        notEmpty : {
-            errorMessage : "Repère ne peut pas être vide"
         }
     },
 

@@ -81,7 +81,7 @@ const create = async (request, response) => {
 
 const read = async (request, response) => {
     try {
-        const interventions = await Intervention.find().sort({ date: -1 });
+        const interventions = await Intervention.find().sort({ date: 1 });
 
         if (interventions.length === 0) {
             return response.status(404).json({ msg: "Il n'y a aucune Intervention" });
