@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Photo } from "../models/photo.mjs";
+import { Completed } from "../models/completed.mjs";
 import PhotoController from "../controllers/PhotoController.mjs"
 const router = Router();
 import multer from 'multer'
@@ -26,7 +27,7 @@ var upload = multer({ storage: storage });
 router.post("/create", upload.single('file'), async (request, response) => {
 
     try {
-        
+        const observateurId = String(request.body.observateurId);
         let mimetype = request.file.mimetype.substring(6);
 
         const photo = new Photo({
@@ -36,8 +37,21 @@ router.post("/create", upload.single('file'), async (request, response) => {
         });
 
        await photo.save()
-       .then(() => {
-        response.status(200).json({ message: "Done upload!", filename : request.file.filename });
+       .then(async() => {
+
+            await Completed.updateOne({ observateurId: observateurId }, {
+                $set: {
+                    photo: true,
+                }
+            })
+            .then(() => {
+                response.status(200).json({ message: "Done upload!", filename : request.file.filename });
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+
        })
        .catch((error) => {
             response.status(400).json(error);

@@ -9,5 +9,6 @@ router.post("/create", resolveTypesDataIntervention, checkSchema(validationInter
 router.put("/:interventionsId", InterventionController.update);
 router.delete("/:interventionId", InterventionController.deleteOne);
 router.get("/read", InterventionController.read);
+router.get("/:interventionId", InterventionController.select);
 
 export default router;

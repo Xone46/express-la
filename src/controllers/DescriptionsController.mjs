@@ -1,4 +1,5 @@
 import { Description } from "../models/description.mjs";
+import { Completed } from "../models/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 
 const create = async (request, response) => {
@@ -18,8 +19,6 @@ const create = async (request, response) => {
             }
         } = request;
         
-        console.log(caracteristiques)
-
         await Description({
                 marquage : marquage,
                 modeDeLevage : modeDeLevage,
@@ -33,8 +32,21 @@ const create = async (request, response) => {
                 observateurId : observateurId
             })
             .save()
-            .then(async() => {
-                response.status(201).json({ msg: "Enregistré avec succès" });
+            .then(async(result) => {
+
+                await Completed.updateOne({ observateurId: observateurId }, {
+                    $set: {
+                        description: true,
+                    }
+                })
+                .then(() => {
+                    response.status(201).json({ msg: "Enregistré avec succès", renseignementId: result._id });
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+
             })
             .catch((error) => {
                 response.status(400).json(error);
@@ -70,7 +82,31 @@ const reset = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         await Description.deleteOne({ observateurId: observateurId })
             .then(async () => {
-                response.status(201).json({ msg: "Deleted Done!" });
+
+                await Completed.updateOne({ observateurId: observateurId }, {
+                    $set: {
+                        description: false,
+                    }
+                })
+                .then(async() => {
+                    await Completed.updateOne({ observateurId: observateurId }, {
+                        $set: {
+                            description: false,
+                        }
+                    })
+                    .then(() => {
+                        response.status(201).json({ msg: "Deleted Done!" });
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        response.status(400).json(error);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+
             })
             .catch((error) => {
                 console.log(error)

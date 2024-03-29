@@ -1,6 +1,7 @@
 
 import { Examen } from "../models/examen.mjs";
 import { Commentaire } from "../models/commentaire.mjs";
+import { Completed } from "../models/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 
 
@@ -27,7 +28,20 @@ const create = async (request, response) => {
             await Examen({ a, b, c, d, e, f, g, h, i, j, k, observateurId })
             .save()
             .then(async () => {
-                response.status(201).json({ msg: "Enregistré avec succès" });
+
+                await Completed.updateOne({ observateurId: observateurId }, {
+                    $set: {
+                        examen: true,
+                    }
+                })
+                .then(() => {
+                    response.status(201).json({ msg: "Enregistré avec succès" });
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+
             })
             .catch((error) => {
                 response.status(400).json(error);
@@ -63,8 +77,21 @@ const reset = async (request, response) => {
 
         const observateurId = String(request.params.observateurId);
         await Examen.deleteOne({ observateurId : observateurId })
-        .then(() => {
-            response.status(200).json({ msg : "Deleted Done!" });
+        .then(async() => {
+            
+            await Completed.updateOne({ observateurId: observateurId }, {
+                $set: {
+                    examen: false,
+                }
+            })
+            .then(() => {
+                response.status(200).json({ msg : "Deleted Done!" });
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+
         })
         .catch((error) => {
             response.status(400).json(error);

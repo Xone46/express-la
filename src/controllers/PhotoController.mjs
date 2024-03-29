@@ -1,4 +1,5 @@
 import { Photo } from "../models/photo.mjs";
+import { Completed } from "../models/completed.mjs";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
@@ -37,11 +38,23 @@ const reset = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         const photo = await Photo.findOne({ observateurId : observateurId });
         const deleted = await Photo.deleteOne({ observateurId : observateurId });
+        
         if(deleted) {
             const urlImage = path.resolve(__dirname, `../uploads/${photo.filename}`);
-            fs.unlink(urlImage, function (err) {
+            fs.unlink(urlImage, async(err) => {
                 if (err) throw err;
-                response.status(200).json({ msg : "Deleted Done!"})
+                    await Completed.updateOne({ observateurId: observateurId }, {
+                        $set: {
+                            photo: false,
+                        }
+                    })
+                    .then(() => {
+                        response.status(200).json({ msg : "Deleted Done!"});
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        response.status(400).json(error);
+                    });
               });
         }
 

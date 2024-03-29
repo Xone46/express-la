@@ -28,45 +28,7 @@ const create = async (request, response) => {
         await Intervention(data)
             .save()
             .then(async (result) => {
-
-                // Load the docx file as binary content
-                const content = fs.readFileSync(
-                    path.resolve(__dirname, "../rapports/input.docx"),
-                    "binary"
-                );
-
-                const zip = new PizZip(content);
-
-                const doc = new Docxtemplater(zip, {
-                    paragraphLoop: true,
-                    linebreaks: true,
-                });
-
-                doc.render({
-                    date: data.date,
-                    annee: new Date(data.date).getFullYear(),
-                    numeroAffaire: data.numeroAffaire,
-                    site: data.site,
-                    etablissement: data.etablissement,
-                    repere: data.repere,
-                    adresse: data.adresse,
-                    codePostal: data.codePostal,
-                    ville: data.ville,
-                    metier: data.metier,
-                    pays: data.pays
-                });
-
-                const buf = doc.getZip().generate({
-                    type: "nodebuffer",
-                    compression: "DEFLATE",
-                });
-
-                const nameFile = String(result._id);
-                const flagSuccesWrite = await fs.writeFileSync(path.resolve(__dirname, `../rapports/${nameFile}.docx`), buf);
-
-                if(flagSuccesWrite == undefined) {
-                    response.status(201).json({ msg: "Enregistré avec succès" });
-                }
+                response.status(200).json(result);
             })
             .catch((error) => {
                 response.status(400).json(error);
@@ -95,7 +57,15 @@ const read = async (request, response) => {
 }
 
 const update = async (request, response) => {
-
+    const interventionId = String(request.params.interventionsId);
+    await Intervention.updateOne({ _id : interventionId }, { $set : request.body })
+    .then((result) => {
+        response.status(200).json(result);
+    })
+    .catch((error) => {
+        console.log(error);
+        response.status(400).json(error);
+    })
 }
 
 const deleteOne = async (request, response) => {
@@ -103,6 +73,7 @@ const deleteOne = async (request, response) => {
         const result = await Intervention.deleteOne({ _id: request.params.interventionId });
         if (result.acknowledged == true && result.deletedCount == 1) {
             await Observateur.deleteMany({ interventionId: request.params.interventionId });
+            console.log(true)
             response.status(200).json(true);
         }
 
@@ -112,4 +83,19 @@ const deleteOne = async (request, response) => {
     }
 }
 
-export default { create, read, update, deleteOne }
+
+const select = async (request, response) => {
+
+    try {
+        const interventionId = String(request.params.interventionId);
+        const intervention = await Intervention.findById(interventionId);
+        if(intervention) {
+            response.status(200).json(intervention);
+        }
+
+    } catch(error) {
+        response.status(400).json(error);
+    }
+}
+
+export default { create, read, update, deleteOne, select }

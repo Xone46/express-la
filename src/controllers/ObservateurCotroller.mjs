@@ -8,7 +8,6 @@ import { Description } from "../models/description.mjs";
 import { Conclusion } from "../models/conclusion.mjs";
 import { Photo } from "../models/photo.mjs";
 import { Commentaire } from "../models/commentaire.mjs";
-import { convertWordFiles } from 'convert-multiple-files';
 import { spawn } from 'child_process';
 
 
@@ -19,6 +18,7 @@ import { fileURLToPath } from 'url';
 
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
+import { Console } from "console";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -90,39 +90,37 @@ const apercu = async (request, response) => {
     const ncri = new Array();
 
     const comment = await Commentaire.find();
-    if(comment) {
+    if (comment) {
 
-        for(let i = 0; i < comment.length; i++) {
+        for (let i = 0; i < comment.length; i++) {
 
             const tab = new Array();
-            
-            for(let j = 0; j < comment[i].modelSelected.length; j++) {
+
+            for (let j = 0; j < comment[i].modelSelected.length; j++) {
                 tab.push(comment[i].modelSelected[j].name)
-                if(comment[i].modelSelected[j].status == "critique") {
-                
+                if (comment[i].modelSelected[j].status == "critique") {
+
                     cri.push({
-                        ref : `${comment[i].ref}${comment[i].number}`,
-                        tab : tab
+                        ref: `${comment[i].ref}${comment[i].number}`,
+                        tab: tab
                     });
                 }
-        
-                if(comment[i].modelSelected[j].status == "non critique") {
-        
+
+                if (comment[i].modelSelected[j].status == "non critique") {
+
                     ncri.push({
-                        ref : `${comment[i].ref}${comment[i].number}`,
-                        tab : tab
+                        ref: `${comment[i].ref}${comment[i].number}`,
+                        tab: tab
                     });
                 }
             }
-    
+
 
         }
     }
 
-
-
-    console.log(cri)
-    console.log(ncri)
+    // console.log(cri)
+    // console.log(ncri)
 
 
     const aExamen = new Array();
@@ -1036,11 +1034,15 @@ const apercu = async (request, response) => {
         portee: description.caracteristiques[0].portee,
         porteFaux: description.caracteristiques[0].porteFaux,
         longueurDuCheminDeRoulement: description.caracteristiques[0].longueurDuCheminDeRoulement,
+        suspentes : description.caracteristiques[0].suspentes,
+        suspentesAutre : description.caracteristiques[0].suspentesAutre,
         mouflage: description.caracteristiques[0].mouflage,
         diametre: description.caracteristiques[0].diametre,
 
         sansObjet: description.levageAuxiliaire[0].sansObjet,
         chargeMaximale: description.levageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
+        suspentesL : description.caracteristiques[0].suspentes,
+        suspentesAutreL : description.caracteristiques[0].suspentesAutre,
         mouflageLevage: description.levageAuxiliaire[0].mouflage,
         diametreLevage: description.levageAuxiliaire[0].diametre,
         modeInstallation: description.modeInstallation,
@@ -1074,8 +1076,8 @@ const apercu = async (request, response) => {
         commentaire: commentaire,
 
         //Partie Eight
-        cri : cri,
-        ncri : ncri
+        cri: cri,
+        ncri: ncri
     });
 
     const buf = doc.getZip().generate({
@@ -1168,10 +1170,9 @@ const create = async (request, response) => {
 const select = async (request, response) => {
 
     try {
-
         const observateurId = String(request.params.observateurId);
         const observateurs = await Observateur.find({ interventionId: observateurId }).sort({ date: -1 });
-        if (observateurs == null) {
+        if (observateurs.length == 0) {
             return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)ult" });
         } else {
             return response.status(200).json(observateurs);
@@ -1204,7 +1205,15 @@ const selected = async (request, response) => {
 
 const read = async (request, response) => {
     try {
-        return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s) " });
+
+        const observateurs = await Observateur.find();
+
+        if (observateurs) {
+            return response.status(200).json(observateurs);
+        } else {
+            return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s) " });
+        }
+
     } catch (error) {
         response.status(400).json(error)
     }
@@ -1213,62 +1222,56 @@ const read = async (request, response) => {
 
 const update = async (request, response) => {
 
+    const observateurId = String(request.params.observateurId);
+
+    try {
+
+        await Observateur.updateOne({ _id : observateurId }, { $set : request.body })
+            .then(() => {
+                response.status(201).json({ msg: "Modifié avec succès" });
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
 }
 
 const deleteOne = async (request, response) => {
     try {
-
-        const result = await Observateur.deleteOne({ _id: request.params.observateurId });
-
+        const observateurId = String(request.params.observateurId)
+        const result = await Observateur.deleteOne({ _id: observateurId });
         if (result.acknowledged == true && result.deletedCount == 1) {
-
-            await Renseignement.deleteOne({ observateurId: request.params.observateurId })
-                .then(async () => {
-                    await Description.deleteOne({ observateurId: request.params.observateurId })
-                        .then(async () => {
-                            await Examen.deleteOne({ observateurId: request.params.observateurId })
-                                .then(async () => {
-                                    await Conclusion.deleteOne({ observateurId: request.params.observateurId })
-                                        .then(async () => {
-                                            await Commentaire.deleteOne({ observateurId: request.params.observateurId })
-                                                .then(async () => {
-
-                                                    const photo = await Photo.findOne({ observateurId: request.params.observateurId })
-                                                    await Photo.deleteOne({ observateurId: request.params.observateurId })
-                                                        .then(() => {
-                                                            const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
-                                                            fs.unlink(pathFile, (err) => {
-                                                                if (err) {
-                                                                    console.error(err);
-                                                                } else {
-                                                                    response.status(200).json({ msg: "Done Deleted!" })
-                                                                }
-                                                            });
-                                                        })
-                                                        .catch((error) => {
-                                                            response.status(400).json(error);
-                                                        });
-                                                })
-                                                .catch((error) => {
-                                                    response.status(400).json(error);
-                                                });
-                                        })
-                                        .catch((error) => {
-                                            response.status(400).json(error);
-                                        });
-                                })
-                                .catch((error) => {
-                                    response.status(400).json(error);
-                                });
-                        })
-                        .catch((error) => {
-                            response.status(400).json(error);
+            await Renseignement.deleteOne({ observateurId: observateurId }).Promise();
+            await Description.deleteOne({ observateurId: observateurId }).Promise();
+            await Examen.deleteOne({ observateurId: observateurId }).Promise();
+            await Conclusion.deleteOne({ observateurId: observateurId }).Promise();
+            await Commentaire.deleteOne({ observateurId: observateurId }).Promise();
+            const photo = await Photo.findOne({ observateurId: request.params.observateurId })
+            if (photo) {
+                await Photo.deleteOne({ observateurId: observateurId })
+                    .then(() => {
+                        const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
+                        fs.unlink(pathFile, (err) => {
+                            if (err) {
+                                response.status(200).json({ msg: "Done Deleted!" })
+                            } else {
+                                response.status(200).json({ msg: "Done Deleted!" })
+                            }
                         });
-                })
-                .catch((error) => {
-                    response.status(400).json(error)
-                });
+                    })
+                    .catch((error) => {
+                        response.status(400).json(error);
+                    });
+            }
 
+
+        } else {
+            response.status(200).json({ msg: "Done Deleted!" })
         }
 
     } catch (error) {
