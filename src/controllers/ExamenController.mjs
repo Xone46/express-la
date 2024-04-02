@@ -3,6 +3,7 @@ import { Examen } from "../models/examen.mjs";
 import { Commentaire } from "../models/commentaire.mjs";
 import { Completed } from "../models/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
+import { checkEmpty } from "../middelwares/examens/checkEmpty.mjs";
 
 
 
@@ -61,7 +62,13 @@ const select = async (request, response) => {
 
         const observateurId = String(request.params.observateurId);
         const examen = await Examen.findOne({ observateurId : observateurId });
-        response.status(200).json(examen);
+
+        if(examen) {
+            const checkEmptyStatus = checkEmpty(examen) ;
+            response.status(200).json({ examen : examen,  checkEmptyStatus : checkEmptyStatus });
+        } else {
+            response.status(200).json({ examen : examen,  checkEmptyStatus : false });
+        }
 
 
     } catch (error) {
@@ -84,8 +91,14 @@ const reset = async (request, response) => {
                     examen: false,
                 }
             })
-            .then(() => {
-                response.status(200).json({ msg : "Deleted Done!" });
+            .then(async() => {
+                await Commentaire.deleteOne({ observateurId : observateurId })
+                .then(() => {
+                    response.status(200).json({ msg : "Deleted Done!" });
+                })
+                .catch((error) => {
+                    response.status(400).json(error);
+                })
             })
             .catch((error) => {
                 console.log(error)

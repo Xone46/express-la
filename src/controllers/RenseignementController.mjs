@@ -2,14 +2,15 @@
 import { Renseignement } from "../models/renseignement.mjs";
 import { Completed } from "../models/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-
+import { checkEmpty } from "../middelwares/renseignement/checkEmpty.mjs";
 
 const create = async (request, response) => {
 
     try {
 
-        const renseignement = await Renseignement.findOne({ observateurId: request.body.observateurId })
-
+        // get renseignement
+        const renseignement = await Renseignement.findOne({ observateurId: request.body.observateurId });
+       
         if (renseignement) {
 
             await Renseignement.updateOne({ observateurId: request.body.observateurId }, {
@@ -111,8 +112,14 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const observateur = await Renseignement.findOne({ observateurId: observateurId });
-        response.status(200).json(observateur);
+        const renseignement = await Renseignement.findOne({ observateurId: observateurId }); 
+        if(renseignement) {
+            const checkEmptyStatus = checkEmpty(renseignement) ;
+            response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : checkEmptyStatus });
+        } else {
+            response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : false });
+        }
+
 
     } catch (error) {
         console.log(error)
