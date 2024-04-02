@@ -6,6 +6,7 @@ const create = async (request, response) => {
     try {
 
         const { observateurId, ref, number, titre, modelSelected } = request.body;
+        console.log(request.body);
 
         const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
         if(exist) {
@@ -57,4 +58,23 @@ const select = async (request, response) => {
 
 }
 
-export default { create , select }
+const deleteOne = async (request, response) => {
+
+    try {
+
+        const { commentaireId } = request.params;
+
+        const commentaire = await Commentaire.deleteOne({ _id : commentaireId });
+        if(commentaire) {
+            console.log(commentaire)
+            response.status(200).json(commentaire);
+        }
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+export default { create , select, deleteOne }
