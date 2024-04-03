@@ -18,7 +18,8 @@ import { fileURLToPath } from 'url';
 
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
-import { Console } from "console";
+import ImageModule from "docxtemplater-image-module-free";
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -84,7 +85,20 @@ const apercu = async (request, response) => {
     const commentaire = String(conclusion.commentaire);
 
     const photo = await Photo.findOne({ observateurId: observateurId });
-    // console.log(photo)
+
+    const imageOptions = {
+        centered: false,
+        getImage(tagValue, tagName, meta) {
+            return fs.readFileSync(__dirname + '../uploads/1712154000684.jpg');
+        },
+        getSize() {
+            // it also is possible to return a size in centimeters, like this : return [ "2cm", "3cm" ];
+            return [150, 150];
+        },
+    };
+    
+
+
 
     const cri = new Array();
     const ncri = new Array();
@@ -128,73 +142,43 @@ const apercu = async (request, response) => {
 
         if (examen.a[i].be == true) {
             aExamen.push({
-                titre: examen.a[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.a[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.a[i].fc == true) {
             aExamen.push({
-                titre: examen.a[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.a[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.a[i].sa == true) {
             aExamen.push({
-                titre: examen.a[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.a[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.a[i].nv == true) {
             aExamen.push({
-                titre: examen.a[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.a[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.a[i].so == true) {
             aExamen.push({
-                titre: examen.a[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.a[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.a[i].o == true) {
             aExamen.push({
-                titre: examen.a[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.a[i].titre,
+                avis : "NV"
             });
         }
 
@@ -205,73 +189,43 @@ const apercu = async (request, response) => {
 
         if (examen.b[i].be == true) {
             bExamen.push({
-                titre: examen.b[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.b[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.b[i].fc == true) {
             bExamen.push({
-                titre: examen.b[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.b[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.b[i].sa == true) {
             bExamen.push({
-                titre: examen.b[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.b[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.b[i].nv == true) {
             bExamen.push({
-                titre: examen.b[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.b[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.b[i].so == true) {
             bExamen.push({
-                titre: examen.b[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.b[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.b[i].o == true) {
             bExamen.push({
-                titre: examen.b[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.b[i].titre,
+                avis : "O"
             });
         }
     }
@@ -282,73 +236,43 @@ const apercu = async (request, response) => {
 
         if (examen.c[i].be == true) {
             cExamen.push({
-                titre: examen.c[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.c[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.c[i].fc == true) {
             cExamen.push({
-                titre: examen.c[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.c[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.c[i].sa == true) {
             cExamen.push({
-                titre: examen.c[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.c[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.c[i].nv == true) {
             cExamen.push({
-                titre: examen.c[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.c[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.c[i].so == true) {
             cExamen.push({
-                titre: examen.c[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.c[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.c[i].o == true) {
             cExamen.push({
-                titre: examen.c[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.c[i].titre,
+                avis : "O"
             });
         }
     }
@@ -359,73 +283,43 @@ const apercu = async (request, response) => {
 
         if (examen.d[i].be == true) {
             dExamen.push({
-                titre: examen.d[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.d[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.d[i].fc == true) {
             dExamen.push({
-                titre: examen.d[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.d[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.d[i].sa == true) {
             dExamen.push({
-                titre: examen.d[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.d[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.d[i].nv == true) {
             dExamen.push({
-                titre: examen.d[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.d[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.d[i].so == true) {
             dExamen.push({
-                titre: examen.d[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.d[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.d[i].o == true) {
             dExamen.push({
-                titre: examen.d[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.d[i].titre,
+                avis : "O"
             });
         }
     }
@@ -436,73 +330,43 @@ const apercu = async (request, response) => {
 
         if (examen.e[i].be == true) {
             eExamen.push({
-                titre: examen.e[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.e[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.e[i].fc == true) {
             eExamen.push({
-                titre: examen.e[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.e[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.e[i].sa == true) {
             eExamen.push({
-                titre: examen.e[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.e[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.e[i].nv == true) {
             eExamen.push({
-                titre: examen.e[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.e[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.e[i].so == true) {
             eExamen.push({
-                titre: examen.e[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.e[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.e[i].o == true) {
             eExamen.push({
-                titre: examen.e[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.e[i].titre,
+                avis : "O"
             });
         }
     }
@@ -513,73 +377,43 @@ const apercu = async (request, response) => {
 
         if (examen.f[i].be == true) {
             fExamen.push({
-                titre: examen.f[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.f[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.f[i].fc == true) {
             fExamen.push({
-                titre: examen.f[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.f[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.f[i].sa == true) {
             fExamen.push({
-                titre: examen.f[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.f[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.f[i].nv == true) {
             fExamen.push({
-                titre: examen.f[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.f[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.f[i].so == true) {
             fExamen.push({
-                titre: examen.f[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.f[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.f[i].o == true) {
             fExamen.push({
-                titre: examen.f[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.f[i].titre,
+                avis : "O"
             });
         }
     }
@@ -589,73 +423,43 @@ const apercu = async (request, response) => {
 
         if (examen.g[i].be == true) {
             gExamen.push({
-                titre: examen.g[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.g[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.g[i].fc == true) {
             gExamen.push({
-                titre: examen.g[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.g[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.g[i].sa == true) {
             gExamen.push({
-                titre: examen.g[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.g[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.g[i].nv == true) {
             gExamen.push({
-                titre: examen.g[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.g[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.g[i].so == true) {
             gExamen.push({
-                titre: examen.g[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.g[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.g[i].o == true) {
             gExamen.push({
-                titre: examen.g[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.g[i].titre,
+                avis : "O"
             });
         }
     }
@@ -665,73 +469,44 @@ const apercu = async (request, response) => {
 
         if (examen.h[i].be == true) {
             hExamen.push({
-                titre: examen.h[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.h[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.h[i].fc == true) {
             hExamen.push({
-                titre: examen.h[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.h[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.h[i].sa == true) {
             hExamen.push({
-                titre: examen.h[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.h[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.h[i].nv == true) {
             hExamen.push({
-                titre: examen.h[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.h[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.h[i].so == true) {
             hExamen.push({
-                titre: examen.h[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.h[i].titre,
+                avis : "SO"
             });
+            
         }
 
         if (examen.h[i].o == true) {
             hExamen.push({
-                titre: examen.h[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.h[i].titre,
+                avis : "O"
             });
         }
     }
@@ -741,73 +516,43 @@ const apercu = async (request, response) => {
 
         if (examen.i[i].be == true) {
             iExamen.push({
-                titre: examen.i[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.i[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.i[i].fc == true) {
             iExamen.push({
-                titre: examen.i[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.i[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.i[i].sa == true) {
             iExamen.push({
-                titre: examen.i[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.i[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.i[i].nv == true) {
             iExamen.push({
-                titre: examen.i[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.i[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.i[i].so == true) {
             iExamen.push({
-                titre: examen.i[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.i[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.i[i].o == true) {
             iExamen.push({
-                titre: examen.i[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.i[i].titre,
+                avis : "O"
             });
         }
     }
@@ -817,74 +562,44 @@ const apercu = async (request, response) => {
 
         if (examen.j[i].be == true) {
             jExamen.push({
-                titre: examen.j[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.j[i].titre,
+                avis : "BE"
             });
         }
 
         if (examen.j[i].fc == true) {
             jExamen.push({
-                titre: examen.j[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.j[i].titre,
+                avis : "FC"
             });
         }
 
         if (examen.j[i].sa == true) {
             jExamen.push({
-                titre: examen.j[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.j[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.j[i].nv == true) {
             jExamen.push({
-                titre: examen.j[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.j[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.j[i].so == true) {
             jExamen.push({
-                titre: examen.j[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.j[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.j[i].o == true) {
             jExamen.push({
-                titre: examen.j[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
-            });
+                titre : examen.j[i].titre,
+                avis : "O"
+            });        
         }
     }
 
@@ -893,73 +608,43 @@ const apercu = async (request, response) => {
 
         if (examen.k[i].be == true) {
             kExamen.push({
-                titre: examen.k[i].titre,
-                be: "X",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
-            });
+                titre : examen.k[i].titre,
+                avis : "BE"
+            }); 
         }
 
         if (examen.k[i].fc == true) {
             kExamen.push({
-                titre: examen.k[i].titre,
-                be: "",
-                fc: "X",
-                sa: "",
-                nv: "",
-                so: "",
-                o: ""
-            });
+                titre : examen.k[i].titre,
+                avis : "FC"
+            }); 
         }
 
         if (examen.k[i].sa == true) {
             kExamen.push({
-                titre: examen.k[i].titre,
-                be: "",
-                fc: "",
-                sa: "X",
-                nv: "",
-                so: "",
-                o: ""
+                titre : examen.k[i].titre,
+                avis : "SA"
             });
         }
 
         if (examen.k[i].nv == true) {
             kExamen.push({
-                titre: examen.k[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "X",
-                so: "",
-                o: ""
+                titre : examen.k[i].titre,
+                avis : "NV"
             });
         }
 
         if (examen.k[i].so == true) {
             kExamen.push({
-                titre: examen.k[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "X",
-                o: ""
+                titre : examen.k[i].titre,
+                avis : "SO"
             });
         }
 
         if (examen.k[i].o == true) {
             kExamen.push({
-                titre: examen.k[i].titre,
-                be: "",
-                fc: "",
-                sa: "",
-                nv: "",
-                so: "",
-                o: "X"
+                titre : examen.k[i].titre,
+                avis : "O"
             });
         }
     }
@@ -973,13 +658,15 @@ const apercu = async (request, response) => {
 
     const zip = new PizZip(content);
     const doc = new Docxtemplater(zip, {
+        modules: [new ImageModule(imageOptions)],
         paragraphLoop: true,
         linebreaks: true,
     });
 
-    doc.render({
 
-        // Partie One
+    doc.render({
+        image: '../uploads/1712149475998.jpg',
+        // Partie On
         refClient: "<<G-T-H-X-P-R>>",
         numeroAffaire: "<<G-T-H-X-P-R>>",
         numeroRapport: "<<G-T-H-X-P-R>>",
