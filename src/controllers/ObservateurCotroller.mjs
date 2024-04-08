@@ -9,6 +9,20 @@ import { Conclusion } from "../models/conclusion.mjs";
 import { Photo } from "../models/photo.mjs";
 import { Commentaire } from "../models/commentaire.mjs";
 import { spawn } from 'child_process';
+const EMAIL = process.env.EMAIL
+const CLIENT_ID = process.env.CLIENT_ID
+const SECRET_ID = process.env.SECRET_ID
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN
+
+import nodemailer from "nodemailer";
+import handlebars from "handlebars";
+import { google } from "googleapis";
+const OAuth2 = google.auth.OAuth2;
+
+// Email api GOOGLE
+const OAuth2_client = new OAuth2(CLIENT_ID, SECRET_ID);
+OAuth2_client.setCredentials({ refresh_token : REFRESH_TOKEN })
+const accessToken = OAuth2_client.getAccessToken();
 
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
@@ -665,7 +679,6 @@ const apercu = async (request, response) => {
 
 
     doc.render({
-        image: '../uploads/1712149475998.jpg',
         // Partie On
         refClient: "<<G-T-H-X-P-R>>",
         numeroAffaire: "<<G-T-H-X-P-R>>",
@@ -967,4 +980,80 @@ const deleteOne = async (request, response) => {
     }
 }
 
-export default { create, read, update, deleteOne, select, apercu, selected }
+
+
+const envoyer = async (request, response) => {
+
+    const observateurId = String(request.params.observateurId);
+    const interventionId = String(request.params.interventionId);
+    const inspecteurId = String(request.params.inspecteurId);
+
+    const inspecteur = await Inspecteur.findById(inspecteurId);
+    const intervention = await Intervention.findById(interventionId);
+    const observateur = await Observateur.findById(observateurId);
+
+    const emails = [
+        "jamal.ettariqi@gthconsult.ma",
+        "service.clients@gthconsult.ma",
+        "tarik.addioui@gthconsult.ma"
+    ]
+
+    // const email = "service.supports@gthconsult.ma";
+
+    try {
+        var transporter = nodemailer.createTransport({
+            service : 'gmail',
+            auth: {
+                type :'OAuth2',
+                user: EMAIL,
+                clientId : CLIENT_ID,
+                clientSecret : SECRET_ID,
+                refreshToken : REFRESH_TOKEN,
+                accessToken : accessToken
+            }
+    });
+
+        const filePath = path.join(__dirname, "/views/send_rapport.html");
+        const source = fs.readFileSync(filePath, 'utf-8').toString();
+        const template = handlebars.compile(source);
+        const replacements = {
+            img: "https://gthpdf.fra1.digitaloceanspaces.com/logogth.png",
+            nom : inspecteur.nom,
+            prenom : inspecteur.prenom,
+            numeroAffaire : intervention.numeroAffaire,
+            etablissement : intervention.etablissement,
+            lieu : `${intervention.adresse} ${intervention.codePostal} ${intervention.codePostal} ${intervention.ville} ${intervention.pays}`,
+            date : `${new Date(observateur.date).toLocaleDateString()}`,
+            categorieAppareil : observateur.categorieAppareil,
+            equipement : observateur.equipement,
+            localisation : observateur.localisation
+        };
+
+        const htmlToSend = template(replacements);
+
+        transporter.sendMail({
+            from: EMAIL,
+            to: emails, 
+            subject: `Rapport ${intervention.etablissement} Générer GTH-RAPPORT par Inspecteur ${inspecteur.nom} ${inspecteur.prenom}`, 
+            html: htmlToSend,
+            attachments: [{
+                filename: 'output.pdf', // <= Here: made sure file name match
+                path: path.join(__dirname, '../rapports/output-tow.pdf'), // <= Here
+                contentType: 'application/pdf'
+            }],
+        }, (error, res) => {
+            if(error) {
+                console.log(error);
+            } else {
+                console.log(res);
+                response.status(200).json(true)
+            }
+        });
+
+    } catch (error) {
+        console.log(error.message)
+        response.status(400).json(error)
+    }
+}
+
+export default { create, read, update, deleteOne, select, apercu, selected, envoyer }

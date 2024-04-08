@@ -35,8 +35,17 @@ const create = async (request, response) => {
                     modificationAutre: request.body.modificationAutre
                 }
             })
-                .then((result) => {
-                    response.status(201).json({ msg: "Modifié avec succès", renseignementId: result._id });
+                .then(async(result) => {
+                    await Completed({
+                        observateurId: request.body.observateurId,
+                        renseignement: true
+                    }).save()
+                    .then(() => {
+                        response.status(201).json({ msg: "Modifié avec succès", renseignementId: result._id });
+                    })
+                    .catch((error) => {
+                        response.status(400).json(error);
+                    });
                 })
                 .catch((error) => {
                     console.log(error)

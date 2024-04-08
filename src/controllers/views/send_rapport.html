@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+          background-color: #ddd;
+          display: flex;
+          justify-content: center;
+          align-items: center
+        }
+        
+        .contenaire {
+          background-color: #ddd;
+          height: 100vh;
+          width: 100vh;
+          padding: 50px;
+        }
+
+        .content {
+          background-color: white;
+          height: 100%;
+          width: 100%;
+        }
+
+        .content .positionLogo {
+          background-color: white;
+          height: 15%;
+          width: 100%;
+          margin-bottom: 10px;
+          margin-top: 10px;
+          text-align: center;
+        }
+
+        .content .positionLogo img{
+          height: 100%;
+          width: 200px;
+        }
+
+        .barre1{
+            height: 1%;
+            width: 100%;
+            background-color: #cf1f21;
+        }
+
+        .barre2{
+            height: 1%;
+            width: 100%;
+            background-color: #243064;
+        }
+
+        h1 {
+            color: #135;
+            font-family: Graphik,Arial,sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 32px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            text-align: left;
+            word-break: break-word;
+            text-align: center;
+            border-bottom: 1px solid#243064;
+        }
+
+        .message {
+            color: #135;
+            font-family: Graphik,Arial,sans-serif;
+            margin-top: 20px;
+            margin-left: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 32px;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        .info {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .info ul {
+            margin: 0px;
+            padding: 0px;
+            border: 1px solid #243064;
+            padding: 10px;
+        }
+        .info ul li{
+            list-style: none;
+            color: #135;
+            font-family: Graphik,Arial,sans-serif;
+            font-size: 12px;
+        }
+
+        h4{
+            color: #135;
+            font-family: Graphik,Arial,sans-serif;
+            font-size: 12px;
+            text-align: center;
+        }
+
+    </style> 
+    <body>
+        <div class="contenaire">
+            <div class="content">
+                <div class="positionLogo">
+                    <img src="{{ img }}" alt="">
+                </div>
+                <div class="barre1"></div>
+                <div class="barre2"></div>
+                <h1>Confirmation de tâche</h1>
+                <div class="message">
+                    <span>Chèr(e) Expéditeur,</span><br>
+                    Nous sommes heureux de vous informer que vous avez confirmé la mission selon les informations suivantes:<br>
+                    - Nom et Prénom de l'inspecteur: {{ nom }}, {{ prenom }}<br>
+                    - Némero d'offre: {{ numeroAffaire }}<br>
+                    - Client : {{ etablissement }}<br>
+                    - Lieu de mission : {{ lieu }}<br>
+                    - Catégorie Appareil : {{ categorieAppareil }}<br>
+                    - Lsocalisation : {{ localisation }}<br>
+                    - Equipement : {{ equipement }}<br>
+                    - La date de mission: Le {{ date }}<br>
+     
+                    Veuillez agréer, Chèr(e) Expéditeur, nos salutations distinguées.<br>
+    
+                    Cordialement, L'équipe GTHCONSULT
+                </div>
+                <diV class="info">
+                    <ul>
+                        <li>GTHCONSULT BUREAU DE CONTRÔLE AGRÉÉ PAR L’ÉTAT</li>
+                        <li> +212 5 23 27 27 74 | +212 5 23 27 29 79</li>
+                        <li>direction@gthconsult.ma</li>
+                        <li>Bd MOHAMMED VI, Imm FB08, 3ème étage, n°9, Mohammedia Maroc</li>
+                    </ul>
+                </diV>
+    
+                <h4>© 2022 Groupe GTHCONSULT Maroc</h4>
+            </div>
+        </div>
+    </body>
+    </html>
