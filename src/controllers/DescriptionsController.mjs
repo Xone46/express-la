@@ -4,6 +4,8 @@ import { query, body, validationResult, matchedData, checkSchema } from "express
 
 const create = async (request, response) => {
 
+    console.log(request.body)
+
     try {
         const {
             body : {

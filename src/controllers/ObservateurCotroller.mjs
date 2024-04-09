@@ -984,6 +984,8 @@ const deleteOne = async (request, response) => {
 
 const envoyer = async (request, response) => {
 
+    console.log(request.body)
+
     const observateurId = String(request.params.observateurId);
     const interventionId = String(request.params.interventionId);
     const inspecteurId = String(request.params.inspecteurId);
