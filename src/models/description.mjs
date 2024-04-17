@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const DescriptiontSchema = new mongoose.Schema({
-
+    
     marquage : {
         type : mongoose.Schema.Types.String,
         required : false,
@@ -17,6 +17,11 @@ const DescriptiontSchema = new mongoose.Schema({
     },
 
     levageAuxiliaire : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    detailsLevageAuxiliaire : {
         type : mongoose.Schema.Types.Array,
         required : false,
     },
@@ -26,18 +31,53 @@ const DescriptiontSchema = new mongoose.Schema({
         required : false,
     },
 
-    modeInstallationDetails : {
+    pose : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    modeInstallationDetailsAutre : {
+    suspendu : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    surMonorail : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    surPointFixe : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    surPotence : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    surPortique : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    autre : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
     sourceDenergie : {
-        type : mongoose.Schema.Types.Array,
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    detailSourceDenergie : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    autreSourceDenergie : {
+        type : mongoose.Schema.Types.String,
         required : false,
     },
 
@@ -49,41 +89,3 @@ const DescriptiontSchema = new mongoose.Schema({
 });
 
 export const Description = mongoose.model("Description", DescriptiontSchema);
-
-// description: {
-//     marquage : null,
-//     modeDeLevage : null,
-//     caracteristiques : {
-//         chargeMaximaleUtile : "",
-//         hauteurDeLevage : "",
-//         portee : "",
-//         porteFaux : "",
-//         longueurDuCheminDeRoulement : "",
-//         suspentes : "",
-//         composition : "",
-//         caracteristiquesChainesDeLevage : "",
-//         caracteristiquesSangleDeLevage : "",
-//         mouflage : "",
-//         diametre : ""
-//     },
-//     levageAuxiliaire : {
-//         sansObjet : "",
-//         chargeMaximaleUtileDeChaquePalan : "",
-//         suspentes : "",
-//         composition : "",
-//         caracteristiquesChainesDeLevage : "",
-//         caracteristiquesSangleDeLevage : "",
-//         mouflage : "",
-//         diametre : ""
-//     },
-//     modeInstallation : "",
-//     modeInstallationDetails : "",
-//     modeInstallationDetailsAutre : "",
-//     sourceDenergie :  {
-//         value : "",
-//         autre : "",
-//         levage : "",
-//         translation : "",
-//         direction : ""
-//     }
-// },

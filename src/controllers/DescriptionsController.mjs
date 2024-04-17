@@ -4,7 +4,6 @@ import { query, body, validationResult, matchedData, checkSchema } from "express
 
 const create = async (request, response) => {
 
-    console.log(request.body)
 
     try {
         const {
@@ -13,48 +12,118 @@ const create = async (request, response) => {
                 modeDeLevage,
                 caracteristiques,
                 levageAuxiliaire,
+                detailsLevageAuxiliaire,
                 modeInstallation,
-                modeInstallationDetails,
-                modeInstallationDetailsAutre,
+                pose,
+                suspendu,
+                surMonorail,
+                surPointFixe,
+                surPotence,
+                surPortique,
+                autre,
                 sourceDenergie,
+                detailSourceDenergie,
+                autreSourceDenergie,
                 observateurId
             }
         } = request;
-        
-        await Description({
+
+        // get renseignement
+        const description = await Description.findOne({ observateurId: request.body.observateurId });
+        if (description) {
+            await Description.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
                 marquage : marquage,
                 modeDeLevage : modeDeLevage,
                 caracteristiques : caracteristiques,
                 levageAuxiliaire : levageAuxiliaire,
-                levageAuxiliaire : levageAuxiliaire,
+                detailsLevageAuxiliaire : detailsLevageAuxiliaire,
                 modeInstallation : modeInstallation,
-                modeInstallationDetails : modeInstallationDetails,
-                modeInstallationDetailsAutre : modeInstallationDetailsAutre,
+                pose : pose,
+                suspendu : suspendu,
+                surMonorail : surMonorail,
+                surPointFixe : surPointFixe,
+                surPotence : surPotence,
+                surPortique : surPortique,
+                autre : autre,
                 sourceDenergie : sourceDenergie,
-                observateurId : observateurId
+                detailSourceDenergie : detailSourceDenergie,
+                autreSourceDenergie : autreSourceDenergie,
+            } })
+            .then((result) => {
+                response.status(201).json({ msg: "Enregistré avec succès", descriptionId : result._id });
             })
-            .save()
-            .then(async(result) => {
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
 
-                await Completed.updateOne({ observateurId: observateurId }, {
-                    $set: {
-                        description: true,
-                    }
+        } else {
+            
+            await Description({
+                marquage : marquage,
+                modeDeLevage : modeDeLevage,
+                caracteristiques : caracteristiques,
+                levageAuxiliaire : levageAuxiliaire,
+                detailsLevageAuxiliaire : detailsLevageAuxiliaire,
+                modeInstallation : modeInstallation,
+                pose : pose,
+                suspendu : suspendu,
+                surMonorail : surMonorail,
+                surPointFixe :surPointFixe,
+                surPotence : surPotence,
+                surPortique :surPortique,
+                autre : autre,
+                sourceDenergie : sourceDenergie,
+                detailSourceDenergie : detailSourceDenergie,
+                autreSourceDenergie : autreSourceDenergie,
+                observateurId : observateurId
                 })
-                .then(() => {
-                    response.status(201).json({ msg: "Enregistré avec succès", renseignementId: result._id });
+                .save()
+                .then(async(result) => {
+    
+                    await Completed.updateOne({ observateurId: observateurId }, {
+                        $set: {
+                            description: true,
+                        }
+                    })
+                    .then(() => {
+                        response.status(201).json({ msg: "Enregistré avec succès", renseignementId: result._id });
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        response.status(400).json(error);
+                    });
+    
                 })
                 .catch((error) => {
                     console.log(error)
                     response.status(400).json(error);
                 });
+        }
 
-            })
-            .catch((error) => {
-                response.status(400).json(error);
-            });
+
+        console.log( 
+            marquage,
+            modeDeLevage,
+            caracteristiques,
+            levageAuxiliaire,
+            detailsLevageAuxiliaire,
+            modeInstallation,
+            pose,
+            suspendu,
+            surMonorail,
+            surPointFixe,
+            surPotence,
+            surPortique,
+            autre,
+            sourceDenergie,
+            detailSourceDenergie,
+            autreSourceDenergie,
+            observateurId);
+    
 
     } catch (error) {
+        console.log(error.message);
         response.status(400).json(error);
     }
 
@@ -84,13 +153,6 @@ const reset = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         await Description.deleteOne({ observateurId: observateurId })
             .then(async () => {
-
-                await Completed.updateOne({ observateurId: observateurId }, {
-                    $set: {
-                        description: false,
-                    }
-                })
-                .then(async() => {
                     await Completed.updateOne({ observateurId: observateurId }, {
                         $set: {
                             description: false,
@@ -103,12 +165,6 @@ const reset = async (request, response) => {
                         console.log(error)
                         response.status(400).json(error);
                     });
-                })
-                .catch((error) => {
-                    console.log(error)
-                    response.status(400).json(error);
-                });
-
             })
             .catch((error) => {
                 console.log(error)
