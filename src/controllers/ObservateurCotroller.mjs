@@ -664,6 +664,8 @@ const apercu = async (request, response) => {
     }
 
 
+
+
     // Load the docx file as binary content
     const content = fs.readFileSync(
         path.resolve(__dirname, `../rapports/input.docx`),
@@ -676,6 +678,8 @@ const apercu = async (request, response) => {
         paragraphLoop: true,
         linebreaks: true,
     });
+
+
 
 
     doc.render({

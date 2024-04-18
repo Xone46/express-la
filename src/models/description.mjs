@@ -66,6 +66,11 @@ const DescriptiontSchema = new mongoose.Schema({
         required : false,
     },
 
+    valueAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
     sourceDenergie : {
         type : mongoose.Schema.Types.String,
         required : false,

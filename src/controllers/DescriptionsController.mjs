@@ -1,6 +1,7 @@
 import { Description } from "../models/description.mjs";
 import { Completed } from "../models/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
+import { checkEmpty } from "../middelwares/description/checkEmpty.mjs";
 
 const create = async (request, response) => {
 
@@ -21,6 +22,7 @@ const create = async (request, response) => {
                 surPotence,
                 surPortique,
                 autre,
+                valueAutre,
                 sourceDenergie,
                 detailSourceDenergie,
                 autreSourceDenergie,
@@ -45,6 +47,7 @@ const create = async (request, response) => {
                 surPotence : surPotence,
                 surPortique : surPortique,
                 autre : autre,
+                valueAutre : valueAutre,
                 sourceDenergie : sourceDenergie,
                 detailSourceDenergie : detailSourceDenergie,
                 autreSourceDenergie : autreSourceDenergie,
@@ -73,6 +76,7 @@ const create = async (request, response) => {
                 surPotence : surPotence,
                 surPortique :surPortique,
                 autre : autre,
+                valueAutre : valueAutre,
                 sourceDenergie : sourceDenergie,
                 detailSourceDenergie : detailSourceDenergie,
                 autreSourceDenergie : autreSourceDenergie,
@@ -101,25 +105,6 @@ const create = async (request, response) => {
                 });
         }
 
-
-        console.log( 
-            marquage,
-            modeDeLevage,
-            caracteristiques,
-            levageAuxiliaire,
-            detailsLevageAuxiliaire,
-            modeInstallation,
-            pose,
-            suspendu,
-            surMonorail,
-            surPointFixe,
-            surPotence,
-            surPortique,
-            autre,
-            sourceDenergie,
-            detailSourceDenergie,
-            autreSourceDenergie,
-            observateurId);
     
 
     } catch (error) {
@@ -136,7 +121,13 @@ const select = async (request, response) => {
 
         const observateurId = String(request.params.observateurId);
         const description = await Description.findOne({ observateurId : observateurId });
-        response.status(200).json(description);
+        if(description) {
+            const checkEmptyStatus = checkEmpty(description) ;
+            console.log(checkEmptyStatus);
+            response.status(200).json({ description : description,  checkEmptyStatus : checkEmptyStatus });
+        } else {
+            response.status(200).json({ description : description,  checkEmptyStatus : false });
+        }
 
 
     } catch (error) {
