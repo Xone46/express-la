@@ -1,6 +1,7 @@
 
 import { Intervention } from "../models/intervention.mjs";
 import { Inspecteur } from "../models/inspecteurs.mjs";
+import { Completed } from "../models/completed.mjs";
 import { Observateur } from "../models/observateur.mjs";
 import { Renseignement } from "../models/renseignement.mjs";
 import { Examen } from "../models/examen.mjs";
@@ -41,796 +42,362 @@ const __dirname = path.dirname(__filename);
 
 const apercu = async (request, response) => {
 
+
     const observateurId = String(request.params.observateurId);
     const interventionId = String(request.params.interventionId);
     const inspecteurId = String(request.params.inspecteurId);
 
-    const intervention = await Intervention.findById(interventionId);
-    // console.log(intervention);
-
-    const inspecteur = await Inspecteur.findById(inspecteurId);
-    // console.log(inspecteur);
-
-    const observateur = await Observateur.findById(observateurId);
-    // console.log(observateur);
-
-    const pathFile = path.resolve(__dirname, `../rapports/output.docx`);
-    fs.unlink(pathFile, (err) => {
-        if (!err) {
-            console.log('File output docx is deleted.');
-        }
-    });
-
-    const pathFilePDF = path.resolve(__dirname, `../rapports/output-tow.pdf`);
-    fs.unlink(pathFilePDF, (err) => {
-        if (!err) {
-            console.log('File output pdf is deleted.');
-        }
-    });
-
-    const renseignement = await Renseignement.findOne({ observateurId: observateurId });
-    // console.log(renseignement);
-
-    const examen = await Examen.findOne({ observateurId: observateurId });
-    // console.log(examen);
-
-    const sourceEnergie = new Array();
-    const description = await Description.findOne({ observateurId: observateurId });
-
-    for (let j in description.sourceDenergie) {
-        for (const [key, value] of Object.entries(description.sourceDenergie[j])) {
-            if (value != null && value != undefined && value != "") {
-                sourceEnergie.push({
-                    name: `${key} : ${value}`
-                });
-            }
-        }
-    }
-
-    const conclusion = await Conclusion.findOne({ observateurId: observateurId });
-    const a = String(conclusion.a);
-    const b = String(conclusion.b);
-    const c = String(conclusion.c);
-    const d = String(conclusion.d);
-    const e = String(conclusion.e);
-    const f = String(conclusion.f);
-    const g = String(conclusion.g);
-    const poids = String(conclusion.poids);
-    const commentaire = String(conclusion.commentaire);
-
-    const photo = await Photo.findOne({ observateurId: observateurId });
-
-    const imageOptions = {
-        centered: false,
-        getImage(tagValue, tagName, meta) {
-            return fs.readFileSync(__dirname + '../uploads/1712154000684.jpg');
-        },
-        getSize() {
-            // it also is possible to return a size in centimeters, like this : return [ "2cm", "3cm" ];
-            return [150, 150];
-        },
-    };
+    //check is elements completed
+    const completedRenseignement = await Completed.find({ observateurId: observateurId, renseignement: true });
+    const completedExamen = await Completed.find({ observateurId: observateurId, examen: true });
+    const completedDescription = await Completed.find({ observateurId: observateurId, description: true });
+    const completedConclusion = await Completed.find({ observateurId: observateurId, conclusion: true });
     
-
-
-
-    const cri = new Array();
-    const ncri = new Array();
-
-    const comment = await Commentaire.find();
-    if (comment) {
-
-        for (let i = 0; i < comment.length; i++) {
-
-            const tab = new Array();
-
-            for (let j = 0; j < comment[i].modelSelected.length; j++) {
-                tab.push(comment[i].modelSelected[j].name)
-                if (comment[i].modelSelected[j].status == "critique") {
-
-                    cri.push({
-                        ref: `${comment[i].ref}${comment[i].number}`,
-                        tab: tab
-                    });
-                }
-
-                if (comment[i].modelSelected[j].status == "non critique") {
-
-                    ncri.push({
-                        ref: `${comment[i].ref}${comment[i].number}`,
-                        tab: tab
-                    });
-                }
+    if(completedRenseignement != true || completedExamen != true || completedDescription != true || completedConclusion != true) {
+        response.status(200).json(false);
+    } else {
+        const intervention = await Intervention.findById(interventionId);
+        // console.log(intervention);
+    
+        const inspecteur = await Inspecteur.findById(inspecteurId);
+        // console.log(inspecteur);
+    
+        const observateur = await Observateur.findById(observateurId);
+        // console.log(observateur);
+    
+        const pathFile = path.resolve(__dirname, `../rapports/output.docx`);
+        fs.unlink(pathFile, (err) => {
+            if (!err) {
+                console.log('File output docx is deleted.');
             }
-
-
-        }
-    }
-
-    // console.log(cri)
-    // console.log(ncri)
-
-
-    const aExamen = new Array();
-    for (let i = 0; i < examen.a.length; i++) {
-
-        if (examen.a[i].be == true) {
-            aExamen.push({
-                titre : examen.a[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.a[i].fc == true) {
-            aExamen.push({
-                titre : examen.a[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.a[i].sa == true) {
-            aExamen.push({
-                titre : examen.a[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.a[i].nv == true) {
-            aExamen.push({
-                titre : examen.a[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.a[i].so == true) {
-            aExamen.push({
-                titre : examen.a[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.a[i].o == true) {
-            aExamen.push({
-                titre : examen.a[i].titre,
-                avis : "NV"
-            });
-        }
-
-    }
-
-    const bExamen = new Array();
-    for (let i = 0; i < examen.b.length; i++) {
-
-        if (examen.b[i].be == true) {
-            bExamen.push({
-                titre : examen.b[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.b[i].fc == true) {
-            bExamen.push({
-                titre : examen.b[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.b[i].sa == true) {
-            bExamen.push({
-                titre : examen.b[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.b[i].nv == true) {
-            bExamen.push({
-                titre : examen.b[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.b[i].so == true) {
-            bExamen.push({
-                titre : examen.b[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.b[i].o == true) {
-            bExamen.push({
-                titre : examen.b[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-
-    const cExamen = new Array();
-    for (let i = 0; i < examen.c.length; i++) {
-
-        if (examen.c[i].be == true) {
-            cExamen.push({
-                titre : examen.c[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.c[i].fc == true) {
-            cExamen.push({
-                titre : examen.c[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.c[i].sa == true) {
-            cExamen.push({
-                titre : examen.c[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.c[i].nv == true) {
-            cExamen.push({
-                titre : examen.c[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.c[i].so == true) {
-            cExamen.push({
-                titre : examen.c[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.c[i].o == true) {
-            cExamen.push({
-                titre : examen.c[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-
-    const dExamen = new Array();
-    for (let i = 0; i < examen.d.length; i++) {
-
-        if (examen.d[i].be == true) {
-            dExamen.push({
-                titre : examen.d[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.d[i].fc == true) {
-            dExamen.push({
-                titre : examen.d[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.d[i].sa == true) {
-            dExamen.push({
-                titre : examen.d[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.d[i].nv == true) {
-            dExamen.push({
-                titre : examen.d[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.d[i].so == true) {
-            dExamen.push({
-                titre : examen.d[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.d[i].o == true) {
-            dExamen.push({
-                titre : examen.d[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-
-    const eExamen = new Array();
-    for (let i = 0; i < examen.e.length; i++) {
-
-        if (examen.e[i].be == true) {
-            eExamen.push({
-                titre : examen.e[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.e[i].fc == true) {
-            eExamen.push({
-                titre : examen.e[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.e[i].sa == true) {
-            eExamen.push({
-                titre : examen.e[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.e[i].nv == true) {
-            eExamen.push({
-                titre : examen.e[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.e[i].so == true) {
-            eExamen.push({
-                titre : examen.e[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.e[i].o == true) {
-            eExamen.push({
-                titre : examen.e[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-
-    const fExamen = new Array();
-    for (let i = 0; i < examen.f.length; i++) {
-
-        if (examen.f[i].be == true) {
-            fExamen.push({
-                titre : examen.f[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.f[i].fc == true) {
-            fExamen.push({
-                titre : examen.f[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.f[i].sa == true) {
-            fExamen.push({
-                titre : examen.f[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.f[i].nv == true) {
-            fExamen.push({
-                titre : examen.f[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.f[i].so == true) {
-            fExamen.push({
-                titre : examen.f[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.f[i].o == true) {
-            fExamen.push({
-                titre : examen.f[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-    const gExamen = new Array();
-    for (let i = 0; i < examen.g.length; i++) {
-
-        if (examen.g[i].be == true) {
-            gExamen.push({
-                titre : examen.g[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.g[i].fc == true) {
-            gExamen.push({
-                titre : examen.g[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.g[i].sa == true) {
-            gExamen.push({
-                titre : examen.g[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.g[i].nv == true) {
-            gExamen.push({
-                titre : examen.g[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.g[i].so == true) {
-            gExamen.push({
-                titre : examen.g[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.g[i].o == true) {
-            gExamen.push({
-                titre : examen.g[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-    const hExamen = new Array();
-    for (let i = 0; i < examen.h.length; i++) {
-
-        if (examen.h[i].be == true) {
-            hExamen.push({
-                titre : examen.h[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.h[i].fc == true) {
-            hExamen.push({
-                titre : examen.h[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.h[i].sa == true) {
-            hExamen.push({
-                titre : examen.h[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.h[i].nv == true) {
-            hExamen.push({
-                titre : examen.h[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.h[i].so == true) {
-            hExamen.push({
-                titre : examen.h[i].titre,
-                avis : "SO"
-            });
-            
-        }
-
-        if (examen.h[i].o == true) {
-            hExamen.push({
-                titre : examen.h[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-    const iExamen = new Array();
-    for (let i = 0; i < examen.i.length; i++) {
-
-        if (examen.i[i].be == true) {
-            iExamen.push({
-                titre : examen.i[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.i[i].fc == true) {
-            iExamen.push({
-                titre : examen.i[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.i[i].sa == true) {
-            iExamen.push({
-                titre : examen.i[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.i[i].nv == true) {
-            iExamen.push({
-                titre : examen.i[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.i[i].so == true) {
-            iExamen.push({
-                titre : examen.i[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.i[i].o == true) {
-            iExamen.push({
-                titre : examen.i[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-    const jExamen = new Array();
-    for (let i = 0; i < examen.j.length; i++) {
-
-        if (examen.j[i].be == true) {
-            jExamen.push({
-                titre : examen.j[i].titre,
-                avis : "BE"
-            });
-        }
-
-        if (examen.j[i].fc == true) {
-            jExamen.push({
-                titre : examen.j[i].titre,
-                avis : "FC"
-            });
-        }
-
-        if (examen.j[i].sa == true) {
-            jExamen.push({
-                titre : examen.j[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.j[i].nv == true) {
-            jExamen.push({
-                titre : examen.j[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.j[i].so == true) {
-            jExamen.push({
-                titre : examen.j[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.j[i].o == true) {
-            jExamen.push({
-                titre : examen.j[i].titre,
-                avis : "O"
-            });        
-        }
-    }
-
-    const kExamen = new Array();
-    for (let i = 0; i < examen.k.length; i++) {
-
-        if (examen.k[i].be == true) {
-            kExamen.push({
-                titre : examen.k[i].titre,
-                avis : "BE"
-            }); 
-        }
-
-        if (examen.k[i].fc == true) {
-            kExamen.push({
-                titre : examen.k[i].titre,
-                avis : "FC"
-            }); 
-        }
-
-        if (examen.k[i].sa == true) {
-            kExamen.push({
-                titre : examen.k[i].titre,
-                avis : "SA"
-            });
-        }
-
-        if (examen.k[i].nv == true) {
-            kExamen.push({
-                titre : examen.k[i].titre,
-                avis : "NV"
-            });
-        }
-
-        if (examen.k[i].so == true) {
-            kExamen.push({
-                titre : examen.k[i].titre,
-                avis : "SO"
-            });
-        }
-
-        if (examen.k[i].o == true) {
-            kExamen.push({
-                titre : examen.k[i].titre,
-                avis : "O"
-            });
-        }
-    }
-
-
-
-
-    // Load the docx file as binary content
-    const content = fs.readFileSync(
-        path.resolve(__dirname, `../rapports/input.docx`),
-        "binary"
-    );
-
-    const zip = new PizZip(content);
-    const doc = new Docxtemplater(zip, {
-        modules: [new ImageModule(imageOptions)],
-        paragraphLoop: true,
-        linebreaks: true,
-    });
-
-
-
-
-    doc.render({
-        // Partie On
-        refClient: "<<G-T-H-X-P-R>>",
-        numeroAffaire: "<<G-T-H-X-P-R>>",
-        numeroRapport: "<<G-T-H-X-P-R>>",
-        annee: new Date().getFullYear(),
-
-        //Partie Tow
-        equipement: observateur.equipement,
-        categorieAppareil: observateur.categorieAppareil,
-        etablissement: intervention.etablissement,
-        adresse: intervention.adresse,
-        codePostal: intervention.codePostal,
-        ville: intervention.ville,
-        pays: intervention.pays,
-
-        // Partie Tree
-        constructeur: observateur.constructeur,
-        marquage: observateur.marquage,
-        typeVerification: observateur.typeVerification,
-        numeroSerie: observateur.numeroSerie,
-        localisation: observateur.localisation,
-        dateVerfication: new Date(observateur.date).toLocaleDateString(),
-        inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
-        accompagnateur: observateur.accompagnateur,
-        dateEmission: new Date().toLocaleDateString(),
-
-        //Partie Four
-        // constructeur : observateur.constructeur, (Deja)
-        typeConstructeur: renseignement.typeConstructeur,
-        anneeMiseService: renseignement.anneeMiseService,
-        numeroSerieRenseignement: renseignement.numeroSerie,
-        numeroInterneRenseignement: renseignement.numeroInterne,
-        numeroInterneAutre: renseignement.numeroInterneAutre,
-        localistationRenseignement: renseignement.localisation,
-        typeAppareil: renseignement.typeAppareil,
-        typeAppareilAutre: renseignement.typeAppareilAutre,
-        miseEnServiceRapport: renseignement.miseEnServiceRapport,
-        miseEnServiceEpreuves: renseignement.miseEnServiceEpreuves,
-        miseEnServiceEpreuvesAutre: renseignement.miseEnServiceEpreuvesAutre,
-        dateDerniereVerficationPeriodique: renseignement.dateDerniereVerficationPeriodique,
-        dateDerniereVerficationPeriodiqueAutre: renseignement.dateDerniereVerficationPeriodiqueAutre,
-        dateDerniereVerficationPeriodiqueRapport: renseignement.dateDerniereVerficationPeriodiqueRapport,
-        essaischarge: renseignement.essaischarge,
-        essaischargeAutre: renseignement.essaischargeAutre,
-        modification: renseignement.modification,
-        modificationAutre: renseignement.modificationAutre,
-
-        // Partie Five
-        marquage: description.marquage,
-        modeDeLevage: description.modeDeLevage,
-        chargeMaximaleUtile: description.caracteristiques[0].chargeMaximaleUtile,
-        hauteurDeLevage: description.caracteristiques[0].hauteurDeLevage,
-        portee: description.caracteristiques[0].portee,
-        porteFaux: description.caracteristiques[0].porteFaux,
-        longueurDuCheminDeRoulement: description.caracteristiques[0].longueurDuCheminDeRoulement,
-        suspentes : description.caracteristiques[0].suspentes,
-        suspentesAutre : description.caracteristiques[0].suspentesAutre,
-        mouflage: description.caracteristiques[0].mouflage,
-        diametre: description.caracteristiques[0].diametre,
-
-        sansObjet: description.levageAuxiliaire[0].sansObjet,
-        chargeMaximale: description.levageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
-        suspentesL : description.caracteristiques[0].suspentes,
-        suspentesAutreL : description.caracteristiques[0].suspentesAutre,
-        mouflageLevage: description.levageAuxiliaire[0].mouflage,
-        diametreLevage: description.levageAuxiliaire[0].diametre,
-        modeInstallation: description.modeInstallation,
-        modeInstallationDetails: description.modeInstallationDetails,
-        modeInstallationDetailsAutre: description.modeInstallationDetailsAutre,
-        sourceEnergie: sourceEnergie,
-
-
-        //Partie Six
-        aExamen: aExamen,
-        bExamen: bExamen,
-        cExamen: cExamen,
-        dExamen: dExamen,
-        eExamen: eExamen,
-        fExamen: fExamen,
-        gExamen: gExamen,
-        hExamen: hExamen,
-        iExamen: iExamen,
-        jExamen: jExamen,
-        kExamen: kExamen,
-
-        //Partie seven
-        a: a,
-        b: b,
-        c: c,
-        d: d,
-        e: e,
-        f: f,
-        g: g,
-        poids: poids,
-        commentaire: commentaire,
-
-        //Partie Eight
-        cri: cri,
-        ncri: ncri
-    });
-
-    const buf = doc.getZip().generate({
-        type: "nodebuffer",
-        compression: "DEFLATE",
-    });
-
-    const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
-    if (flagSuccesWrite == undefined) {
-        const executePython = async (script, args) => {
-
-            const arg = args.map(arg => arg.toString());
-            const py = spawn("python", [script, ...arg]);
-            const result = await new Promise((resolve, reject) => {
-
-                let output;
-                py.stdout.on("data", (data) => {
-                    output = JSON.parse(data);
-                });
-
-                py.stderr.on("data", (data) => {
-                    console.error(`[Python] Error occured :${data}`);
-                    reject(`Error accured in ${script}`);
-                });
-
-                py.on("exit", (code) => {
-                    console.error(`child procces exited ith code :${code}`);
-                    resolve(output);
-                });
-
-            });
-
-            return result;
-        }
-
-        try {
-            const result = await executePython('python/script.py', [5, 2]);
-            console.log(result);
-            var tempFilePath = path.join(__dirname, `../rapports/output-tow.pdf`);
-            response.download(tempFilePath, function (err) {
-                if (err) {
-                    throw err;
+        });
+    
+        const pathFilePDF = path.resolve(__dirname, `../rapports/output-tow.pdf`);
+        fs.unlink(pathFilePDF, (err) => {
+            if (!err) {
+                console.log('File output pdf is deleted.');
+            }
+        });
+    
+        const renseignement = await Renseignement.findOne({ observateurId: observateurId });
+        // console.log(renseignement);
+    
+        const examen = await Examen.findOne({ observateurId: observateurId });
+        // console.log(examen);
+    
+        const description = await Description.findOne({ observateurId: observateurId });
+    
+        // create Object for filter modInstallationDetails
+        let valueModeInstallationDetails = null;
+        const obModeInstallationDetails = {
+            pose : description.pose,
+            suspendu : description.suspendu,
+            surMonorail : description.surMonorail,
+            surPointFixe : description.surPointFixe,
+            surPotence : description.surPotence,
+            surPortique : description.surPortique,
+            autre : description.autre,
+            valueAutre : description.valueAutre
+        }
+    
+        for(const [key, value] of Object.entries(obModeInstallationDetails)) {
+            if(value == null || value ==""){
+                delete obModeInstallationDetails[key]
+            } else {
+                valueModeInstallationDetails = obModeInstallationDetails[key];
+            }
+        }
+    
+    
+        const conclusion = await Conclusion.findOne({ observateurId: observateurId });
+        const a = String(conclusion.a);
+        const b = String(conclusion.b);
+        const c = String(conclusion.c);
+        const d = String(conclusion.d);
+        const e = String(conclusion.e);
+        const f = String(conclusion.f);
+        const g = String(conclusion.g);
+        const poids = String(conclusion.poids);
+        const commentaire = String(conclusion.commentaire);
+    
+        const photo = await Photo.findOne({ observateurId: observateurId });
+    
+        const imageOptions = {
+            centered: false,
+            getImage(tagValue, tagName, meta) {
+                return fs.readFileSync(__dirname + '../uploads/1712154000684.jpg');
+            },
+            getSize() {
+                // it also is possible to return a size in centimeters, like this : return [ "2cm", "3cm" ];
+                return [150, 150];
+            },
+        };
+        
+    
+    
+    
+        const cri = new Array();
+        const ncri = new Array();
+    
+        const comment = await Commentaire.find();
+        if (comment) {
+    
+            for (let i = 0; i < comment.length; i++) {
+    
+                const tab = new Array();
+    
+                for (let j = 0; j < comment[i].modelSelected.length; j++) {
+                    tab.push(comment[i].modelSelected[j].name)
+                    if (comment[i].modelSelected[j].status == "critique") {
+    
+                        cri.push({
+                            ref: `${comment[i].ref}${comment[i].number}`,
+                            tab: comment[i].modelSelected[j].name
+                        });
+                    }
+    
+                    if (comment[i].modelSelected[j].status == "non critique") {
+    
+                        ncri.push({
+                            ref: `${comment[i].ref}${comment[i].number}`,
+                            tab: comment[i].modelSelected[j].name
+                        });
+                    }
                 }
-            });
-        } catch (error) {
-            console.log(error);
-            response.status(500).json({ error: error });
+    
+    
+            }
+        }
+    
+        const fixDuplicateExamen = (arr, obs) => {
+    
+            for(let i = 0; i < arr.length; i++) {
+                // create array inside Object
+                arr[i].avis = [];
+        
+                if(arr[i].be == false) {
+                    delete arr[i].be;
+                } else{
+                    arr[i].avis.push("BE");
+                }
+        
+                if(arr[i].fc == false) {
+                    delete arr[i].fc;
+                } else {
+                    arr[i].avis.push("FC");
+                }
+        
+                if(arr[i].sa == false) {
+                    delete arr[i].sa;
+                } else {
+                    arr[i].avis.push("SA");
+                }
+        
+                if(arr[i].so == false) {
+                    delete arr[i].so;
+                } else {
+                    arr[i].avis.push("SO");
+                }
+        
+                if(arr[i].o == false) {
+                    delete arr[i].o;
+                } else {
+                    arr[i].avis.push(`Observation numéro : ${obs}${i}`);
+                }
+        
+        
+                if(arr[i].nv == false) {
+                    delete arr[i].nv;
+                } else {
+                    arr[i].avis.push("NV")
+                }
+        
+                arr[i].avis = arr[i].avis.join();
+            }
+    
+            return arr;
+        };
+    
+        const aExamen = fixDuplicateExamen(examen.a, "A");
+        const bExamen = fixDuplicateExamen(examen.b, "B");
+        const cExamen = fixDuplicateExamen(examen.c, "C");
+        const dExamen = fixDuplicateExamen(examen.d, "D");
+        const eExamen = fixDuplicateExamen(examen.e, "E");
+        const fExamen = fixDuplicateExamen(examen.f, "F");
+        const gExamen = fixDuplicateExamen(examen.g, "G");
+        const hExamen = fixDuplicateExamen(examen.h, "H");
+        const iExamen = fixDuplicateExamen(examen.i, "I");
+        const jExamen = fixDuplicateExamen(examen.j, "J");
+        const kExamen = fixDuplicateExamen(examen.k, "K");
+    
+        // Load the docx file as binary content
+        const content = fs.readFileSync(
+            path.resolve(__dirname, `../rapports/input.docx`),
+            "binary"
+        );
+    
+        const zip = new PizZip(content);
+        const doc = new Docxtemplater(zip, {
+            modules: [new ImageModule(imageOptions)],
+            paragraphLoop: true,
+            linebreaks: true,
+        });
+    
+    
+    
+    
+        doc.render({
+            // Partie On
+            refClient: "<<G-T-H-X-P-R>>",
+            numeroAffaire: "<<G-T-H-X-P-R>>",
+            numeroRapport: "<<G-T-H-X-P-R>>",
+            annee: new Date().getFullYear(),
+    
+            //Partie Tow
+            equipement: observateur.equipement,
+            categorieAppareil: observateur.categorieAppareil,
+            etablissement: intervention.etablissement,
+            adresse: intervention.adresse,
+            codePostal: intervention.codePostal,
+            ville: intervention.ville,
+            pays: intervention.pays,
+    
+            // Partie Tree
+            constructeur: observateur.constructeur,
+            marquage: observateur.marquage,
+            typeVerification: observateur.typeVerification,
+            numeroSerie: observateur.numeroSerie,
+            localisation: observateur.localisation,
+            dateVerfication: new Date(observateur.date).toLocaleDateString(),
+            inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
+            accompagnateur: observateur.accompagnateur,
+            dateEmission: new Date().toLocaleDateString(),
+    
+            //Partie Four
+            typeConstructeur: renseignement.typeConstructeur,
+            anneeMiseService: renseignement.anneeMiseService,
+            numeroSerieRenseignement: renseignement.numeroSerie,
+            numeroInterneRenseignement: renseignement.numeroInterne,
+            numeroInterneAutre: renseignement.numeroInterneAutre,
+            localistationRenseignement: renseignement.localisation,
+            typeAppareil: renseignement.typeAppareil,
+            typeAppareilAutre: renseignement.typeAppareilAutre,
+            miseEnServiceRapport: renseignement.miseEnServiceRapport,
+            miseEnServiceEpreuves: renseignement.miseEnServiceEpreuves,
+            miseEnServiceEpreuvesAutre: renseignement.miseEnServiceEpreuvesAutre,
+            dateDerniereVerficationPeriodique: renseignement.dateDerniereVerficationPeriodique,
+            dateDerniereVerficationPeriodiqueAutre: renseignement.dateDerniereVerficationPeriodiqueAutre,
+            dateDerniereVerficationPeriodiqueRapport: renseignement.dateDerniereVerficationPeriodiqueRapport,
+            essaischarge: renseignement.essaischarge,
+            essaischargeAutre: renseignement.essaischargeAutre,
+            modification: renseignement.modification,
+            modificationAutre: renseignement.modificationAutre,
+    
+            // Partie Five
+            marquage: description.marquage,
+            modeDeLevage: description.modeDeLevage,
+            chargeMaximaleUtile: description.caracteristiques[0].chargeMaximaleUtile,
+            hauteurDeLevage: description.caracteristiques[0].hauteurDeLevage,
+            portee: description.caracteristiques[0].portee,
+            porteFaux: description.caracteristiques[0].porteFaux,
+            longueurDuCheminDeRoulement: description.caracteristiques[0].longueurDuCheminDeRoulement,
+            suspentes : description.caracteristiques[0].suspentes,
+            suspentesAutre : description.caracteristiques[0].suspentesAutre,
+            mouflage: description.caracteristiques[0].mouflage,
+            diametre: description.caracteristiques[0].diametre,
+    
+            sansObjet: description.levageAuxiliaire[0].sansObjet,
+            chargeMaximale: description.levageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
+            suspentesL : description.caracteristiques[0].suspentes,
+            suspentesAutreL : description.caracteristiques[0].suspentesAutre,
+            mouflageLevage: description.levageAuxiliaire[0].mouflage,
+            diametreLevage: description.levageAuxiliaire[0].diametre,
+            modeInstallation: description.modeInstallation,
+            modeInstallationDetails: valueModeInstallationDetails,
+            sourceEnergie: !description.autreSourceDenergie ? description.sourceDenergie :description.autreSourceDenergie,
+            detailSourceDenergie : description.detailSourceDenergie,
+    
+    
+            //Partie Six
+            aExamen: aExamen,
+            bExamen: bExamen,
+            cExamen: cExamen,
+            dExamen: dExamen,
+            eExamen: eExamen,
+            fExamen: fExamen,
+            gExamen: gExamen,
+            hExamen: hExamen,
+            iExamen: iExamen,
+            jExamen: jExamen,
+            kExamen: kExamen,
+    
+            //Partie seven
+            a: a,
+            b: b,
+            c: c,
+            d: d,
+            e: e,
+            f: f,
+            g: g,
+            poids: poids,
+            commentaire: commentaire,
+    
+            //Partie Eight
+            cri: cri,
+            ncri: ncri
+        });
+    
+        const buf = doc.getZip().generate({
+            type: "nodebuffer",
+            compression: "DEFLATE",
+        });
+    
+        const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
+        if (flagSuccesWrite == undefined) {
+            const executePython = async (script, args) => {
+    
+                const arg = args.map(arg => arg.toString());
+                const py = spawn("python", [script, ...arg]);
+                const result = await new Promise((resolve, reject) => {
+    
+                    let output;
+                    py.stdout.on("data", (data) => {
+                        output = JSON.parse(data);
+                    });
+    
+                    py.stderr.on("data", (data) => {
+                        console.error(`[Python] Error occured :${data}`);
+                        reject(`Error accured in ${script}`);
+                    });
+    
+                    py.on("exit", (code) => {
+                        console.error(`child procces exited ith code :${code}`);
+                        resolve(output);
+                    });
+    
+                });
+    
+                return result;
+            }
+    
+            try {
+                const result = await executePython('python/script.py', [5, 2]);
+                console.log(result);
+                var tempFilePath = path.join(__dirname, `../rapports/output-tow.pdf`);
+                response.download(tempFilePath, function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+                response.status(500).json({ error: error });
+            }
         }
     }
+
+
+    
 
 
 
@@ -950,11 +517,11 @@ const deleteOne = async (request, response) => {
         const observateurId = String(request.params.observateurId)
         const result = await Observateur.deleteOne({ _id: observateurId });
         if (result.acknowledged == true && result.deletedCount == 1) {
-            await Renseignement.deleteOne({ observateurId: observateurId }).Promise();
-            await Description.deleteOne({ observateurId: observateurId }).Promise();
-            await Examen.deleteOne({ observateurId: observateurId }).Promise();
-            await Conclusion.deleteOne({ observateurId: observateurId }).Promise();
-            await Commentaire.deleteOne({ observateurId: observateurId }).Promise();
+            await Renseignement.deleteOne({ observateurId: observateurId });
+            await Description.deleteOne({ observateurId: observateurId });
+            await Examen.deleteOne({ observateurId: observateurId });
+            await Conclusion.deleteOne({ observateurId: observateurId });
+            await Commentaire.deleteOne({ observateurId: observateurId });
             const photo = await Photo.findOne({ observateurId: request.params.observateurId })
             if (photo) {
                 await Photo.deleteOne({ observateurId: observateurId })

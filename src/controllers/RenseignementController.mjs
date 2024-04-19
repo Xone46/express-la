@@ -15,6 +15,7 @@ const create = async (request, response) => {
 
             await Renseignement.updateOne({ observateurId: request.body.observateurId }, {
                 $set: {
+                    constructeur: request.body.constructeur,
                     typeConstructeur: request.body.typeConstructeur,
                     numeroSerie: request.body.numeroSerie,
                     anneeMiseService: request.body.anneeMiseService,

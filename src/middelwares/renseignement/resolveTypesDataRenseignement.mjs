@@ -2,9 +2,8 @@ export const resolveTypesDataRenseignement = (request, response, next) => {
 
     try {
 
-
-
         const body = {
+            constructeur : String(request.body.constructeur),
             typeConstructeur : String(request.body.typeConstructeur),
             numeroSerie : String(request.body.numeroSerie),
             anneeMiseService : String(request.body.anneeMiseService),

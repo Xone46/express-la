@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 const RenseignementSchema = new mongoose.Schema({
 
+    constructeur : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
     typeConstructeur : {
         type : mongoose.Schema.Types.String,
         required : false,

@@ -4,9 +4,9 @@ import { Completed } from "../models/completed.mjs";
 const read = async (request, response) => {
 
     try {
-        const completedCount = await Completed.find({ renseignement : true, description : true, examen : true, conclusion : true, photo : true}).count();
+        const completedCount = await Completed.find({ renseignement: true, description: true, examen: true, conclusion: true, photo: true }).count();
         response.status(200).json(completedCount);
-    } catch(error) {
+    } catch (error) {
         response.status(400).json(error)
     }
 }
@@ -14,15 +14,86 @@ const read = async (request, response) => {
 const checkRenseignement = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
-        const completed = await Completed.find({ observateurId : observateurId, renseignement : true });
-        if(completed.length != 0) {
+        const completed = await Completed.find({ observateurId: observateurId, renseignement: true });
+        if (completed.length != 0) {
             response.status(200).json(true);
         } else {
             response.status(200).json(false);
         }
-    } catch(error) {
+        next();
+
+    } catch (error) {
         response.status(400).json(error)
     }
 }
 
-export default { read, checkRenseignement }
+
+
+const checkExamen = async (request, response) => {
+    const observateurId = String(request.params.observateurId);
+    try {
+        const completed = await Completed.find({ observateurId: observateurId, examen: true });
+        if (completed.length != 0) {
+            response.status(200).json(true);
+        } else {
+            response.status(200).json(false);
+        }
+        next();
+
+    } catch (error) {
+        response.status(400).json(error)
+    }
+}
+
+const checkDescription = async (request, response) => {
+    const observateurId = String(request.params.observateurId);
+    try {
+        const completed = await Completed.find({ observateurId: observateurId, description: true });
+        if (completed.length != 0) {
+            response.status(200).json(true);
+        } else {
+            response.status(200).json(false);
+        }
+        next();
+
+    } catch (error) {
+        response.status(400).json(error)
+    }
+}
+
+const checkConclusion = async (request, response) => {
+    const observateurId = String(request.params.observateurId);
+    try {
+        const completed = await Completed.find({ observateurId: observateurId, conclusion: true });
+        if (completed.length != 0) {
+            response.status(200).json(true);
+        } else {
+            response.status(200).json(false);
+        }
+
+        next();
+
+    } catch (error) {
+        response.status(400).json(error)
+    }
+}
+
+const checkPhoto = async (request, response) => {
+    const observateurId = String(request.params.observateurId);
+    try {
+
+        const completed = await Completed.find({ observateurId: observateurId, photo: true });
+
+        if (completed.length != 0) {
+            response.status(200).json(true);
+        } else {
+            response.status(200).json(false);
+        }
+
+        next();
+    } catch (error) {
+        response.status(400).json(error)
+    }
+}
+
+export default { read, checkRenseignement, checkDescription, checkExamen, checkConclusion, checkPhoto }

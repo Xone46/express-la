@@ -3,6 +3,7 @@ export const checkEmpty = (data) => {
     try {
 
         const values = [
+            data.constructeur == "" || null ? false : true,
             data.typeConstructeur == "" || null ? false : true,
             data.anneeMiseService == "" || null ? false : true,
             data.numeroSerie == "" || null ? false : true,
