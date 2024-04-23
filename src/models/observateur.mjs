@@ -54,6 +54,12 @@ const ObservateurSchema = new mongoose.Schema({
     accompagnateur : {
         type : mongoose.Schema.Types.String,
         required : false
+    },
+
+    etat : {
+        type : mongoose.Schema.Types.Boolean,
+        default : false,
+        required : false
     }
 
 })

@@ -9,9 +9,11 @@ router.post("/create", resolveTypesDataObservateur, checkSchema(validationObserv
 router.put("/:observateurId", ObservateurCotroller.update);
 router.delete("/:observateurId", ObservateurCotroller.deleteOne);
 router.get("/", ObservateurCotroller.read);
+router.get("/readTerminer", ObservateurCotroller.readTerminer);
 router.get("/:observateurId", ObservateurCotroller.select);
-router.get("/apercu/:observateurId/:interventionId/:inspecteurId", ObservateurCotroller.apercu);
+router.get("/apercu/:observateurId/:inspecteurId", ObservateurCotroller.apercu);
 router.get("/send/:observateurId/:interventionId/:inspecteurId", ObservateurCotroller.envoyer);
 router.get("/selected/:observateurId", ObservateurCotroller.selected);
+router.put("/terminer/:observateurId", ObservateurCotroller.terminer);
 
 export default router;

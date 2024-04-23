@@ -42,28 +42,28 @@ const __dirname = path.dirname(__filename);
 
 const apercu = async (request, response) => {
 
-
     const observateurId = String(request.params.observateurId);
-    const interventionId = String(request.params.interventionId);
+    const obs = await Observateur.findById(observateurId);
+    const interventionId = String(obs.interventionId);
     const inspecteurId = String(request.params.inspecteurId);
 
     //check is elements completed
-    const completedRenseignement = await Completed.find({ observateurId: observateurId, renseignement: true });
-    const completedExamen = await Completed.find({ observateurId: observateurId, examen: true });
-    const completedDescription = await Completed.find({ observateurId: observateurId, description: true });
-    const completedConclusion = await Completed.find({ observateurId: observateurId, conclusion: true });
+    const completedRenseignement = await Renseignement.find({ observateurId: observateurId });
+    const completedDescription = await Description.find({ observateurId: observateurId });
+    const completedExamen = await Examen.find({ observateurId: observateurId });
+    const completedConclusion = await Conclusion.find({ observateurId: observateurId });
+    const completedPhoto = await Photo.find({ observateurId: observateurId });
     
-    if(completedRenseignement != true || completedExamen != true || completedDescription != true || completedConclusion != true) {
+    if(completedRenseignement == null || completedExamen == null || completedDescription == null || completedConclusion == null || completedPhoto == null) {
         response.status(200).json(false);
     } else {
+
         const intervention = await Intervention.findById(interventionId);
         // console.log(intervention);
-    
         const inspecteur = await Inspecteur.findById(inspecteurId);
         // console.log(inspecteur);
-    
         const observateur = await Observateur.findById(observateurId);
-        // console.log(observateur);
+        // console.log(description.levageAuxiliaire[0]);
     
         const pathFile = path.resolve(__dirname, `../rapports/output.docx`);
         fs.unlink(pathFile, (err) => {
@@ -86,7 +86,7 @@ const apercu = async (request, response) => {
         // console.log(examen);
     
         const description = await Description.findOne({ observateurId: observateurId });
-    
+
         // create Object for filter modInstallationDetails
         let valueModeInstallationDetails = null;
         const obModeInstallationDetails = {
@@ -110,6 +110,10 @@ const apercu = async (request, response) => {
     
     
         const conclusion = await Conclusion.findOne({ observateurId: observateurId });
+
+        console.log(conclusion);
+
+
         const a = String(conclusion.a);
         const b = String(conclusion.b);
         const c = String(conclusion.c);
@@ -306,12 +310,12 @@ const apercu = async (request, response) => {
             mouflage: description.caracteristiques[0].mouflage,
             diametre: description.caracteristiques[0].diametre,
     
-            sansObjet: description.levageAuxiliaire[0].sansObjet,
-            chargeMaximale: description.levageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
-            suspentesL : description.caracteristiques[0].suspentes,
+            sansObjet: description.levageAuxiliaire,
+            chargeMaximale: description.detailsLevageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
+            suspentesL : description.detailsLevageAuxiliaire[0].suspentes,
             suspentesAutreL : description.caracteristiques[0].suspentesAutre,
-            mouflageLevage: description.levageAuxiliaire[0].mouflage,
-            diametreLevage: description.levageAuxiliaire[0].diametre,
+            mouflageLevage: description.detailsLevageAuxiliaire[0].mouflage,
+            diametreLevage: description.detailsLevageAuxiliaire[0].diametre,
             modeInstallation: description.modeInstallation,
             modeInstallationDetails: valueModeInstallationDetails,
             sourceEnergie: !description.autreSourceDenergie ? description.sourceDenergie :description.autreSourceDenergie,
@@ -490,6 +494,22 @@ const read = async (request, response) => {
     }
 }
 
+const readTerminer = async (request, response) => {
+    try {
+
+        const observateurs = await Observateur.find({ etat : true });
+
+        if (observateurs) {
+            return response.status(200).json(observateurs);
+        } else {
+            return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s) " });
+        }
+
+    } catch (error) {
+        response.status(400).json(error)
+    }
+}
+
 
 const update = async (request, response) => {
 
@@ -510,6 +530,42 @@ const update = async (request, response) => {
         console.log(error)
         response.status(400).json(error);
     }
+}
+
+const terminer = async (request, response) => {
+
+    const observateurId = String(request.params.observateurId);
+
+    //check is elements completed
+    const completedRenseignement = await Renseignement.find({ observateurId: observateurId });
+    const completedDescription = await Description.find({ observateurId: observateurId });
+    const completedExamen = await Examen.find({ observateurId: observateurId });
+    const completedConclusion = await Conclusion.find({ observateurId: observateurId });
+    const completedPhoto = await Photo.find({ observateurId: observateurId });
+
+    console.log(completedRenseignement)
+        
+    if(completedRenseignement.length == 0 || completedExamen.length == 0 || completedDescription.length == 0 || completedConclusion.length == 0 || completedPhoto.length == 0) {
+        response.status(400).json({ msg: "Le contrôle n'est pas entièrement terminé. Veuillez examiner toutes les entrées." });
+    } else {
+
+        try {
+
+            await Observateur.updateOne({ _id : observateurId }, { $set : { etat : true } })
+                .then(() => {
+                    response.status(201).json({ msg: true });
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+    
+        } catch (error) {
+            console.log(error)
+            response.status(400).json(error);
+        }
+    }
+
 }
 
 const deleteOne = async (request, response) => {
@@ -629,4 +685,4 @@ const envoyer = async (request, response) => {
     }
 }
 
-export default { create, read, update, deleteOne, select, apercu, selected, envoyer }
+export default { create, read, update, deleteOne, select, apercu, selected, envoyer, terminer, readTerminer }
