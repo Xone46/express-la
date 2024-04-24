@@ -111,8 +111,6 @@ const apercu = async (request, response) => {
     
         const conclusion = await Conclusion.findOne({ observateurId: observateurId });
 
-        console.log(conclusion);
-
 
         const a = String(conclusion.a);
         const b = String(conclusion.b);
@@ -446,7 +444,7 @@ const select = async (request, response) => {
 
     try {
         const observateurId = String(request.params.observateurId);
-        const observateurs = await Observateur.find({ interventionId: observateurId }).sort({ date: -1 });
+        const observateurs = await Observateur.find({ interventionId: observateurId , etat : false }).sort({ date: -1 });
         if (observateurs.length == 0) {
             return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)ult" });
         } else {
@@ -481,7 +479,7 @@ const selected = async (request, response) => {
 const read = async (request, response) => {
     try {
 
-        const observateurs = await Observateur.find();
+        const observateurs = await Observateur.find(s);
 
         if (observateurs) {
             return response.status(200).json(observateurs);
@@ -543,7 +541,6 @@ const terminer = async (request, response) => {
     const completedConclusion = await Conclusion.find({ observateurId: observateurId });
     const completedPhoto = await Photo.find({ observateurId: observateurId });
 
-    console.log(completedRenseignement)
         
     if(completedRenseignement.length == 0 || completedExamen.length == 0 || completedDescription.length == 0 || completedConclusion.length == 0 || completedPhoto.length == 0) {
         response.status(400).json({ msg: "Le contrôle n'est pas entièrement terminé. Veuillez examiner toutes les entrées." });
@@ -611,21 +608,19 @@ const deleteOne = async (request, response) => {
 
 const envoyer = async (request, response) => {
 
-    console.log(request.body)
 
     const observateurId = String(request.params.observateurId);
-    const interventionId = String(request.params.interventionId);
     const inspecteurId = String(request.params.inspecteurId);
 
     const inspecteur = await Inspecteur.findById(inspecteurId);
-    const intervention = await Intervention.findById(interventionId);
     const observateur = await Observateur.findById(observateurId);
+    const intervention = await Intervention.findById(observateur.interventionId);
 
     const emails = [
         "jamal.ettariqi@gthconsult.ma",
         "service.clients@gthconsult.ma",
         "tarik.addioui@gthconsult.ma"
-    ]
+    ];
 
     // const email = "service.supports@gthconsult.ma";
 
@@ -666,16 +661,15 @@ const envoyer = async (request, response) => {
             subject: `Rapport ${intervention.etablissement} Générer GTH-RAPPORT par Inspecteur ${inspecteur.nom} ${inspecteur.prenom}`, 
             html: htmlToSend,
             attachments: [{
-                filename: 'output.pdf', // <= Here: made sure file name match
-                path: path.join(__dirname, '../rapports/output-tow.pdf'), // <= Here
-                contentType: 'application/pdf'
+                filename: 'output.docx', // <= Here: made sure file name match
+                path: path.join(__dirname, '../rapports/output.docx'), // <= Here
+                contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             }],
         }, (error, res) => {
             if(error) {
-                console.log(error);
+                res.status(400).json(error);
             } else {
-                console.log(res);
-                response.status(200).json(true)
+                response.status(200).json(res.response);
             }
         });
 
