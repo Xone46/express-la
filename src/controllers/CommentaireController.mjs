@@ -77,4 +77,21 @@ const deleteOne = async (request, response) => {
 
 }
 
-export default { create , select, deleteOne }
+const readCommentaires = async (request, response) => {
+
+    try {
+        const { observateurId } = request.params;
+        const commentaire = await Commentaire.find({ observateurId : observateurId });
+        if(commentaire) {
+            console.log(commentaire)
+            response.status(200).json(commentaire);
+        }
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+export default { create , select, deleteOne, readCommentaires }
