@@ -53,9 +53,10 @@ const apercu = async (request, response) => {
     const completedExamen = await Examen.find({ observateurId: observateurId });
     const completedConclusion = await Conclusion.find({ observateurId: observateurId });
     const completedPhoto = await Photo.find({ observateurId: observateurId });
-    
-    if(completedRenseignement == null || completedExamen == null || completedDescription == null || completedConclusion == null || completedPhoto == null) {
-        response.status(200).json(false);
+
+
+    if(completedRenseignement.length === 0 || completedExamen.length === 0 || completedDescription.length === 0 || completedConclusion.length === 0 || completedPhoto.length === 0) {
+        console.log(false)
     } else {
 
         const intervention = await Intervention.findById(interventionId);
