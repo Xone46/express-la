@@ -53,7 +53,7 @@ const create = async (request, response) => {
                 autreSourceDenergie : autreSourceDenergie,
             } })
             .then((result) => {
-                response.status(201).json({ msg: "Enregistré avec succès", descriptionId : result._id });
+                response.status(201).json({ msg: "Modifié avec succès", descriptionId : result._id });
             })
             .catch((error) => {
                 console.log(error)

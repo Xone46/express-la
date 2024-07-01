@@ -142,15 +142,12 @@ const apercu = async (request, response) => {
         const cri = new Array();
         const ncri = new Array();
     
-        const comment = await Commentaire.find();
+        const comment = await Commentaire.find({ observateurId : observateurId });
+        
         if (comment) {
-    
+
             for (let i = 0; i < comment.length; i++) {
-    
-                const tab = new Array();
-    
                 for (let j = 0; j < comment[i].modelSelected.length; j++) {
-                    tab.push(comment[i].modelSelected[j].name)
                     if (comment[i].modelSelected[j].status == "critique") {
     
                         cri.push({
@@ -158,7 +155,6 @@ const apercu = async (request, response) => {
                             tab: comment[i].modelSelected[j].name
                         });
                     }
-    
                     if (comment[i].modelSelected[j].status == "non critique") {
     
                         ncri.push({
@@ -167,8 +163,6 @@ const apercu = async (request, response) => {
                         });
                     }
                 }
-    
-    
             }
         }
     
@@ -245,9 +239,6 @@ const apercu = async (request, response) => {
             paragraphLoop: true,
             linebreaks: true,
         });
-    
-    
-    
     
         doc.render({
             // Partie On
@@ -398,16 +389,6 @@ const apercu = async (request, response) => {
             }
         }
     }
-
-
-    
-
-
-
-
-
-
-
 }
 
 
@@ -426,8 +407,23 @@ const create = async (request, response) => {
 
         await Observateur(data)
             .save()
-            .then(async () => {
-                response.status(201).json({ msg: "Enregistré avec succès" });
+            .then(async(result) => {
+                await Completed({
+                    observateurId : result._id,
+                    renseignement : false,
+                    description : false,
+                    examen : false,
+                    conclusion : false,
+                    photo : false
+                }).save()
+                .then(() => {
+                    response.status(201).json({ msg: "Enregistré avec succès" });
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+
             })
             .catch((error) => {
                 console.log(error)
@@ -533,24 +529,19 @@ const update = async (request, response) => {
 
 const terminer = async (request, response) => {
 
+    console.log(request.body)
+
     const observateurId = String(request.params.observateurId);
-
-    //check is elements completed
-    const completedRenseignement = await Renseignement.find({ observateurId: observateurId });
-    const completedDescription = await Description.find({ observateurId: observateurId });
-    const completedExamen = await Examen.find({ observateurId: observateurId });
-    const completedConclusion = await Conclusion.find({ observateurId: observateurId });
-    const completedPhoto = await Photo.find({ observateurId: observateurId });
-
-        
-    if(completedRenseignement.length == 0 || completedExamen.length == 0 || completedDescription.length == 0 || completedConclusion.length == 0 || completedPhoto.length == 0) {
+    const completed = await Completed.findOne({ observateurId: observateurId });
+    const tab = new Array(completed.renseignement, completed.description, completed.examen, completed.conclusion, completed.photo);
+    let checker = arr => arr.every(v => v === true);
+    if(checker(tab) == false) {
         response.status(400).json({ msg: "Le contrôle n'est pas entièrement terminé. Veuillez examiner toutes les entrées." });
     } else {
-
         try {
-
             await Observateur.updateOne({ _id : observateurId }, { $set : { etat : true } })
-                .then(() => {
+                .then((result) => {
+                    console.log(result);
                     response.status(201).json({ msg: true });
                 })
                 .catch((error) => {
@@ -565,6 +556,23 @@ const terminer = async (request, response) => {
     }
 
 }
+
+const cacher = async (request, response) => {
+
+    const observateurId = String(request.params.observateurId);
+    console.log(observateurId)
+    await Observateur.updateOne({ _id : observateurId }, { $set : { cache : true } })
+    .then((result) => {
+        console.log(result);
+        response.status(201).json({ msg: true });
+    })
+    .catch((error) => {
+        console.log(error)
+        response.status(400).json(error);
+    });
+}
+
+
 
 const deleteOne = async (request, response) => {
     try {
@@ -668,9 +676,11 @@ const envoyer = async (request, response) => {
             }],
         }, (error, res) => {
             if(error) {
-                res.status(400).json(error);
+                console.log(error)
+                response.status(400).json(error);
             } else {
-                response.status(200).json(res.response);
+                console.log(true)
+                response.status(200).json(true);
             }
         });
 
@@ -680,4 +690,4 @@ const envoyer = async (request, response) => {
     }
 }
 
-export default { create, read, update, deleteOne, select, apercu, selected, envoyer, terminer, readTerminer }
+export default { create, read, update, deleteOne, select, apercu, selected, envoyer, terminer, cacher, readTerminer }

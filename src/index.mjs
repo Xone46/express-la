@@ -7,8 +7,7 @@ import mongoose from "mongoose";
 const app = express();
 const PORT = process.env.PORT
 import { loggingMiddleware } from "./middelwares/loggingMiddleware.mjs"
-import usersRouter from "./routes/users.mjs"
-import productsRouter from "./routes/products.mjs"
+// import usersRouter from "./routes/users.mjs"
 import chekinRouter from "./routes/chekin.mjs"
 import inspecteurRouter from "./routes/inspecteurs.mjs"
 import interventionRouter from "./routes/interventions.mjs"
@@ -30,27 +29,15 @@ mongoose.connect("mongodb://localhost/control")
 });
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 app.use(cookieParser(process.env.SECRET_COOKIE));
 // Add headers before the routes are defined
-app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-});
+ });
 // app.use(cookieParser(process.env.SECRET_COOKIE));
 
 // middelwares
@@ -67,8 +54,7 @@ app.use(session({
 }));
 
 // routes
-app.use("/api/v1/users", usersRouter);
-app.use("/api/v1/products", productsRouter);
+// app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/chekins", chekinRouter);
 app.use("/api/v1/inspecteurs", inspecteurRouter);
 app.use("/api/v1/interventions", interventionRouter);

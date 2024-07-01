@@ -60,6 +60,12 @@ const ObservateurSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.Boolean,
         default : false,
         required : false
+    },
+
+    cache : {
+        type : mongoose.Schema.Types.Boolean,
+        default : false,
+        required : false
     }
 
 })

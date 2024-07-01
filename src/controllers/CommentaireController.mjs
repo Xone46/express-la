@@ -1,12 +1,12 @@
 
 import { Commentaire } from "../models/commentaire.mjs";
+import { Examen } from "../models/examen.mjs";
 
 const create = async (request, response) => {
 
     try {
 
         const { observateurId, ref, number, titre, modelSelected } = request.body;
-        console.log(request.body);
 
         const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
         if(exist) {
@@ -63,10 +63,8 @@ const deleteOne = async (request, response) => {
     try {
 
         const { commentaireId } = request.params;
-
         const commentaire = await Commentaire.deleteOne({ _id : commentaireId });
         if(commentaire) {
-            console.log(commentaire)
             response.status(200).json(commentaire);
         }
 
@@ -94,4 +92,106 @@ const readCommentaires = async (request, response) => {
 
 }
 
-export default { create , select, deleteOne, readCommentaires }
+
+const deleteByRefAndObservateurId = async (request, response) => {
+
+    try {
+        const { observateurId, ref } = request.params;
+        const commentaire = await Commentaire.deleteOne({ ref : ref, observateurId : observateurId });
+        if(commentaire) {
+            console.log(commentaire)
+            response.status(200).json(true);
+        }
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+const supprimer = async (request, response) => {
+
+    try {
+        const {                 
+            ref,
+            observateurId,
+            name
+        } = request.body;
+
+        const refFix = String(ref).toLowerCase();
+
+
+
+        const commentaire = await Commentaire.findOne({ observateurId : observateurId, ref : ref });
+        for(let i = 0; i < commentaire.modelSelected.length; i++) {
+            if(commentaire.modelSelected[i].name == name) {
+                commentaire.modelSelected.splice(i, 1);
+            }
+        } 
+
+        if(commentaire.modelSelected.length > 0) {
+            await Commentaire.updateOne({ observateurId: observateurId }, {
+                $set: {
+                    "modelSelected": commentaire.modelSelected,
+                }
+            })
+            .then(() => {
+                response.status(200).json(true);
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+        }
+
+        if(commentaire.modelSelected.length == 0) {
+            const examen = await Examen.findOne({ observateurId : observateurId });
+            const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
+            if(commentaire) {
+                for(let i = 0; i < examen[refFix].length; i++) {
+                    if(examen[refFix][i]["titre"] == name) {
+                        examen[refFix][i]["o"] = false;
+                    }
+                    // examen[refFix][i]["be"][name] = false;
+                    // examen[refFix][i]["fc"] = false;
+                    // examen[refFix][i]["sa"] = false;
+                    // examen[refFix][i]["nv"] = false;
+                    // examen[refFix][i]["so"] = false;
+                }
+            }
+
+            await Examen.updateOne({ observateurId: observateurId }, {
+                $set: {
+                    a : examen["a"],
+                    b : examen["b"],
+                    c : examen["c"],
+                    d : examen["d"],
+                    e : examen["e"],
+                    f : examen["f"],
+                    g : examen["g"],
+                    h : examen["h"],
+                    i : examen["i"],
+                    j : examen["j"],
+                    k : examen["k"]
+                }
+            })
+            .then(() => {
+                response.status(200).json(true);
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+        }
+
+
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+export default { create , select, deleteOne, readCommentaires, deleteByRefAndObservateurId, supprimer }

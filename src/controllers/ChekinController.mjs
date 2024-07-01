@@ -3,6 +3,9 @@ import geoip from 'geoip-lite'
 
 const status = async (request, response) => {
 
+
+    console.log(request);
+    
     const { body : { ip } } = request;
 
     try {

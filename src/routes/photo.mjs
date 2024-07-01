@@ -1,13 +1,12 @@
 import { Router } from "express";
 import { Photo } from "../models/photo.mjs";
 import { Completed } from "../models/completed.mjs";
+import { Observateur } from "../models/observateur.mjs";
 import PhotoController from "../controllers/PhotoController.mjs"
 const router = Router();
 import multer from 'multer'
-import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
-import { error } from "console";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -27,6 +26,7 @@ var upload = multer({ storage: storage });
 router.post("/create", upload.single('file'), async (request, response) => {
 
     try {
+        
         const observateurId = String(request.body.observateurId);
         let mimetype = request.file.mimetype.substring(6);
 

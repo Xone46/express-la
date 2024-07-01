@@ -37,16 +37,18 @@ const create = async (request, response) => {
                 }
             })
                 .then(async(result) => {
-                    await Completed({
-                        observateurId: request.body.observateurId,
-                        renseignement: true
-                    }).save()
-                    .then(() => {
-                        response.status(201).json({ msg: "Modifié avec succès", renseignementId: result._id });
-                    })
-                    .catch((error) => {
-                        response.status(400).json(error);
-                    });
+
+                await Completed.updateOne({ observateurId: request.body.observateurId }, {
+                            $set: { 
+                                renseignement: true
+                            } 
+                        })
+                        .then(() => {
+                            response.status(201).json({ msg: "Modifié avec succès", renseignementId: result._id });
+                        })
+                        .catch((error) => {
+                            response.status(400).json(error);
+                        })
                 })
                 .catch((error) => {
                     console.log(error)
@@ -58,16 +60,19 @@ const create = async (request, response) => {
             await Renseignement(request.body)
                 .save()
                 .then(async () => {
-                    await Completed({
-                        observateurId: request.body.observateurId,
-                        renseignement: true
-                    }).save()
-                    .then((result) => {
+
+                    await Completed.updateOne({ observateurId: request.body.observateurId }, {
+                        $set: { 
+                            renseignement: true
+                        } 
+                    })
+                    .then(() => {
                         response.status(201).json({ msg: "Enregistré avec succès", renseignementId: result._id });
                     })
                     .catch((error) => {
                         response.status(400).json(error);
                     });
+
                 })
                 .catch((error) => {
                     console.log(error)
