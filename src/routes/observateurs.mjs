@@ -10,7 +10,7 @@ router.put("/:observateurId", ObservateurCotroller.update);
 router.delete("/:observateurId", ObservateurCotroller.deleteOne);
 router.get("/", ObservateurCotroller.read);
 router.get("/readTerminer", ObservateurCotroller.readTerminer);
-router.get("/:observateurId", ObservateurCotroller.select);
+router.get("/:interventionId", ObservateurCotroller.select);
 router.get("/apercu/:observateurId/:inspecteurId", ObservateurCotroller.apercu);
 router.get("/send/:observateurId/:inspecteurId", ObservateurCotroller.envoyer);
 router.get("/selected/:observateurId", ObservateurCotroller.selected);

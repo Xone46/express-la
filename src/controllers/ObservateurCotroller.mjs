@@ -440,8 +440,8 @@ const create = async (request, response) => {
 const select = async (request, response) => {
 
     try {
-        const observateurId = String(request.params.observateurId);
-        const observateurs = await Observateur.find({ interventionId: observateurId , etat : false }).sort({ date: -1 });
+        const interventionId = String(request.params.interventionId);
+        const observateurs = await Observateur.find({ interventionId: interventionId }).sort({ date: -1 });
         if (observateurs.length == 0) {
             return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)ult" });
         } else {

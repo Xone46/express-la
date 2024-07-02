@@ -2,9 +2,6 @@ import { Chekin } from "../models/chekins.mjs"
 import geoip from 'geoip-lite'
 
 const status = async (request, response) => {
-
-
-    console.log(request);
     
     const { body : { ip } } = request;
 
