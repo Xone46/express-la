@@ -10,6 +10,8 @@ import { Conclusion } from "../models/conclusion.mjs";
 import { Photo } from "../models/photo.mjs";
 import { Commentaire } from "../models/commentaire.mjs";
 import { spawn } from 'child_process';
+import geoip from 'geoip-lite'
+
 const EMAIL = process.env.EMAIL
 const CLIENT_ID = process.env.CLIENT_ID
 const SECRET_ID = process.env.SECRET_ID
@@ -18,12 +20,7 @@ const REFRESH_TOKEN = process.env.REFRESH_TOKEN
 import nodemailer from "nodemailer";
 import handlebars from "handlebars";
 import { google } from "googleapis";
-const OAuth2 = google.auth.OAuth2;
 
-// Email api GOOGLE
-const OAuth2_client = new OAuth2(CLIENT_ID, SECRET_ID);
-OAuth2_client.setCredentials({ refresh_token : REFRESH_TOKEN })
-const accessToken = OAuth2_client.getAccessToken();
 
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
@@ -617,9 +614,15 @@ const deleteOne = async (request, response) => {
 
 const envoyer = async (request, response) => {
 
+    const OAuth2 = google.auth.OAuth2;
+    const OAuth2_client = new OAuth2(CLIENT_ID, SECRET_ID);
+    OAuth2_client.setCredentials({ refresh_token : REFRESH_TOKEN })
+    const accessToken = OAuth2_client.getAccessToken();
 
     const observateurId = String(request.params.observateurId);
     const inspecteurId = String(request.params.inspecteurId);
+    const ip = request.params.ip;
+    var geo = geoip.lookup(ip);
 
     const inspecteur = await Inspecteur.findById(inspecteurId);
     const observateur = await Observateur.findById(observateurId);
@@ -627,7 +630,6 @@ const envoyer = async (request, response) => {
 
     const emails = [
         "jamal.ettariqi@gthconsult.ma",
-        "service.clients@gthconsult.ma",
         "tarik.addioui@gthconsult.ma"
     ];
 
@@ -659,7 +661,10 @@ const envoyer = async (request, response) => {
             date : `${new Date(observateur.date).toLocaleDateString()}`,
             categorieAppareil : observateur.categorieAppareil,
             equipement : observateur.equipement,
-            localisation : observateur.localisation
+            localisation : observateur.localisation,
+            city : geo.city,
+            dateEnvoyer : `${new Date().toLocaleDateString()}`,
+            country : geo.country,
         };
 
         const htmlToSend = template(replacements);
@@ -667,7 +672,7 @@ const envoyer = async (request, response) => {
         transporter.sendMail({
             from: EMAIL,
             to: emails, 
-            subject: `Rapport ${intervention.etablissement} Générer GTH-RAPPORT par Inspecteur ${inspecteur.nom} ${inspecteur.prenom}`, 
+            subject: `Demande de validation rapport de ${intervention.etablissement} générer par ${inspecteur.nom} ${inspecteur.prenom}`, 
             html: htmlToSend,
             attachments: [{
                 filename: 'output.docx', // <= Here: made sure file name match

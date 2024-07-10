@@ -6,7 +6,6 @@ const status = async (request, response) => {
     const { body : { ip } } = request;
 
     try {
-
         // get location Geo
         var geo = geoip.lookup(ip);
         if(geo.range == "" || geo.country == "" || geo.region || geo.eu == "" || geo.timezone == "" || geo.city == "" || geo.ll == "" || geo.metro == "" || geo.area == "") {
