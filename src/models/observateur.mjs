@@ -1,7 +1,17 @@
 import mongoose from "mongoose";
 const ObservateurSchema = new mongoose.Schema({
 
-    categorieAppareil: {
+    typeAppareil: {
+        type : mongoose.Schema.Types.String,
+        required : false
+    },
+
+    metier: {
+        type : mongoose.Schema.Types.String,
+        required : false
+    },
+
+    coordonnees: {
         type : mongoose.Schema.Types.String,
         required : false
     },
@@ -51,7 +61,17 @@ const ObservateurSchema = new mongoose.Schema({
         required : false
     },
 
-    accompagnateur : {
+    accompagnateurClient : {
+        type : mongoose.Schema.Types.String,
+        required : false
+    },
+
+    accompagnateurInspecteur : {
+        type : mongoose.Schema.Types.String,
+        required : false
+    },
+
+    typeRapport : {
         type : mongoose.Schema.Types.String,
         required : false
     },

@@ -11,6 +11,17 @@ export const validationInterventionSchemas = {
         }
     },
 
+    coordonnees : {
+
+        isArray : {
+            errorMessage : "Vous devez saisir coordonnees valide"
+        },
+
+        notEmpty : {
+            errorMessage : "Les coordonnees ne peut pas être vide"
+        }
+    },
+
     numeroAffaire : {
 
         isString : {

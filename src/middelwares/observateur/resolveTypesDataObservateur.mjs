@@ -4,16 +4,20 @@ export const resolveTypesDataObservateur = (request, response, next) => {
 
         const body = {
             date : request.body.date,
+            metier : String(request.body.metier),
             interventionId : String(request.body.interventionId),
             typeVerification : String(request.body.typeVerification),
-            categorieAppareil : String(request.body.categorieAppareil),
+            typeAppareil : String(request.body.typeAppareil),
+            coordonnees : String(request.body.coordonnees),
             equipement : String(request.body.equipement),
             constructeur : String(request.body.constructeur),
             numeroSerie : String(request.body.numeroSerie),
             numeroInterne : String(request.body.numeroInterne),
             localisation : String(request.body.localisation),
             marquage : String(request.body.marquage),
-            accompagnateur : String(request.body.accompagnateur),
+            accompagnateurClient : String(request.body.accompagnateurClient),
+            accompagnateurInspecteur : String(request.body.accompagnateurInspecteur),
+            typeRapport : String(request.body.typeRapport)
         }
 
         request.body = body;

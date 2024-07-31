@@ -1,32 +1,7 @@
 import mongoose from "mongoose";
-const InterventionSchema = new mongoose.Schema({
-
-    date : {
-        type : mongoose.Schema.Types.Date,
-        required : false,
-    },
-
-    coordonnees : {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    numeroAffaire : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    site : {
-        type : mongoose.Schema.Types.Number,
-        required : false,
-    },
+const Renseignement_gth_famille_ac1_Schema = new mongoose.Schema({
 
     etablissement : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    repere : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
@@ -36,30 +11,46 @@ const InterventionSchema = new mongoose.Schema({
         required : false,
     },
 
-    codePostal : {
+    etendueVerification : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    ville : {
+    personneCompteRendu : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    pays : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-    
-    metier : {
+    nomVerificateur : {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    dateCreated : {
-        type : mongoose.Schema.Types.Date,
-        default : new Date()
-    }
+    rapportPrecedent : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    datePrecedenteVerification : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    datePrecedenteVerification : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    documents : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    dateDuree : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
 })
 
-export const Intervention = mongoose.model("Intervention", InterventionSchema);
+export const Renseignement_gth_famille_ac1 = mongoose.model("Renseignement_gth_famille_ac1", Renseignement_gth_famille_ac1_Schema);

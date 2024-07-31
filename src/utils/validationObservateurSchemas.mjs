@@ -22,6 +22,17 @@ export const validationObservateurSchemas = {
         }
     },
 
+    metier : {
+
+        isString : {
+            errorMessage : "Vous devez saisir le métier valide"
+        },
+
+        notEmpty : {
+            errorMessage : "Le métier ne peut pas être vide"
+        }
+    },
+
     interventionId : {
 
         isString : {
@@ -33,14 +44,25 @@ export const validationObservateurSchemas = {
         }
     },
 
-    categorieAppareil : {
+    typeAppareil : {
 
         isString : {
-            errorMessage : "Vous devez saisir Catégorie d'Appareil valide"
+            errorMessage : "Vous devez saisir Type d'Appareil valide"
         },
 
         notEmpty : {
-            errorMessage : "Catégorie d'Appareil ne peut pas être vide"
+            errorMessage : "Type d'Appareil ne peut pas être vide"
+        }
+    },
+
+    coordonnees : {
+
+        isString : {
+            errorMessage : "Vous devez saisir le coordonnées"
+        },
+
+        notEmpty : {
+            errorMessage : "Le coordonnées ne peut pas être vide"
         }
     },
 
@@ -110,14 +132,36 @@ export const validationObservateurSchemas = {
         }
     },
 
-    accompagnateur : {
+    accompagnateurInspecteur : {
 
         isString : {
-            errorMessage : "Vous devez saisir Accompagnateur valide"
+            errorMessage : "Vous devez saisir Accompagnateur Inspecteur valide"
         },
 
         notEmpty : {
-            errorMessage : "Accompagnateur ne peut pas être vide"
+            errorMessage : "Accompagnateur Inspecteur ne peut pas être vide"
+        }
+    },
+
+    typeRapport : {
+
+        isString : {
+            errorMessage : "Vous devez saisir Type Rapport valide"
+        },
+
+        notEmpty : {
+            errorMessage : "Type Rapport ne peut pas être vide"
+        }
+    },
+
+    accompagnateurClient : {
+
+        isString : {
+            errorMessage : "Vous devez saisir Accompagnateur Client valide"
+        },
+
+        notEmpty : {
+            errorMessage : "Accompagnateur Client ne peut pas être vide"
         }
     }
 

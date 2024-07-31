@@ -18,6 +18,7 @@ const create = async (request, response) => {
 
         const result = validationResult(request);
 
+
         if (!result.isEmpty()) {
             const errors = result.errors.map((error) => { return error.msg; })
             return response.status(400).send({ errors: errors });
