@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Renseignement_gth_famille_ac1_Schema = new mongoose.Schema({
+const RenseignementLevageASchema = new mongoose.Schema({
 
     etablissement : {
         type : mongoose.Schema.Types.String,
@@ -36,11 +36,6 @@ const Renseignement_gth_famille_ac1_Schema = new mongoose.Schema({
         required : false,
     },
 
-    datePrecedenteVerification : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
     documents : {
         type : mongoose.Schema.Types.String,
         required : false,
@@ -51,6 +46,13 @@ const Renseignement_gth_famille_ac1_Schema = new mongoose.Schema({
         required : false,
     },
 
+    observateurId : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    }
+
 })
 
-export const Renseignement_gth_famille_ac1 = mongoose.model("Renseignement_gth_famille_ac1", Renseignement_gth_famille_ac1_Schema);
+export const RenseignementLevageA = mongoose.model("RenseignementLevageA", RenseignementLevageASchema);
+
+

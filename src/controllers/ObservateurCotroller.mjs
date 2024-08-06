@@ -9,6 +9,12 @@ import { Description } from "../models/description.mjs";
 import { Conclusion } from "../models/conclusion.mjs";
 import { Photo } from "../models/photo.mjs";
 import { Commentaire } from "../models/commentaire.mjs";
+
+
+import { CompletedLevageA } from "../models/gth_famille_ac1/completedLevageA.mjs";
+
+
+
 import { spawn } from 'child_process';
 import geoip from 'geoip-lite'
 
@@ -52,7 +58,7 @@ const apercu = async (request, response) => {
     const completedPhoto = await Photo.find({ observateurId: observateurId });
 
 
-    if(completedRenseignement.length === 0 || completedExamen.length === 0 || completedDescription.length === 0 || completedConclusion.length === 0 || completedPhoto.length === 0) {
+    if (completedRenseignement.length === 0 || completedExamen.length === 0 || completedDescription.length === 0 || completedConclusion.length === 0 || completedPhoto.length === 0) {
         console.log(false)
     } else {
 
@@ -62,51 +68,51 @@ const apercu = async (request, response) => {
         // console.log(inspecteur);
         const observateur = await Observateur.findById(observateurId);
         // console.log(description.levageAuxiliaire[0]);
-    
+
         const pathFile = path.resolve(__dirname, `../rapports/output.docx`);
         fs.unlink(pathFile, (err) => {
             if (!err) {
                 console.log('File output docx is deleted.');
             }
         });
-    
+
         const pathFilePDF = path.resolve(__dirname, `../rapports/output-tow.pdf`);
         fs.unlink(pathFilePDF, (err) => {
             if (!err) {
                 console.log('File output pdf is deleted.');
             }
         });
-    
+
         const renseignement = await Renseignement.findOne({ observateurId: observateurId });
         // console.log(renseignement);
-    
+
         const examen = await Examen.findOne({ observateurId: observateurId });
         // console.log(examen);
-    
+
         const description = await Description.findOne({ observateurId: observateurId });
 
         // create Object for filter modInstallationDetails
         let valueModeInstallationDetails = null;
         const obModeInstallationDetails = {
-            pose : description.pose,
-            suspendu : description.suspendu,
-            surMonorail : description.surMonorail,
-            surPointFixe : description.surPointFixe,
-            surPotence : description.surPotence,
-            surPortique : description.surPortique,
-            autre : description.autre,
-            valueAutre : description.valueAutre
+            pose: description.pose,
+            suspendu: description.suspendu,
+            surMonorail: description.surMonorail,
+            surPointFixe: description.surPointFixe,
+            surPotence: description.surPotence,
+            surPortique: description.surPortique,
+            autre: description.autre,
+            valueAutre: description.valueAutre
         }
-    
-        for(const [key, value] of Object.entries(obModeInstallationDetails)) {
-            if(value == null || value ==""){
+
+        for (const [key, value] of Object.entries(obModeInstallationDetails)) {
+            if (value == null || value == "") {
                 delete obModeInstallationDetails[key]
             } else {
                 valueModeInstallationDetails = obModeInstallationDetails[key];
             }
         }
-    
-    
+
+
         const conclusion = await Conclusion.findOne({ observateurId: observateurId });
 
 
@@ -119,9 +125,9 @@ const apercu = async (request, response) => {
         const g = String(conclusion.g);
         const poids = String(conclusion.poids);
         const commentaire = String(conclusion.commentaire);
-    
+
         const photo = await Photo.findOne({ observateurId: observateurId });
-    
+
         const imageOptions = {
             centered: false,
             getImage(tagValue, tagName, meta) {
@@ -132,28 +138,28 @@ const apercu = async (request, response) => {
                 return [150, 150];
             },
         };
-        
-    
-    
-    
+
+
+
+
         const cri = new Array();
         const ncri = new Array();
-    
-        const comment = await Commentaire.find({ observateurId : observateurId });
-        
+
+        const comment = await Commentaire.find({ observateurId: observateurId });
+
         if (comment) {
 
             for (let i = 0; i < comment.length; i++) {
                 for (let j = 0; j < comment[i].modelSelected.length; j++) {
                     if (comment[i].modelSelected[j].status == "critique") {
-    
+
                         cri.push({
                             ref: `${comment[i].ref}${comment[i].number}`,
                             tab: comment[i].modelSelected[j].name
                         });
                     }
                     if (comment[i].modelSelected[j].status == "non critique") {
-    
+
                         ncri.push({
                             ref: `${comment[i].ref}${comment[i].number}`,
                             tab: comment[i].modelSelected[j].name
@@ -162,56 +168,56 @@ const apercu = async (request, response) => {
                 }
             }
         }
-    
+
         const fixDuplicateExamen = (arr, obs) => {
-    
-            for(let i = 0; i < arr.length; i++) {
+
+            for (let i = 0; i < arr.length; i++) {
                 // create array inside Object
                 arr[i].avis = [];
-        
-                if(arr[i].be == false) {
+
+                if (arr[i].be == false) {
                     delete arr[i].be;
-                } else{
+                } else {
                     arr[i].avis.push("BE");
                 }
-        
-                if(arr[i].fc == false) {
+
+                if (arr[i].fc == false) {
                     delete arr[i].fc;
                 } else {
                     arr[i].avis.push("FC");
                 }
-        
-                if(arr[i].sa == false) {
+
+                if (arr[i].sa == false) {
                     delete arr[i].sa;
                 } else {
                     arr[i].avis.push("SA");
                 }
-        
-                if(arr[i].so == false) {
+
+                if (arr[i].so == false) {
                     delete arr[i].so;
                 } else {
                     arr[i].avis.push("SO");
                 }
-        
-                if(arr[i].o == false) {
+
+                if (arr[i].o == false) {
                     delete arr[i].o;
                 } else {
                     arr[i].avis.push(`Observation numéro : ${obs}${i}`);
                 }
-        
-        
-                if(arr[i].nv == false) {
+
+
+                if (arr[i].nv == false) {
                     delete arr[i].nv;
                 } else {
                     arr[i].avis.push("NV")
                 }
-        
+
                 arr[i].avis = arr[i].avis.join();
             }
-    
+
             return arr;
         };
-    
+
         const aExamen = fixDuplicateExamen(examen.a, "A");
         const bExamen = fixDuplicateExamen(examen.b, "B");
         const cExamen = fixDuplicateExamen(examen.c, "C");
@@ -223,27 +229,27 @@ const apercu = async (request, response) => {
         const iExamen = fixDuplicateExamen(examen.i, "I");
         const jExamen = fixDuplicateExamen(examen.j, "J");
         const kExamen = fixDuplicateExamen(examen.k, "K");
-    
+
         // Load the docx file as binary content
         const content = fs.readFileSync(
             path.resolve(__dirname, `../rapports/input.docx`),
             "binary"
         );
-    
+
         const zip = new PizZip(content);
         const doc = new Docxtemplater(zip, {
             modules: [new ImageModule(imageOptions)],
             paragraphLoop: true,
             linebreaks: true,
         });
-    
+
         doc.render({
             // Partie On
             refClient: "<<G-T-H-X-P-R>>",
             numeroAffaire: "<<G-T-H-X-P-R>>",
             numeroRapport: "<<G-T-H-X-P-R>>",
             annee: new Date().getFullYear(),
-    
+
             //Partie Tow
             equipement: observateur.equipement,
             categorieAppareil: observateur.categorieAppareil,
@@ -252,7 +258,7 @@ const apercu = async (request, response) => {
             codePostal: intervention.codePostal,
             ville: intervention.ville,
             pays: intervention.pays,
-    
+
             // Partie Tree
             constructeur: observateur.constructeur,
             marquage: observateur.marquage,
@@ -263,7 +269,7 @@ const apercu = async (request, response) => {
             inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
             accompagnateur: observateur.accompagnateur,
             dateEmission: new Date().toLocaleDateString(),
-    
+
             //Partie Four
             typeConstructeur: renseignement.typeConstructeur,
             anneeMiseService: renseignement.anneeMiseService,
@@ -283,7 +289,7 @@ const apercu = async (request, response) => {
             essaischargeAutre: renseignement.essaischargeAutre,
             modification: renseignement.modification,
             modificationAutre: renseignement.modificationAutre,
-    
+
             // Partie Five
             marquage: description.marquage,
             modeDeLevage: description.modeDeLevage,
@@ -292,23 +298,23 @@ const apercu = async (request, response) => {
             portee: description.caracteristiques[0].portee,
             porteFaux: description.caracteristiques[0].porteFaux,
             longueurDuCheminDeRoulement: description.caracteristiques[0].longueurDuCheminDeRoulement,
-            suspentes : description.caracteristiques[0].suspentes,
-            suspentesAutre : description.caracteristiques[0].suspentesAutre,
+            suspentes: description.caracteristiques[0].suspentes,
+            suspentesAutre: description.caracteristiques[0].suspentesAutre,
             mouflage: description.caracteristiques[0].mouflage,
             diametre: description.caracteristiques[0].diametre,
-    
+
             sansObjet: description.levageAuxiliaire,
             chargeMaximale: description.detailsLevageAuxiliaire[0].chargeMaximaleUtileDeChaquePalan,
-            suspentesL : description.detailsLevageAuxiliaire[0].suspentes,
-            suspentesAutreL : description.caracteristiques[0].suspentesAutre,
+            suspentesL: description.detailsLevageAuxiliaire[0].suspentes,
+            suspentesAutreL: description.caracteristiques[0].suspentesAutre,
             mouflageLevage: description.detailsLevageAuxiliaire[0].mouflage,
             diametreLevage: description.detailsLevageAuxiliaire[0].diametre,
             modeInstallation: description.modeInstallation,
             modeInstallationDetails: valueModeInstallationDetails,
-            sourceEnergie: !description.autreSourceDenergie ? description.sourceDenergie :description.autreSourceDenergie,
-            detailSourceDenergie : description.detailSourceDenergie,
-    
-    
+            sourceEnergie: !description.autreSourceDenergie ? description.sourceDenergie : description.autreSourceDenergie,
+            detailSourceDenergie: description.detailSourceDenergie,
+
+
             //Partie Six
             aExamen: aExamen,
             bExamen: bExamen,
@@ -321,7 +327,7 @@ const apercu = async (request, response) => {
             iExamen: iExamen,
             jExamen: jExamen,
             kExamen: kExamen,
-    
+
             //Partie seven
             a: a,
             b: b,
@@ -332,45 +338,45 @@ const apercu = async (request, response) => {
             g: g,
             poids: poids,
             commentaire: commentaire,
-    
+
             //Partie Eight
             cri: cri,
             ncri: ncri
         });
-    
+
         const buf = doc.getZip().generate({
             type: "nodebuffer",
             compression: "DEFLATE",
         });
-    
+
         const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
         if (flagSuccesWrite == undefined) {
             const executePython = async (script, args) => {
-    
+
                 const arg = args.map(arg => arg.toString());
                 const py = spawn("python", [script, ...arg]);
                 const result = await new Promise((resolve, reject) => {
-    
+
                     let output;
                     py.stdout.on("data", (data) => {
                         output = JSON.parse(data);
                     });
-    
+
                     py.stderr.on("data", (data) => {
                         console.error(`[Python] Error occured :${data}`);
                         reject(`Error accured in ${script}`);
                     });
-    
+
                     py.on("exit", (code) => {
                         console.error(`child procces exited ith code :${code}`);
                         resolve(output);
                     });
-    
+
                 });
-    
+
                 return result;
             }
-    
+
             try {
                 const result = await executePython('python/script.py', [5, 2]);
                 console.log(result);
@@ -401,25 +407,34 @@ const create = async (request, response) => {
         }
 
         const data = matchedData(request);
-
         await Observateur(data)
             .save()
-            .then(async(result) => {
-                await Completed({
-                    observateurId : result._id,
-                    renseignement : false,
-                    description : false,
-                    examen : false,
-                    conclusion : false,
-                    photo : false
-                }).save()
-                .then(() => {
-                    response.status(201).json({ msg: "Enregistré avec succès" });
-                })
-                .catch((error) => {
-                    console.log(error)
-                    response.status(400).json(error);
-                });
+            .then(async (result) => {
+
+                
+                // start case -> GTH-Famille AC1 - Accessoires de levage_Minute
+                if(data.typeRapport == 'GTH-Famille AC1 - Accessoires de levage_Minute') {
+
+                    await CompletedLevageA({
+                        observateurId : result._id,
+                        renseignement : false,
+                        examen : false,
+                        accessoire : false,
+                        description : false,
+                        conclusion : false,
+                        photo : false
+                    }).save()
+                    .then(() => {
+                        response.status(201).json({ msg: "Enregistré avec succès" });
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        response.status(400).json(error);
+                    });
+
+                }
+                // fin case -> GTH-Famille AC1 - Accessoires de levage_Minute
+
 
             })
             .catch((error) => {
@@ -489,7 +504,7 @@ const read = async (request, response) => {
 const readTerminer = async (request, response) => {
     try {
 
-        const observateurs = await Observateur.find({ etat : true });
+        const observateurs = await Observateur.find({ etat: true });
 
         if (observateurs) {
             return response.status(200).json(observateurs);
@@ -509,7 +524,7 @@ const update = async (request, response) => {
 
     try {
 
-        await Observateur.updateOne({ _id : observateurId }, { $set : request.body })
+        await Observateur.updateOne({ _id: observateurId }, { $set: request.body })
             .then(() => {
                 response.status(201).json({ msg: "Modifié avec succès" });
             })
@@ -532,11 +547,11 @@ const terminer = async (request, response) => {
     const completed = await Completed.findOne({ observateurId: observateurId });
     const tab = new Array(completed.renseignement, completed.description, completed.examen, completed.conclusion, completed.photo);
     let checker = arr => arr.every(v => v === true);
-    if(checker(tab) == false) {
+    if (checker(tab) == false) {
         response.status(400).json({ msg: "Le contrôle n'est pas entièrement terminé. Veuillez examiner toutes les entrées." });
     } else {
         try {
-            await Observateur.updateOne({ _id : observateurId }, { $set : { etat : true } })
+            await Observateur.updateOne({ _id: observateurId }, { $set: { etat: true } })
                 .then((result) => {
                     console.log(result);
                     response.status(201).json({ msg: true });
@@ -545,7 +560,7 @@ const terminer = async (request, response) => {
                     console.log(error)
                     response.status(400).json(error);
                 });
-    
+
         } catch (error) {
             console.log(error)
             response.status(400).json(error);
@@ -558,15 +573,15 @@ const cacher = async (request, response) => {
 
     const observateurId = String(request.params.observateurId);
     console.log(observateurId)
-    await Observateur.updateOne({ _id : observateurId }, { $set : { cache : true } })
-    .then((result) => {
-        console.log(result);
-        response.status(201).json({ msg: true });
-    })
-    .catch((error) => {
-        console.log(error)
-        response.status(400).json(error);
-    });
+    await Observateur.updateOne({ _id: observateurId }, { $set: { cache: true } })
+        .then((result) => {
+            console.log(result);
+            response.status(201).json({ msg: true });
+        })
+        .catch((error) => {
+            console.log(error)
+            response.status(400).json(error);
+        });
 }
 
 
@@ -616,7 +631,7 @@ const envoyer = async (request, response) => {
 
     const OAuth2 = google.auth.OAuth2;
     const OAuth2_client = new OAuth2(CLIENT_ID, SECRET_ID);
-    OAuth2_client.setCredentials({ refresh_token : REFRESH_TOKEN })
+    OAuth2_client.setCredentials({ refresh_token: REFRESH_TOKEN })
     const accessToken = OAuth2_client.getAccessToken();
 
     const observateurId = String(request.params.observateurId);
@@ -637,42 +652,42 @@ const envoyer = async (request, response) => {
 
     try {
         var transporter = nodemailer.createTransport({
-            service : 'gmail',
+            service: 'gmail',
             auth: {
-                type :'OAuth2',
+                type: 'OAuth2',
                 user: EMAIL,
-                clientId : CLIENT_ID,
-                clientSecret : SECRET_ID,
-                refreshToken : REFRESH_TOKEN,
-                accessToken : accessToken
+                clientId: CLIENT_ID,
+                clientSecret: SECRET_ID,
+                refreshToken: REFRESH_TOKEN,
+                accessToken: accessToken
             }
-    });
+        });
 
         const filePath = path.join(__dirname, "/views/send_rapport.html");
         const source = fs.readFileSync(filePath, 'utf-8').toString();
         const template = handlebars.compile(source);
         const replacements = {
             img: "https://gthpdf.fra1.digitaloceanspaces.com/logogth.png",
-            nom : inspecteur.nom,
-            prenom : inspecteur.prenom,
-            numeroAffaire : intervention.numeroAffaire,
-            etablissement : intervention.etablissement,
-            lieu : `${intervention.adresse} ${intervention.codePostal} ${intervention.codePostal} ${intervention.ville} ${intervention.pays}`,
-            date : `${new Date(observateur.date).toLocaleDateString()}`,
-            categorieAppareil : observateur.categorieAppareil,
-            equipement : observateur.equipement,
-            localisation : observateur.localisation,
-            city : geo.city,
-            dateEnvoyer : `${new Date().toLocaleDateString()}`,
-            country : geo.country,
+            nom: inspecteur.nom,
+            prenom: inspecteur.prenom,
+            numeroAffaire: intervention.numeroAffaire,
+            etablissement: intervention.etablissement,
+            lieu: `${intervention.adresse} ${intervention.codePostal} ${intervention.codePostal} ${intervention.ville} ${intervention.pays}`,
+            date: `${new Date(observateur.date).toLocaleDateString()}`,
+            categorieAppareil: observateur.categorieAppareil,
+            equipement: observateur.equipement,
+            localisation: observateur.localisation,
+            city: geo.city,
+            dateEnvoyer: `${new Date().toLocaleDateString()}`,
+            country: geo.country,
         };
 
         const htmlToSend = template(replacements);
 
         transporter.sendMail({
             from: EMAIL,
-            to: emails, 
-            subject: `Demande de validation rapport de ${intervention.etablissement} générer par ${inspecteur.nom} ${inspecteur.prenom}`, 
+            to: emails,
+            subject: `Demande de validation rapport de ${intervention.etablissement} générer par ${inspecteur.nom} ${inspecteur.prenom}`,
             html: htmlToSend,
             attachments: [{
                 filename: 'output.docx', // <= Here: made sure file name match
@@ -680,7 +695,7 @@ const envoyer = async (request, response) => {
                 contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             }],
         }, (error, res) => {
-            if(error) {
+            if (error) {
                 console.log(error)
                 response.status(400).json(error);
             } else {

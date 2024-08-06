@@ -19,6 +19,11 @@ import photoRouter from "./routes/photo.mjs"
 import conclusionRouter from "./routes/conclusion.mjs"
 import commentaireRouter from "./routes/commentaire.mjs"
 import completedRouter from "./routes/completed.mjs"
+import filoRouter from "./routes/filos.mjs"
+
+
+import levageARouter from "./routes/gth_famille_ac1/levageA.mjs"
+
 
 mongoose.connect("mongodb://localhost/control")
 .then(() => {
@@ -66,6 +71,11 @@ app.use("/api/v1/photos", photoRouter);
 app.use("/api/v1/conclusions", conclusionRouter);
 app.use("/api/v1/commentaires", commentaireRouter);
 app.use("/api/v1/completeds", completedRouter);
+app.use("/api/v1/filos", filoRouter);
+
+
+
+app.use("/api/v1/levageA", levageARouter);
 
 // generate cookie for client ID
 app.get("/", (request, response) => {
