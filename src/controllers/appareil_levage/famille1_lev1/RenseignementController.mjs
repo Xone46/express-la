@@ -1,35 +1,44 @@
 
-import { RenseignementLevageA } from "../../models/gth_famille_ac1/renseignementLevageA.mjs";
-import { CompletedLevageA } from "../../models/gth_famille_ac1/completedLevageA.mjs";
-import { Observateur } from "../../models/observateur.mjs";
-// import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-// import { checkEmpty } from "../../middelwares/renseignement/checkEmpty.mjs";
+import { Renseignement } from "../models/appareil_levage/famille1_lev1/renseignement.mjs";
+import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
+import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
+import { checkEmpty } from "../middelwares/renseignement/checkEmpty.mjs";
 
 const create = async (request, response) => {
 
     try {
 
         // get renseignement
-        const renseignementLevageA = await RenseignementLevageA.findOne({ observateurId: request.body.observateurId });
+        const renseignement = await Renseignement.findOne({ observateurId: request.body.observateurId });
        
-        if (renseignementLevageA) {
+        if (renseignement) {
 
-            await RenseignementLevageA.updateOne({ observateurId: request.body.observateurId }, {
+            await Renseignement.updateOne({ observateurId: request.body.observateurId }, {
                 $set: {
-                    etablissement : request.body.etablissement,
-                    adresse : request.body.adresse,
-                    etendueVerification : request.body.etendueVerification,
-                    personneCompteRendu : request.body.personneCompteRendu,
-                    nomVerificateur : request.body.nomVerificateur,
-                    rapportPrecedent : request.body.rapportPrecedent,
-                    datePrecedenteVerification : request.body.datePrecedenteVerification,
-                    documents : request.body.documents,
-                    dateDuree : request.body.dateDuree
+                    constructeur: request.body.constructeur,
+                    typeConstructeur: request.body.typeConstructeur,
+                    numeroSerie: request.body.numeroSerie,
+                    anneeMiseService: request.body.anneeMiseService,
+                    numeroInterne: request.body.numeroInterne,
+                    numeroInterneAutre: request.body.numeroInterneAutre,
+                    localisation: request.body.localisation,
+                    typeAppareil: request.body.typeAppareil,
+                    typeAppareilAutre: request.body.typeAppareilAutre,
+                    miseEnServiceRapport: request.body.miseEnServiceRapport,
+                    miseEnServiceEpreuves: request.body.miseEnServiceEpreuves,
+                    miseEnServiceEpreuvesAutre: request.body.miseEnServiceEpreuvesAutre,
+                    dateDerniereVerficationPeriodique: request.body.dateDerniereVerficationPeriodique,
+                    dateDerniereVerficationPeriodiqueAutre: request.body.dateDerniereVerficationPeriodiqueAutre,
+                    dateDerniereVerficationPeriodiqueRapport: request.body.dateDerniereVerficationPeriodiqueRapport,
+                    essaischarge: request.body.essaischarge,
+                    essaischargeAutre: request.body.essaischargeAutre,
+                    modification: request.body.modification,
+                    modificationAutre: request.body.modificationAutre
                 }
             })
                 .then(async(result) => {
 
-                await CompletedLevageA.updateOne({ observateurId: request.body.observateurId }, {
+                await Completed.updateOne({ observateurId: request.body.observateurId }, {
                             $set: { 
                                 renseignement: true
                             } 
@@ -42,17 +51,17 @@ const create = async (request, response) => {
                         })
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log(error)
                     response.status(400).json(error);
                 });
 
         } else {
 
-            await RenseignementLevageA(request.body)
+            await Renseignement(request.body)
                 .save()
                 .then(async () => {
 
-                    await CompletedLevageA.updateOne({ observateurId: request.body.observateurId }, {
+                    await Completed.updateOne({ observateurId: request.body.observateurId }, {
                         $set: { 
                             renseignement: true
                         } 
@@ -86,9 +95,9 @@ const reset = async (request, response) => {
 
     try {
         const observateurId = String(request.params.observateurId);
-        await RenseignementLevageA.deleteOne({ observateurId: observateurId })
+        await Renseignement.deleteOne({ observateurId: observateurId })
             .then(async () => {
-                await CompletedLevageA.updateOne({ observateurId: observateurId }, {
+                await Completed.updateOne({ observateurId: observateurId }, {
                     $set: {
                         renseignement: false,
                     }
@@ -118,9 +127,9 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const renseignement = await RenseignementLevageA.findOne({ observateurId: observateurId }); 
+        const renseignement = await Renseignement.findOne({ observateurId: observateurId }); 
         if(renseignement) {
-
+            const checkEmptyStatus = checkEmpty(renseignement) ;
             response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : checkEmptyStatus });
         } else {
             response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : false });
@@ -131,39 +140,8 @@ const select = async (request, response) => {
         console.log(error)
         response.status(400).json(error);
     }
+
 }
 
 
-
-const read = async (request, response) => {
-
-    try {
-        const completedCount = await Observateur.find({ etat : true }).count();
-        response.status(200).json(completedCount);
-    } catch (error) {
-        response.status(400).json(error)
-    }
-}
-
-const checkRenseignement = async (request, response) => {
-    const observateurId = String(request.params.observateurId);
-    try {
-        const renseignementLevageA = await RenseignementLevageA.find({ observateurId: observateurId });
-        if (renseignementLevageA.length == 0) {
-            response.status(200).json(false);
-        } else {
-            response.status(200).json(true);
-        }
-
-    } catch (error) {
-        response.status(400).json(error);
-    }
-}
-
-
-
-
-
-
-
-export default { create, select, reset, read, checkRenseignement }
+export default { create, select, reset }

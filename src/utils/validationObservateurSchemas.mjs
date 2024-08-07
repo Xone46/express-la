@@ -46,7 +46,7 @@ export const validationObservateurSchemas = {
 
     typeAppareil : {
 
-        isString : {
+        isArray : {
             errorMessage : "Vous devez saisir Type d'Appareil valide"
         },
 
@@ -140,17 +140,6 @@ export const validationObservateurSchemas = {
 
         notEmpty : {
             errorMessage : "Accompagnateur Inspecteur ne peut pas être vide"
-        }
-    },
-
-    typeRapport : {
-
-        isString : {
-            errorMessage : "Vous devez saisir Type Rapport valide"
-        },
-
-        notEmpty : {
-            errorMessage : "Type Rapport ne peut pas être vide"
         }
     },
 

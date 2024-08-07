@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 const ObservateurSchema = new mongoose.Schema({
 
     typeAppareil: {
+        type : mongoose.Schema.Types.Array,
+        required : false
+    },
+
+    typeRapport: {
         type : mongoose.Schema.Types.String,
         required : false
     },
@@ -67,11 +72,6 @@ const ObservateurSchema = new mongoose.Schema({
     },
 
     accompagnateurInspecteur : {
-        type : mongoose.Schema.Types.String,
-        required : false
-    },
-
-    typeRapport : {
         type : mongoose.Schema.Types.String,
         required : false
     },

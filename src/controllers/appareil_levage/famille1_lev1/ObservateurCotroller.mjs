@@ -1,3 +1,4 @@
+
 import { Intervention } from "../models/intervention.mjs";
 import { Inspecteur } from "../models/inspecteurs.mjs";
 import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
@@ -8,6 +9,10 @@ import { Description } from "../models/appareil_levage/famille1_lev1/description
 import { Conclusion } from "../models/appareil_levage/famille1_lev1/conclusion.mjs";
 import { Photo } from "../models/appareil_levage/famille1_lev1/photo.mjs";
 import { Commentaire } from "../models/appareil_levage/famille1_lev1/commentaire.mjs";
+
+
+import { CompletedLevageA } from "../models/gth_famille_ac1/completedLevageA.mjs";
+
 
 
 import { spawn } from 'child_process';
@@ -407,7 +412,8 @@ const create = async (request, response) => {
             .save()
             .then(async (result) => {
 
-                    await Completed({
+                console.log(data)
+                    await CompletedLevageA({
                         observateurId : result._id,
                         renseignement : false,
                         examen : false,

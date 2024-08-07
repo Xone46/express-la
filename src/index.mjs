@@ -12,17 +12,24 @@ import chekinRouter from "./routes/chekin.mjs"
 import inspecteurRouter from "./routes/inspecteurs.mjs"
 import interventionRouter from "./routes/interventions.mjs"
 import observateurRouter from "./routes/observateurs.mjs"
-import renseignementRouter from "./routes/renseignement.mjs"
-import descriptionRouter from "./routes/descriptions.mjs"
-import examenRouter from "./routes/examen.mjs"
-import photoRouter from "./routes/photo.mjs"
-import conclusionRouter from "./routes/conclusion.mjs"
-import commentaireRouter from "./routes/commentaire.mjs"
-import completedRouter from "./routes/completed.mjs"
+// import renseignementRouter from "./routes/appareil_levage/famille1_lev1/renseignement.mjs"
+// import descriptionRouter from "./routes/appareil_levage/famille1_lev1/descriptions.mjs"
+// import examenRouter from "./routes/appareil_levage/famille1_lev1/examen.mjs"
+// import photoRouter from "./routes/appareil_levage/famille1_lev1/photo.mjs"
+// import conclusionRouter from "./routes/appareil_levage/famille1_lev1/conclusion.mjs"
+// import commentaireRouter from "./routes/appareil_levage/famille1_lev1/commentaire.mjs"
+// import completedRouter from "./routes/appareil_levage/famille1_lev1/completed.mjs"
 import filoRouter from "./routes/filos.mjs"
 
 
-import levageARouter from "./routes/gth_famille_ac1/levageA.mjs"
+import appareil_levage_famille1_lev1_renseignements_Router from "./routes/appareil_levage/famille1_lev1/commentaire.mjs"
+import appareil_levage_famille1_lev1_descriptions_Router from "./routes/appareil_levage/famille1_lev1/description.mjs"
+import appareil_levage_famille1_lev1_examens_Router from "./routes/appareil_levage/famille1_lev1/examen.mjs"
+import appareil_levage_famille1_lev1_photos_Router from "./routes/appareil_levage/famille1_lev1/photo.mjs"
+import appareil_levage_famille1_lev1_conclusions_Router from "./routes/appareil_levage/famille1_lev1/conclusion.mjs"
+import appareil_levage_famille1_lev1_commentaires_Router from "./routes/appareil_levage/famille1_lev1/commentaire.mjs"
+import appareil_levage_famille1_lev1_completeds_Router from "./routes/appareil_levage/famille1_lev1/completed.mjs"
+// import levageARouter from "./routes/gth_famille_ac1/levageA.mjs"
 
 
 mongoose.connect("mongodb://localhost/control")
@@ -64,18 +71,17 @@ app.use("/api/v1/chekins", chekinRouter);
 app.use("/api/v1/inspecteurs", inspecteurRouter);
 app.use("/api/v1/interventions", interventionRouter);
 app.use("/api/v1/observateurs", observateurRouter);
-app.use("/api/v1/renseignements", renseignementRouter);
-app.use("/api/v1/descriptions", descriptionRouter);
-app.use("/api/v1/examens", examenRouter);
-app.use("/api/v1/photos", photoRouter);
-app.use("/api/v1/conclusions", conclusionRouter);
-app.use("/api/v1/commentaires", commentaireRouter);
-app.use("/api/v1/completeds", completedRouter);
 app.use("/api/v1/filos", filoRouter);
 
+app.use("/api/v1/appareil_levage-famille1_lev1/renseignements", appareil_levage_famille1_lev1_renseignements_Router);
+app.use("/api/v1/appareil_levage-famille1_lev1/descriptions", appareil_levage_famille1_lev1_descriptions_Router);
+app.use("/api/v1/appareil_levage-famille1_lev1/examens", appareil_levage_famille1_lev1_examens_Router);
+app.use("/api/v1/appareil_levage-famille1_lev1/photos", appareil_levage_famille1_lev1_photos_Router);
+app.use("/api/v1/appareil_levage-famille1_lev1/conclusions", appareil_levage_famille1_lev1_conclusions_Router);
+app.use("/api/v1/appareil_levage-famille1_lev1/commentaires", appareil_levage_famille1_lev1_commentaires_Router);
+app.use("/api/v1/appareil_levage-famille1_lev1/completeds", appareil_levage_famille1_lev1_completeds_Router);
 
 
-app.use("/api/v1/levageA", levageARouter);
 
 // generate cookie for client ID
 app.get("/", (request, response) => {

@@ -1,7 +1,7 @@
-import { Description } from "../models/description.mjs";
-import { Completed } from "../models/completed.mjs";
+import { Description } from "../../../models/appareil_levage/famille1_lev1/description.mjs";
+import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-import { checkEmpty } from "../middelwares/description/checkEmpty.mjs";
+import { checkEmpty } from "../../../middelwares/description/checkEmpty.mjs";
 
 const create = async (request, response) => {
 

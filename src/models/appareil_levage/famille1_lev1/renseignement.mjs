@@ -1,96 +1,107 @@
 import mongoose from "mongoose";
-const DescriptiontSchema = new mongoose.Schema({
+const RenseignementSchema = new mongoose.Schema({
+
+    constructeur : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    typeConstructeur : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    anneeMiseService : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    numeroSerie : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    numeroInterne : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    numeroInterneAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    localisation : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    typeAppareil : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    typeAppareilAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    miseEnServiceRapport : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    miseEnServiceEpreuves : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    miseEnServiceEpreuvesAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    dateDerniereVerficationPeriodique : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    dateDerniereVerficationPeriodiqueAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    dateDerniereVerficationPeriodiqueRapport : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    essaischarge : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    essaischargeAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    modification : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    modificationAutre : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
     
-    marquage : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    modeDeLevage : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    caracteristiques : {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    levageAuxiliaire : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    detailsLevageAuxiliaire : {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    modeInstallation : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    pose : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    suspendu : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surMonorail : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surPointFixe : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surPotence : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surPortique : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    autre : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    valueAutre : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    sourceDenergie : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    detailSourceDenergie : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    autreSourceDenergie : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
     observateurId : {
         type : mongoose.Schema.Types.String,
-        required : false
+        required : false,
     }
 
-});
+})
 
-export const Description = mongoose.model("Description", DescriptiontSchema);
+export const Renseignement = mongoose.model("Renseignement_Famille1_Lev1", RenseignementSchema);

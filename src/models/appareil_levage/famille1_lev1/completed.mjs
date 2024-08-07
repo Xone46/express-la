@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const CompletedSchema = new mongoose.Schema({
 
     observateurId : {
@@ -33,4 +32,4 @@ const CompletedSchema = new mongoose.Schema({
     }
 });
 
-export const Completed = mongoose.model("Completed", CompletedSchema);
+export const Completed = mongoose.model("Completed_Famille1_Lev1", CompletedSchema);

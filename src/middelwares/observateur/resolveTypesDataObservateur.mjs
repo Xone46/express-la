@@ -7,7 +7,8 @@ export const resolveTypesDataObservateur = (request, response, next) => {
             metier : String(request.body.metier),
             interventionId : String(request.body.interventionId),
             typeVerification : String(request.body.typeVerification),
-            typeAppareil : String(request.body.typeAppareil),
+            typeAppareil : request.body.typeAppareil,
+            typeRapport : String(request.body.typeAppareil[0]),
             coordonnees : String(request.body.coordonnees),
             equipement : String(request.body.equipement),
             constructeur : String(request.body.constructeur),
@@ -17,7 +18,6 @@ export const resolveTypesDataObservateur = (request, response, next) => {
             marquage : String(request.body.marquage),
             accompagnateurClient : String(request.body.accompagnateurClient),
             accompagnateurInspecteur : String(request.body.accompagnateurInspecteur),
-            typeRapport : String(request.body.typeRapport)
         }
 
         request.body = body;

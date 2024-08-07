@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import ExamenController from "../controllers/ExamenController.mjs";
-import { resolveTypesDataExamen } from "../middelwares/examens/resolveTypesDataExamen.mjs"
+import ExamenController from "../../../controllers/appareil_levage/famille1_lev1/ExamenController.mjs";
+import { resolveTypesDataExamen } from "../../../middelwares/examens/resolveTypesDataExamen.mjs"
 
 router.post("/create", resolveTypesDataExamen, ExamenController.create);
 router.get("/:observateurId", ExamenController.select);
