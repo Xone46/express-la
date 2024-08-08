@@ -12,24 +12,27 @@ import chekinRouter from "./routes/chekin.mjs"
 import inspecteurRouter from "./routes/inspecteurs.mjs"
 import interventionRouter from "./routes/interventions.mjs"
 import observateurRouter from "./routes/observateurs.mjs"
-// import renseignementRouter from "./routes/appareil_levage/famille1_lev1/renseignement.mjs"
-// import descriptionRouter from "./routes/appareil_levage/famille1_lev1/descriptions.mjs"
-// import examenRouter from "./routes/appareil_levage/famille1_lev1/examen.mjs"
-// import photoRouter from "./routes/appareil_levage/famille1_lev1/photo.mjs"
-// import conclusionRouter from "./routes/appareil_levage/famille1_lev1/conclusion.mjs"
-// import commentaireRouter from "./routes/appareil_levage/famille1_lev1/commentaire.mjs"
-// import completedRouter from "./routes/appareil_levage/famille1_lev1/completed.mjs"
 import filoRouter from "./routes/filos.mjs"
 
 
-import appareil_levage_famille1_lev1_renseignements_Router from "./routes/appareil_levage/famille1_lev1/commentaire.mjs"
+import appareil_levage_famille1_lev1_renseignements_Router from "./routes/appareil_levage/famille1_lev1/renseignement.mjs"
 import appareil_levage_famille1_lev1_descriptions_Router from "./routes/appareil_levage/famille1_lev1/description.mjs"
 import appareil_levage_famille1_lev1_examens_Router from "./routes/appareil_levage/famille1_lev1/examen.mjs"
 import appareil_levage_famille1_lev1_photos_Router from "./routes/appareil_levage/famille1_lev1/photo.mjs"
 import appareil_levage_famille1_lev1_conclusions_Router from "./routes/appareil_levage/famille1_lev1/conclusion.mjs"
 import appareil_levage_famille1_lev1_commentaires_Router from "./routes/appareil_levage/famille1_lev1/commentaire.mjs"
 import appareil_levage_famille1_lev1_completeds_Router from "./routes/appareil_levage/famille1_lev1/completed.mjs"
-// import levageARouter from "./routes/gth_famille_ac1/levageA.mjs"
+
+
+
+import accessoire_levage_famille_ac1_renseignements_Router from "./routes/accessoire_levage/famille_ac1/renseignement.mjs"
+import accessoire_levage_famille_ac1_descriptions_Router from "./routes/accessoire_levage/famille_ac1/description.mjs"
+import accessoire_levage_famille_ac1_examens_Router from "./routes/accessoire_levage/famille_ac1/examen.mjs"
+import accessoire_levage_famille_ac1_photos_Router from "./routes/accessoire_levage/famille_ac1/photo.mjs"
+import accessoire_levage_famille_ac1_conclusions_Router from "./routes/accessoire_levage/famille_ac1/conclusion.mjs"
+import accessoire_levage_famille_ac1_commentaires_Router from "./routes/accessoire_levage/famille_ac1/commentaire.mjs"
+import accessoire_levage_famille_ac1_accessoires_Router from "./routes/accessoire_levage/famille_ac1/accessoire.mjs"
+import accessoire_levage_famille_ac1_completeds_Router from "./routes/accessoire_levage/famille_ac1/completed.mjs"
 
 
 mongoose.connect("mongodb://localhost/control")
@@ -73,6 +76,17 @@ app.use("/api/v1/interventions", interventionRouter);
 app.use("/api/v1/observateurs", observateurRouter);
 app.use("/api/v1/filos", filoRouter);
 
+
+app.use("/api/v1/accessoire_levage-famille_ac1/renseignements", accessoire_levage_famille_ac1_renseignements_Router);
+app.use("/api/v1/accessoire_levage-famille_ac1/descriptions", accessoire_levage_famille_ac1_descriptions_Router);
+app.use("/api/v1/accessoire_levage-famille_ac1/examens", accessoire_levage_famille_ac1_examens_Router);
+app.use("/api/v1/accessoire_levage-famille_ac1/photos", accessoire_levage_famille_ac1_photos_Router);
+app.use("/api/v1/accessoire_levage-famille_ac1/conclusions", accessoire_levage_famille_ac1_conclusions_Router);
+app.use("/api/v1/accessoire_levage-famille_ac1/commentaires", accessoire_levage_famille_ac1_commentaires_Router);
+app.use("/api/v1/accessoire_levage-famille_ac1/completeds", accessoire_levage_famille_ac1_completeds_Router);
+app.use("/api/v1/accessoire_levage-famille_ac1/accessoires", accessoire_levage_famille_ac1_accessoires_Router);
+
+
 app.use("/api/v1/appareil_levage-famille1_lev1/renseignements", appareil_levage_famille1_lev1_renseignements_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/descriptions", appareil_levage_famille1_lev1_descriptions_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/examens", appareil_levage_famille1_lev1_examens_Router);
@@ -80,6 +94,7 @@ app.use("/api/v1/appareil_levage-famille1_lev1/photos", appareil_levage_famille1
 app.use("/api/v1/appareil_levage-famille1_lev1/conclusions", appareil_levage_famille1_lev1_conclusions_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/commentaires", appareil_levage_famille1_lev1_commentaires_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/completeds", appareil_levage_famille1_lev1_completeds_Router);
+
 
 
 

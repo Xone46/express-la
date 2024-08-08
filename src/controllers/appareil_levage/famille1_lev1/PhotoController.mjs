@@ -9,16 +9,17 @@ const __dirname = path.dirname(__filename);
 
 const select = async (request, response) => {
 
+    
     try {
-
         const observateurId = String(request.params.observateurId);
         const photo = await Photo.findOne({ observateurId : observateurId });
 
         if(photo) {
-            const urlImage = path.resolve(__dirname, `../uploads/${photo.filename}`);
+            const urlImage = path.resolve(__dirname, `../../../uploads/${photo.filename}`);
             if (fs.existsSync(urlImage)) {
                    response.status(200).json({ img : photo.filename });
             } 
+
         } else {
             response.status(200).json({ img : null });
         }
@@ -40,7 +41,7 @@ const reset = async (request, response) => {
         const deleted = await Photo.deleteOne({ observateurId : observateurId });
         
         if(deleted) {
-            const urlImage = path.resolve(__dirname, `../uploads/${photo.filename}`);
+            const urlImage = path.resolve(__dirname, `../../../uploads/${photo.filename}`);
             fs.unlink(urlImage, async(err) => {
                 if (err) throw err;
                     await Completed.updateOne({ observateurId: observateurId }, {
@@ -70,7 +71,7 @@ const display = async (request, response) => {
 
     try {
 
-        var tempFilePath = path.join(__dirname, `../uploads/${request.params.filename}`);
+        var tempFilePath = path.join(__dirname, `../../../uploads/${request.params.filename}`);
         response.download(tempFilePath, function(err) {
               if (err) {
                 throw err;

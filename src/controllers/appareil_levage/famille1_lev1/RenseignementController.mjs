@@ -1,8 +1,8 @@
 
-import { Renseignement } from "../models/appareil_levage/famille1_lev1/renseignement.mjs";
-import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
+import { Renseignement } from "../../../models/appareil_levage/famille1_lev1/renseignement.mjs";
+import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-import { checkEmpty } from "../middelwares/renseignement/checkEmpty.mjs";
+import { checkEmpty } from "../../../middelwares/renseignement/checkEmpty.mjs";
 
 const create = async (request, response) => {
 
@@ -10,7 +10,6 @@ const create = async (request, response) => {
 
         // get renseignement
         const renseignement = await Renseignement.findOne({ observateurId: request.body.observateurId });
-       
         if (renseignement) {
 
             await Renseignement.updateOne({ observateurId: request.body.observateurId }, {

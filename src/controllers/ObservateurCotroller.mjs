@@ -1,7 +1,7 @@
 import { Intervention } from "../models/intervention.mjs";
 import { Inspecteur } from "../models/inspecteurs.mjs";
-import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
 import { Observateur } from "../models/observateur.mjs";
+import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
 import { Renseignement } from "../models/appareil_levage/famille1_lev1/renseignement.mjs";
 import { Examen } from "../models/appareil_levage/famille1_lev1/examen.mjs";
 import { Description } from "../models/appareil_levage/famille1_lev1/description.mjs";
@@ -54,7 +54,7 @@ const apercu = async (request, response) => {
 
 
     if (completedRenseignement.length === 0 || completedExamen.length === 0 || completedDescription.length === 0 || completedConclusion.length === 0 || completedPhoto.length === 0) {
-        console.log(false)
+        console.log(false);
     } else {
 
         const intervention = await Intervention.findById(interventionId);
@@ -373,14 +373,14 @@ const apercu = async (request, response) => {
             }
 
             try {
+                
                 const result = await executePython('python/script.py', [5, 2]);
                 console.log(result);
-                var tempFilePath = path.join(__dirname, `../rapports/output-tow.pdf`);
-                response.download(tempFilePath, function (err) {
-                    if (err) {
-                        throw err;
-                    }
-                });
+                const tempFilePath = path.resolve(__dirname, `../../src/rapports/output-tow.pdf`);
+                var data = fs.readFileSync(tempFilePath);
+                response.contentType("application/pdf");
+                response.send(data);
+
             } catch (error) {
                 console.log(error);
                 response.status(500).json({ error: error });

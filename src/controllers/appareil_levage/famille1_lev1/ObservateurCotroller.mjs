@@ -1,8 +1,8 @@
 
 import { Intervention } from "../models/intervention.mjs";
 import { Inspecteur } from "../models/inspecteurs.mjs";
-import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
 import { Observateur } from "../models/observateur.mjs";
+import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
 import { Renseignement } from "../models/appareil_levage/famille1_lev1/renseignement.mjs";
 import { Examen } from "../models/appareil_levage/famille1_lev1/examen.mjs";
 import { Description } from "../models/appareil_levage/famille1_lev1/description.mjs";
