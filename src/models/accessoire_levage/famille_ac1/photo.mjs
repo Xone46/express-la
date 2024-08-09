@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-const PhotoLevageASchema = new mongoose.Schema({
-
+const PhotoSchema = new mongoose.Schema({
+    
     filename : {
         type : mongoose.Schema.Types.String,
         required : false,
@@ -16,8 +16,6 @@ const PhotoLevageASchema = new mongoose.Schema({
         required : false,
     }
 
-})
+});
 
-export const PhotoLevageA = mongoose.model("PhotoLevageA", PhotoLevageASchema);
-
-
+export const Photo = mongoose.model("Photo_Famille_Ac1", PhotoSchema);

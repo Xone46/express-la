@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
+const CompletedSchema = new mongoose.Schema({
 
-const CompletedLevageASchema = new mongoose.Schema({
-
-    renseignement : {
-        type : mongoose.Schema.Types.Boolean,
+    observateurId : {
+        type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    examen : {
+    renseignement : {
         type : mongoose.Schema.Types.Boolean,
         required : false,
     },
@@ -17,12 +16,7 @@ const CompletedLevageASchema = new mongoose.Schema({
         required : false,
     },
 
-    description : {
-        type : mongoose.Schema.Types.Boolean,
-        required : false,
-    },
-
-    conclusion : {
+    fiche : {
         type : mongoose.Schema.Types.Boolean,
         required : false,
     },
@@ -30,13 +24,8 @@ const CompletedLevageASchema = new mongoose.Schema({
     photo : {
         type : mongoose.Schema.Types.Boolean,
         required : false,
-    },
-
-    observateurId : {
-        type : mongoose.Schema.Types.String,
-        required : false,
     }
 
 });
 
-export const CompletedLevageA = mongoose.model("CompletedLevageA", CompletedLevageASchema);
+export const Completed = mongoose.model("Completed_Famille_Ac1", CompletedSchema);

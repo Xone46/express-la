@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const AccessoireSchema = new mongoose.Schema({
+const FicheSchema = new mongoose.Schema({
 
     observateurId: {
         type: mongoose.Schema.Types.String,
@@ -13,4 +13,4 @@ const AccessoireSchema = new mongoose.Schema({
 
 });
 
-export const Commentaire = mongoose.model("Accessoire_Famille_Ac1", AccessoireSchema);
+export const Fiche = mongoose.model("Fiche_Famille_Ac1", FicheSchema);
