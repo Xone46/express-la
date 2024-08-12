@@ -6,6 +6,8 @@ const create = async (request, response) => {
         try {
 
             const renseignement = await Renseignement.findOne({ observateurId: request.body.observateurId });
+
+            
             if (renseignement) {
     
                 await Renseignement.updateOne({ observateurId: request.body.observateurId }, {
@@ -75,4 +77,57 @@ const create = async (request, response) => {
 
 }
 
-export default { create }
+const reset = async (request, response) => {
+
+    try {
+        const observateurId = String(request.params.observateurId);
+        await Renseignement.deleteOne({ observateurId: observateurId })
+            .then(async () => {
+                await Completed.updateOne({ observateurId: observateurId }, {
+                    $set: {
+                        renseignement: false,
+                    }
+                })
+                .then(() => {
+                    response.status(201).json({ msg: "Deleted Done!" });
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+const select = async (request, response) => {
+
+    try {
+
+        const observateurId = String(request.params.observateurId);
+        const renseignement = await Renseignement.findOne({ observateurId: observateurId }); 
+        if(renseignement) {
+            const checkEmptyStatus = checkEmpty(renseignement) ;
+            response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : checkEmptyStatus });
+        } else {
+            response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : false });
+        }
+
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+
+export default { create, reset, select }

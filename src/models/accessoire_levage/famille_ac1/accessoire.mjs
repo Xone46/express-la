@@ -13,4 +13,4 @@ const AccessoireSchema = new mongoose.Schema({
 
 });
 
-export const Commentaire = mongoose.model("Accessoire_Famille_Ac1", AccessoireSchema);
+export const Accessoire = mongoose.model("Accessoire_Famille_Ac1", AccessoireSchema);

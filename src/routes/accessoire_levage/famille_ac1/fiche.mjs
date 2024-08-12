@@ -1,10 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import ExamenController from "../../../controllers/accessoire_levage/famille_ac1/ExamenController.mjs";
+import FicheController from "../../../controllers/accessoire_levage/famille_ac1/FicheController.mjs";
 
-router.post("/create", ExamenController.create);
-router.post("/", ExamenController.read);
-router.post("/supprimer", ExamenController.update);
-router.delete("/:commentaireId", ExamenController.deleteOne);
+router.post("/create", FicheController.create);
 
 export default router;

@@ -1,14 +1,14 @@
 import { Intervention } from "../models/intervention.mjs";
 import { Inspecteur } from "../models/inspecteurs.mjs";
 import { Observateur } from "../models/observateur.mjs";
-import { Completed } from "../models/appareil_levage/famille1_lev1/completed.mjs";
 import { Renseignement } from "../models/appareil_levage/famille1_lev1/renseignement.mjs";
 import { Examen } from "../models/appareil_levage/famille1_lev1/examen.mjs";
 import { Description } from "../models/appareil_levage/famille1_lev1/description.mjs";
 import { Conclusion } from "../models/appareil_levage/famille1_lev1/conclusion.mjs";
 import { Photo } from "../models/appareil_levage/famille1_lev1/photo.mjs";
 import { Commentaire } from "../models/appareil_levage/famille1_lev1/commentaire.mjs";
-
+import Accessoire from "./completed/accessoire_levage/completeAccessoire.mjs"
+import Appareil from "./completed/appareil_levage/completedAppareil.mjs"
 
 import { spawn } from 'child_process';
 import geoip from 'geoip-lite'
@@ -407,28 +407,16 @@ const create = async (request, response) => {
             .save()
             .then(async (result) => {
 
-                    await Completed({
-                        observateurId : result._id,
-                        renseignement : false,
-                        examen : false,
-                        accessoire : false,
-                        description : false,
-                        conclusion : false,
-                        photo : false
-                    }).save()
-                    .then(() => {
-                        response.status(201).json({ msg: "Enregistré avec succès" });
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                        response.status(400).json(error);
-                    });
+                if(data.metier == 'Accessoire de levage') {
+                    Accessoire.save(request, response, result._id);
+                }
 
-                
+                if(data.metier == 'Appareil de levage') {
+                    Appareil.save(request, response, result._id);
+                }
 
             })
             .catch((error) => {
-                console.log(error)
                 response.status(400).json(error);
             });
 
@@ -530,8 +518,6 @@ const update = async (request, response) => {
 }
 
 const terminer = async (request, response) => {
-
-    console.log(request.body)
 
     const observateurId = String(request.params.observateurId);
     const completed = await Completed.findOne({ observateurId: observateurId });
