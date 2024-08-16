@@ -402,21 +402,29 @@ const create = async (request, response) => {
         }
 
         const data = matchedData(request);
-
         await Observateur(data)
             .save()
             .then(async (result) => {
 
-                if(data.metier == 'Accessoire de levage') {
-                    Accessoire.save(request, response, result._id);
+                var flag = false;
+
+                flag = data.typeAppareil[0] == 'Famille 1 LEV1' ||
+                             data.typeAppareil[0] == 'Famille 2 LEV2' || 
+                             data.typeAppareil[0] == 'Famille 3 LEV3' ||
+                             data.typeAppareil[0] == 'Famille 4 LEV4' ||
+                             data.typeAppareil[0] == 'Famille 5 LEV5';
+
+                if(flag) {
+                    Appareil.save(request, response, result._id);
                 }
 
-                if(data.metier == 'Appareil de levage') {
-                    Appareil.save(request, response, result._id);
+                if(data.typeAppareil[0] == 'Famille AC1') {
+                    Accessoire.save(request, response, result._id);
                 }
 
             })
             .catch((error) => {
+                console.log(error);
                 response.status(400).json(error);
             });
 

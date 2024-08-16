@@ -19,8 +19,8 @@ const checkRenseignement = async (request, response) => {
 
     try {
         const renseignement = await Renseignement.find({ observateurId: observateurId, renseignement : true });
-        console.log(renseignement)
         if (renseignement.length == 0) {
+            console.log(false)
             response.status(200).json(false);
         } else {
             response.status(200).json(true);
