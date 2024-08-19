@@ -6,7 +6,7 @@ const FicheSchema = new mongoose.Schema({
         required: false
     },
 
-    liste : {
+    fiches : {
         type: mongoose.Schema.Types.Array,
         required: false
     }

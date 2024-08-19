@@ -6,7 +6,7 @@ const AccessoireSchema = new mongoose.Schema({
         required: false
     },
 
-    liste : {
+    accessoires : {
         type: mongoose.Schema.Types.Array,
         required: false
     }
