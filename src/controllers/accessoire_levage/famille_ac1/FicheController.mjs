@@ -3,7 +3,6 @@ import { Completed } from "../../../models/accessoire_levage/famille_ac1/complet
 
 const create = async (request, response) => {
 
-    console.log(request.body);
 
         try {
 
@@ -76,21 +75,17 @@ const reset = async (request, response) => {
         const observateurId = String(request.params.observateurId);
 
         await Fiche.deleteOne({ observateurId: observateurId })
-            .then(async () => {
+            .then(async() => {
 
                 await Completed.updateOne({ observateurId: observateurId }, {
                     $set: {
                         fiche: false,
+                        accessoire : false
                     }
                 })
                 .then(() => {
                     response.status(201).json({ msg: "Deleted Done!" });
-                })
-                .catch((error) => {
-                    console.log(error)
-                    response.status(400).json(error);
                 });
-
             })
             .catch((error) => {
                 console.log(error)

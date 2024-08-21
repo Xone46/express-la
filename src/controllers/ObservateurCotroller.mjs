@@ -40,10 +40,14 @@ const __dirname = path.dirname(__filename);
 
 const apercu = async (request, response) => {
 
+    console.log(request.params);
+
     const observateurId = String(request.params.observateurId);
-    const obs = await Observateur.findById(observateurId);
-    const interventionId = String(obs.interventionId);
     const inspecteurId = String(request.params.inspecteurId);
+
+    const obs = await Observateur.findById(observateurId);
+    console.log(obs)
+    const interventionId = String(obs.interventionId);
 
     //check is elements completed
     const completedRenseignement = await Renseignement.find({ observateurId: observateurId });
