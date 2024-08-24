@@ -14,25 +14,26 @@ const create = async (request, response) => {
 
             await Renseignement.updateOne({ observateurId: request.body.observateurId }, {
                 $set: {
-                    constructeur: request.body.constructeur,
-                    typeConstructeur: request.body.typeConstructeur,
-                    numeroSerie: request.body.numeroSerie,
-                    anneeMiseService: request.body.anneeMiseService,
-                    numeroInterne: request.body.numeroInterne,
-                    numeroInterneAutre: request.body.numeroInterneAutre,
-                    localisation: request.body.localisation,
-                    typeAppareil: request.body.typeAppareil,
-                    typeAppareilAutre: request.body.typeAppareilAutre,
-                    miseEnServiceRapport: request.body.miseEnServiceRapport,
-                    miseEnServiceEpreuves: request.body.miseEnServiceEpreuves,
-                    miseEnServiceEpreuvesAutre: request.body.miseEnServiceEpreuvesAutre,
-                    dateDerniereVerficationPeriodique: request.body.dateDerniereVerficationPeriodique,
-                    dateDerniereVerficationPeriodiqueAutre: request.body.dateDerniereVerficationPeriodiqueAutre,
-                    dateDerniereVerficationPeriodiqueRapport: request.body.dateDerniereVerficationPeriodiqueRapport,
-                    essaischarge: request.body.essaischarge,
-                    essaischargeAutre: request.body.essaischargeAutre,
-                    modification: request.body.modification,
-                    modificationAutre: request.body.modificationAutre
+                    constructeur : request.body.constructeur,  
+                    typeConstructeur : request.body.typeConstructeur,  
+                    anneeMiseService : request.body.anneeMiseService,  
+                    numeroSerie : request.body.numeroSerie,  
+                    numeroInterne : request.body.numeroInterne,  
+                    suiveNumeroInterne : request.body.suiveNumeroInterne,  
+                    localisation : request.body.localisation,  
+                    typeAppareil : request.body.typeAppareil,
+                    suiveTypeAppareil : request.body.suiveTypeAppareil,  
+                    miseEnServiceRapport : request.body.miseEnServiceRapport,  
+                    miseEnServiceEpreuves : request.body.miseEnServiceEpreuves,  
+                    suiveMiseEnServiceEpreuves : request.body.suiveMiseEnServiceEpreuves,  
+                    dateDerniereVerficationPeriodique : request.body.dateDerniereVerficationPeriodique,  
+                    suiveDateDerniereVerficationPeriodique : request.body.suiveDateDerniereVerficationPeriodique,
+                    rapport : request.body.rapport,  
+                    essaischarge : request.body.essaischarge,
+                    suiveEssaischarge : request.body.suiveEssaischarge,  
+                    modification : request.body.modification,
+                    suiveModification : request.body.suiveModification,  
+                    observateurId : request.body.observateurId
                 }
             })
                 .then(async(result) => {
@@ -128,13 +129,8 @@ const select = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         const renseignement = await Renseignement.findOne({ observateurId: observateurId }); 
         if(renseignement) {
-            const checkEmptyStatus = checkEmpty(renseignement) ;
-            response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : checkEmptyStatus });
-        } else {
-            response.status(200).json({ renseignement : renseignement,  checkEmptyStatus : false });
+            response.status(200).json({ renseignement : renseignement });
         }
-
-
     } catch (error) {
         console.log(error)
         response.status(400).json(error);

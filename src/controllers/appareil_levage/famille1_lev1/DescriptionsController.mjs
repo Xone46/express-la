@@ -5,52 +5,51 @@ import { checkEmpty } from "../../../middelwares/description/checkEmpty.mjs";
 
 const create = async (request, response) => {
 
-
     try {
         const {
             body : {
                 marquage,
-                modeDeLevage,
-                caracteristiques,
-                levageAuxiliaire,
-                detailsLevageAuxiliaire,
+                chargeMaximaleUtile,
+                porteeMinimale,
+                distanceCentreGravite,
+                course,
+                hauteurLevage,
+                portee,
+                porteFauxDeport,
+                longueurCheminRoulement,
+                dimensionPlateau,
                 modeInstallation,
-                pose,
-                suspendu,
-                surMonorail,
-                surPointFixe,
-                surPotence,
-                surPortique,
-                autre,
-                valueAutre,
-                sourceDenergie,
-                detailSourceDenergie,
-                autreSourceDenergie,
-                observateurId
+                suiveModeInstallation,
+                mecanisme,
+                suiveMecanisme,
+                suspentes,
+                observateurId,
             }
         } = request;
 
         // get renseignement
         const description = await Description.findOne({ observateurId: request.body.observateurId });
+
+        console.log(description)
+
         if (description) {
             await Description.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
                 marquage : marquage,
-                modeDeLevage : modeDeLevage,
-                caracteristiques : caracteristiques,
-                levageAuxiliaire : levageAuxiliaire,
-                detailsLevageAuxiliaire : detailsLevageAuxiliaire,
+                chargeMaximaleUtile : chargeMaximaleUtile,
+                porteeMinimale : porteeMinimale,
+                distanceCentreGravite : distanceCentreGravite,
+                course : course,
+                hauteurLevage : hauteurLevage,
+                portee : portee,
+                porteFauxDeport : porteFauxDeport,
+                longueurCheminRoulement : longueurCheminRoulement,
+                dimensionPlateau : dimensionPlateau,
                 modeInstallation : modeInstallation,
-                pose : pose,
-                suspendu : suspendu,
-                surMonorail : surMonorail,
-                surPointFixe : surPointFixe,
-                surPotence : surPotence,
-                surPortique : surPortique,
-                autre : autre,
-                valueAutre : valueAutre,
-                sourceDenergie : sourceDenergie,
-                detailSourceDenergie : detailSourceDenergie,
-                autreSourceDenergie : autreSourceDenergie,
+                suiveModeInstallation : suiveModeInstallation,
+                mecanisme : mecanisme,
+                suiveMecanisme : suiveMecanisme,
+                suspentes : suspentes,
+                observateurId : observateurId,
             } })
             .then((result) => {
                 response.status(201).json({ msg: "Modifié avec succès", descriptionId : result._id });
@@ -64,23 +63,21 @@ const create = async (request, response) => {
             
             await Description({
                 marquage : marquage,
-                modeDeLevage : modeDeLevage,
-                caracteristiques : caracteristiques,
-                levageAuxiliaire : levageAuxiliaire,
-                detailsLevageAuxiliaire : detailsLevageAuxiliaire,
+                chargeMaximaleUtile : chargeMaximaleUtile,
+                porteeMinimale : porteeMinimale,
+                distanceCentreGravite : distanceCentreGravite,
+                course : course,
+                hauteurLevage : hauteurLevage,
+                portee : portee,
+                porteFauxDeport : porteFauxDeport,
+                longueurCheminRoulement : longueurCheminRoulement,
+                dimensionPlateau : dimensionPlateau,
                 modeInstallation : modeInstallation,
-                pose : pose,
-                suspendu : suspendu,
-                surMonorail : surMonorail,
-                surPointFixe :surPointFixe,
-                surPotence : surPotence,
-                surPortique :surPortique,
-                autre : autre,
-                valueAutre : valueAutre,
-                sourceDenergie : sourceDenergie,
-                detailSourceDenergie : detailSourceDenergie,
-                autreSourceDenergie : autreSourceDenergie,
-                observateurId : observateurId
+                suiveModeInstallation : suiveModeInstallation,
+                mecanisme : mecanisme,
+                suiveMecanisme : suiveMecanisme,
+                suspentes : suspentes,
+                observateurId : observateurId,
                 })
                 .save()
                 .then(async(result) => {
@@ -122,13 +119,8 @@ const select = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         const description = await Description.findOne({ observateurId : observateurId });
         if(description) {
-            const checkEmptyStatus = checkEmpty(description) ;
-            console.log(checkEmptyStatus);
-            response.status(200).json({ description : description,  checkEmptyStatus : checkEmptyStatus });
-        } else {
-            response.status(200).json({ description : description,  checkEmptyStatus : false });
-        }
-
+            response.status(200).json({ description : description });
+        } 
 
     } catch (error) {
         console.log(error)

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 const ExamenSchema = new mongoose.Schema({
-    // a, b, c, d, e, f, g, h, i, j, k
     a : {
         type : mongoose.Schema.Types.Array,
         required : false,
@@ -47,11 +46,6 @@ const ExamenSchema = new mongoose.Schema({
     },
 
     j : {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    k : {
         type : mongoose.Schema.Types.Array,
         required : false,
     },

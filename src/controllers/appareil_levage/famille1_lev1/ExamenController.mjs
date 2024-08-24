@@ -11,12 +11,12 @@ const create = async (request, response) => {
 
     try {
 
-        const { a, b, c, d, e, f, g, h, i, j, k, observateurId } = request.body;
+        const { a, b, c, d, e, f, g, h, i, j, observateurId } = request.body;
 
         const exist = await Examen.findOne({ observateurId : observateurId });
         if(exist) {
 
-            await Examen.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j, k : k }})
+            await Examen.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j }})
             .then(() => {
                 response.status(201).json({ msg: "Modifié avec succès" });
             })
@@ -26,7 +26,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Examen({ a, b, c, d, e, f, g, h, i, j, k, observateurId })
+            await Examen({ a, b, c, d, e, f, g, h, i, j, observateurId })
             .save()
             .then(async () => {
 
@@ -58,17 +58,14 @@ const create = async (request, response) => {
 
 const select = async (request, response) => {
 
+
     try {
 
         const observateurId = String(request.params.observateurId);
         const examen = await Examen.findOne({ observateurId : observateurId });
-
         if(examen) {
-            const checkEmptyStatus = checkEmpty(examen) ;
-            response.status(200).json({ examen : examen,  checkEmptyStatus : checkEmptyStatus });
-        } else {
-            response.status(200).json({ examen : examen,  checkEmptyStatus : false });
-        }
+            response.status(200).json({ examen : examen });
+        } 
 
 
     } catch (error) {
@@ -127,7 +124,7 @@ const updateStatus = async (request, response) => {
 
         const res = await Examen.findOne({ observateurId : observateurId });
 
-        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j ,k } = res;
+        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
 
         a.forEach(async (element) => {
             if(element.titre == titreReserve) {
@@ -199,15 +196,8 @@ const updateStatus = async (request, response) => {
             }
         });
 
-        k.forEach(async (element) => {
-            if(element.titre == titreReserve) {
-                element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
-            }
-        });
 
-
-        await Examen.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j ,k : k }})
+        await Examen.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
         .then((result) => {
             console.log(result);
             response.status(201).json({ msg: "Modifié avec succès" });
@@ -234,7 +224,7 @@ const changeStatusCritique = async (request, response) => {
 
         const res = await Examen.findOne({ observateurId : observateurId });
 
-        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j ,k } = res;
+        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
 
         a.forEach(element => {
             if(element.titre == titreReserve) {
@@ -296,14 +286,9 @@ const changeStatusCritique = async (request, response) => {
             }
         });
 
-        k.forEach(element => {
-            if(element.titre == titreReserve) {
-                element.statusCritique = statusCritique;
-            }
-        });
 
 
-        await Examen.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j ,k : k }})
+        await Examen.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
         .then((result) => {
             console.log(result);
             response.status(201).json({ msg: "Modifié avec succès" });

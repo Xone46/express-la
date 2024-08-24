@@ -1,94 +1,84 @@
 import mongoose from "mongoose";
 const DescriptionSchema = new mongoose.Schema({
     
-    marquage : {
+    marquage: {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    modeDeLevage : {
+    chargeMaximaleUtile: {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    caracteristiques : {
+    porteeMinimale: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    distanceCentreGravite: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    course: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    hauteurLevage: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    portee: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    porteFauxDeport: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    longueurCheminRoulement: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+    
+    dimensionPlateau: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    modeInstallation: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    suiveModeInstallation : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    mecanisme : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    suiveMecanisme : {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    suspentes : {
         type : mongoose.Schema.Types.Array,
         required : false,
     },
 
-    levageAuxiliaire : {
+    observateurId: {
         type : mongoose.Schema.Types.String,
         required : false,
-    },
-
-    detailsLevageAuxiliaire : {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    modeInstallation : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    pose : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    suspendu : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surMonorail : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surPointFixe : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surPotence : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    surPortique : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    autre : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    valueAutre : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    sourceDenergie : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    detailSourceDenergie : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    autreSourceDenergie : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    observateurId : {
-        type : mongoose.Schema.Types.String,
-        required : false
     }
 
 });

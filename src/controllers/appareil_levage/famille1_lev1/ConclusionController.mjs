@@ -10,9 +10,48 @@ const create = async (request, response) => {
     try {
 
         const { a, b, c, d, e, f, g, poids, commentaire, observateurId } = request.body;
-        await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId })
+        const conclusion = await Conclusion.findOne({ observateurId: request.body.observateurId });
+
+        if(conclusion) {
+
+            await Conclusion.updateOne({ observateurId: request.body.observateurId }, {
+                $set: {
+                    a : request.body.a,  
+                    b : request.body.b,  
+                    c : request.body.c,  
+                    d : request.body.d,
+                    e : request.body.e,
+                    f : request.body.f,
+                    g : request.body.g,
+                    poids : request.body.poids,
+                    commentaire : request.body.commentaire,
+                }
+            })
+                .then(async(result) => {
+
+                await Completed.updateOne({ observateurId: request.body.observateurId }, {
+                            $set: { 
+                                conclusion: true
+                            } 
+                        })
+                        .then(() => {
+                            response.status(201).json({ msg: "Modifié avec succès", conclusionId : result._id });
+                        })
+                        .catch((error) => {
+                            response.status(400).json(error);
+                        })
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+
+        } else {
+
+            await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId })
             .save()
             .then(async () => {
+
                 await Completed.updateOne({ observateurId: observateurId }, {
                     $set: {
                         conclusion: true,
@@ -25,11 +64,16 @@ const create = async (request, response) => {
                     console.log(error)
                     response.status(400).json(error);
                 });
+
             })
             .catch((error) => {
                 response.status(400).json(error);
                 console.log(error)
             });
+
+        }
+
+
 
     } catch (error) {
         console.log(error)
