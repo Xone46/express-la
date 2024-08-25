@@ -16,22 +16,21 @@ import { fileURLToPath } from 'url';
 
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
-import ImageModule from "docxtemplater-image-module-free";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
 
-const generate = async (observateurId, inspecteurId, interventionId) => {
+const generate = async (observateurId, inspecteurId, interventionId, response) => {
 
     //check is elements completed
-    const renseignement = await Renseignement.find({ observateurId: observateurId });
-    const description = await Description.find({ observateurId: observateurId });
-    const examen = await Examen.find({ observateurId: observateurId });
-    const conclusion = await Conclusion.find({ observateurId: observateurId });
-    const photo = await Photo.find({ observateurId: observateurId });
-    const comment = await Commentaire.find({ observateurId: observateurId });
+    const renseignement = await Renseignement.findOne({ observateurId: observateurId });
+    const description = await Description.findOne({ observateurId: observateurId });
+    const examen = await Examen.findOne({ observateurId: observateurId });
+    const conclusion = await Conclusion.findOne({ observateurId: observateurId });
+    const photo = await Photo.findOne({ observateurId: observateurId });
+    const comment = await Commentaire.findOne({ observateurId: observateurId });
 
 
     if (renseignement.length === 0 || description.length === 0 || examen.length === 0 || conclusion.length === 0 || photo.length === 0) {
@@ -58,6 +57,7 @@ const generate = async (observateurId, inspecteurId, interventionId) => {
         });
 
         // consclusion
+
         const a = String(conclusion.a);
         const b = String(conclusion.b);
         const c = String(conclusion.c);
@@ -65,14 +65,60 @@ const generate = async (observateurId, inspecteurId, interventionId) => {
         const e = String(conclusion.e);
         const f = String(conclusion.f);
         const g = String(conclusion.g);
-        const poids = String(conclusion.poids);
-        const commentaire = String(conclusion.commentaire);
+
+
+        const observations = new Array();
+        const consclusions = new Array();
+
+        if(a != "") {
+            observations.push({
+                content : a,
+                child :conclusion.child
+            })
+        }
+
+        if(b != "") {
+            observations.push({
+                content : b
+            })
+        }
+
+        if(c != "") {
+            observations.push({
+                content : c
+            })
+        }
+        if(d != "") {
+            consclusions.push({
+                content : d
+            })
+        }
+
+        if(e != "") {
+            consclusions.push({
+                content : e
+            })
+        }
+
+        if(f != "") {
+            consclusions.push({
+                content : f
+            })
+        }
+
+        if(g != "") {
+            consclusions.push({
+                content : g
+            })
+        }
+
+
 
         // commentaire
         const cri = new Array();
         const ncri = new Array();
-        if (comment) {
 
+        if (comment) {
             for (let i = 0; i < comment.length; i++) {
                 for (let j = 0; j < comment[i].modelSelected.length; j++) {
                     if (comment[i].modelSelected[j].status == "critique") {
@@ -153,6 +199,8 @@ const generate = async (observateurId, inspecteurId, interventionId) => {
         const iExamen = fixDuplicateExamen(examen.i, "I");
         const jExamen = fixDuplicateExamen(examen.j, "J");
 
+
+
         // Load the docx file as binary content
         const content = fs.readFileSync(
             path.resolve(__dirname, `../../rapports/Famille1-LEV1_VGP.docx`),
@@ -161,11 +209,9 @@ const generate = async (observateurId, inspecteurId, interventionId) => {
 
         const zip = new PizZip(content);
         const doc = new Docxtemplater(zip, {
-            modules: [new ImageModule(imageOptions)],
             paragraphLoop: true,
             linebreaks: true,
         });
-
 
 
         doc.render({
@@ -190,22 +236,58 @@ const generate = async (observateurId, inspecteurId, interventionId) => {
             localisation: observateur.localisation,
             dateVerification: new Date(observateur.date).toLocaleDateString(),
             inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
-            accompagnateurClient: observateur.accompagnateur,
+            accompagnateurInspecteur: observateur.accompagnateurInspecteur,
             dateEmission: new Date().toLocaleDateString(),
-            pages : "<<PRIVEE>>",
-
+            pages : "XXX",
 
 
             typeConstructeur : renseignement.typeConstructeur,
             anneeMiseService : renseignement.anneeMiseService,
             localisation : renseignement.localisation,
-            numeroInterne : renseignement.numeroInterne,
-            suiveNumeroInterne : renseignement.suiveNumeroInterne,
+            numeroInterne : (renseignement.numeroInterne == "Avec Objet : ") ? renseignement.suiveNumeroInterne : "Sans Objet",
             typeAppareil : renseignement.typeAppareil,
             suiveTypeAppareil : renseignement.suiveTypeAppareil,
             miseEnServiceRapport : renseignement.miseEnServiceRapport,
             miseEnServiceEpreuves : renseignement.miseEnServiceEpreuves,
             suiveMiseEnServiceEpreuves : renseignement.suiveMiseEnServiceEpreuves,
+            dateDerniereVerficationPeriodique : renseignement.dateDerniereVerficationPeriodique,
+            suiveDateDerniereVerficationPeriodique : renseignement.suiveDateDerniereVerficationPeriodique,
+            rapport : renseignement.rapport,
+            essaischarge : renseignement.essaischarge,
+            suiveEssaischarge : renseignement.suiveEssaischarge,
+            modification : renseignement.modification,
+            suiveModification : renseignement.suiveModification,
+
+            marquage : description.marquage,
+            chargeMaximaleUtile : description.chargeMaximaleUtile,
+            porteeMinimale : description.porteeMinimale,
+            distanceCentreGravite : description.distanceCentreGravite,
+            course : description.course,
+            hauteurLevage : description.hauteurLevage,
+            portee : description.portee,
+            porteFauxDeport : description.porteFauxDeport,
+            longueurCheminRoulement : description.longueurCheminRoulement,
+            dimensionPlateau : description.dimensionPlateau,
+            modeInstallation : description.modeInstallation,
+            suiveModeInstallation : description.suiveModeInstallation,
+            mecanisme : description.mecanisme,
+            suiveMecanisme : description.suiveMecanisme,
+
+            hasCable : description.suspentes[0]["hasCable"],
+            cable : description.suspentes[0]["cable"],
+            detailsCable : description.suspentes[0]["detailsCable"],
+
+            hasChaineRouleau : description.suspentes[0]["hasChaineRouleau"],
+            chaineRouleau : description.suspentes[0]["chaineRouleau"],
+            detailsChaineRouleau : description.suspentes[0]["detailsChaineRouleau"],
+
+            hasChaineMaillons: description.suspentes[0]["hasChaineMaillons"],
+            chaineMaillons: description.suspentes[0]["chaineMaillons"],
+            detailsChaineMaillons: description.suspentes[0]["detailsChaineMaillons"],
+
+            hasSangle: description.suspentes[0]["hasSangle"],
+            sangle: description.suspentes[0]["sangle"],
+            detailsSangle: description.suspentes[0]["detailsSangle"],
 
             aExamen: aExamen,
             bExamen: bExamen,
@@ -218,18 +300,12 @@ const generate = async (observateurId, inspecteurId, interventionId) => {
             iExamen: iExamen,
             jExamen: jExamen,
 
-            a: a,
-            b: b,
-            c: c,
-            d: d,
-            e: e,
-            f: f,
-            g: g,
-            poids: poids,
-            commentaire: commentaire,
-
             cri: cri,
-            ncri: ncri
+            ncri: ncri,
+
+            observations : observations,
+            consclusions : consclusions
+
         });
 
         const buf = doc.getZip().generate({

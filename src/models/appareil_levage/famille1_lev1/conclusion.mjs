@@ -49,6 +49,11 @@ const ConclusionSchema = new mongoose.Schema({
     observateurId: {
         type: mongoose.Schema.Types.String,
         required: false
+    },
+
+    child: {
+        type: mongoose.Schema.Types.Array,
+        required: false
     }
 
 });

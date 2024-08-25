@@ -9,7 +9,7 @@ const create = async (request, response) => {
 
     try {
 
-        const { a, b, c, d, e, f, g, poids, commentaire, observateurId } = request.body;
+        const { a, b, c, d, e, f, g, poids, commentaire, observateurId, child } = request.body;
         const conclusion = await Conclusion.findOne({ observateurId: request.body.observateurId });
 
         if(conclusion) {
@@ -25,6 +25,7 @@ const create = async (request, response) => {
                     g : request.body.g,
                     poids : request.body.poids,
                     commentaire : request.body.commentaire,
+                    child : request.body.child
                 }
             })
                 .then(async(result) => {
@@ -48,7 +49,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId })
+            await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId, child })
             .save()
             .then(async () => {
 

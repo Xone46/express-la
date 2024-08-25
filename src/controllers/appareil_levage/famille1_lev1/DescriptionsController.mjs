@@ -30,8 +30,6 @@ const create = async (request, response) => {
         // get renseignement
         const description = await Description.findOne({ observateurId: request.body.observateurId });
 
-        console.log(description)
-
         if (description) {
             await Description.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
                 marquage : marquage,
