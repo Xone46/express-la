@@ -50,7 +50,7 @@ const reset = async (request, response) => {
                         }
                     })
                     .then(() => {
-                        response.status(200).json({ msg : "Deleted Done!"});
+                        response.status(200).json(true);
                     })
                     .catch((error) => {
                         console.log(error)

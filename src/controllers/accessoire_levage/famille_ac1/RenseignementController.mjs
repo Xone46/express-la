@@ -31,7 +31,7 @@ const create = async (request, response) => {
                                     renseignement: true
                                 } 
                             })
-                            .then(() => {
+                            .then((result) => {
                                 response.status(201).json({ msg: "Modifié avec succès", renseignementId: result._id });
                             })
                             .catch((error) => {
@@ -93,7 +93,7 @@ const reset = async (request, response) => {
                     }
                 })
                 .then(() => {
-                    response.status(201).json({ msg: "Deleted Done!" });
+                    response.status(201).json(true);
                 })
                 .catch((error) => {
                     console.log(error)

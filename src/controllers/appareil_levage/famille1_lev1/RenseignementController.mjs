@@ -6,6 +6,8 @@ import { checkEmpty } from "../../../middelwares/renseignement/checkEmpty.mjs";
 
 const create = async (request, response) => {
 
+    console.log(request.body)
+
     try {
 
         // get renseignement
@@ -47,6 +49,7 @@ const create = async (request, response) => {
                             response.status(201).json({ msg: "Modifié avec succès", renseignementId: result._id });
                         })
                         .catch((error) => {
+                            console.log(error.message)
                             response.status(400).json(error);
                         })
                 })
@@ -66,10 +69,11 @@ const create = async (request, response) => {
                             renseignement: true
                         } 
                     })
-                    .then(() => {
+                    .then((result) => {
                         response.status(201).json({ msg: "Enregistré avec succès", renseignementId: result._id });
                     })
                     .catch((error) => {
+                        console.log(error.message)
                         response.status(400).json(error);
                     });
 
@@ -103,7 +107,7 @@ const reset = async (request, response) => {
                     }
                 })
                 .then(() => {
-                    response.status(201).json({ msg: "Deleted Done!" });
+                    response.status(201).json(true);
                 })
                 .catch((error) => {
                     console.log(error)

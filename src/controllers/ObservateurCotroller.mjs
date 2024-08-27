@@ -36,6 +36,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 const apercu = async (request, response) => {
 
     const observateurId = String(request.params.observateurId);
@@ -116,8 +117,8 @@ const select = async (request, response) => {
     }
 }
 
-const selected = async (request, response) => {
 
+const selected = async (request, response) => {
 
     try {
 
@@ -136,6 +137,7 @@ const selected = async (request, response) => {
     }
 }
 
+
 const read = async (request, response) => {
     try {
 
@@ -151,6 +153,7 @@ const read = async (request, response) => {
         response.status(400).json(error)
     }
 }
+
 
 const readTerminer = async (request, response) => {
     try {
@@ -170,9 +173,7 @@ const readTerminer = async (request, response) => {
 
 
 const update = async (request, response) => {
-
     const observateurId = String(request.params.observateurId);
-
     try {
 
         await Observateur.updateOne({ _id: observateurId }, { $set: request.body })
@@ -203,8 +204,8 @@ const terminer = async (request, response) => {
         Famille1_Lev1_Ter.terminer(observateurId, response);
     }
 
-
 }
+
 
 const cacher = async (request, response) => {
 
@@ -226,7 +227,6 @@ const deleteOne = async (request, response) => {
 
         const observateurId = String(request.params.observateurId)
         const obs = await Observateur.findById(observateurId);
-
     
         if (obs.typeAppareil[0] == "Famille AC1") {
             FamilleAc1_Sup.supprimer(observateurId, response);
@@ -246,85 +246,107 @@ const deleteOne = async (request, response) => {
 
 const envoyer = async (request, response) => {
 
-    const OAuth2 = google.auth.OAuth2;
-    const OAuth2_client = new OAuth2(CLIENT_ID, SECRET_ID);
-    OAuth2_client.setCredentials({ refresh_token: REFRESH_TOKEN })
-    const accessToken = OAuth2_client.getAccessToken();
-
-    const observateurId = String(request.params.observateurId);
-    const inspecteurId = String(request.params.inspecteurId);
-    const ip = request.params.ip;
-    var geo = geoip.lookup(ip);
-
-    const inspecteur = await Inspecteur.findById(inspecteurId);
-    const observateur = await Observateur.findById(observateurId);
-    const intervention = await Intervention.findById(observateur.interventionId);
-
-    const emails = [
-        "jamal.ettariqi@gthconsult.ma",
-        "tarik.addioui@gthconsult.ma"
-    ];
-
-    // const email = "service.supports@gthconsult.ma";
-
     try {
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: EMAIL,
-                clientId: CLIENT_ID,
-                clientSecret: SECRET_ID,
-                refreshToken: REFRESH_TOKEN,
-                accessToken: accessToken
-            }
-        });
 
-        const filePath = path.join(__dirname, "/views/send_rapport.html");
-        const source = fs.readFileSync(filePath, 'utf-8').toString();
-        const template = handlebars.compile(source);
-        const replacements = {
-            img: "https://gthpdf.fra1.digitaloceanspaces.com/logogth.png",
-            nom: inspecteur.nom,
-            prenom: inspecteur.prenom,
-            numeroAffaire: intervention.numeroAffaire,
-            etablissement: intervention.etablissement,
-            lieu: `${intervention.adresse} ${intervention.codePostal} ${intervention.codePostal} ${intervention.ville} ${intervention.pays}`,
-            date: `${new Date(observateur.date).toLocaleDateString()}`,
-            categorieAppareil: observateur.categorieAppareil,
-            equipement: observateur.equipement,
-            localisation: observateur.localisation,
-            city: geo.city,
-            dateEnvoyer: `${new Date().toLocaleDateString()}`,
-            country: geo.country,
-        };
+        const EMAIL = process.env.EMAIL
+        const CLIENT_ID = process.env.CLIENT_ID
+        const SECRET_ID = process.env.SECRET_ID
+        const REFRESH_TOKEN = process.env.REFRESH_TOKEN
 
-        const htmlToSend = template(replacements);
+        console.log(EMAIL)
+        console.log(CLIENT_ID)
+        console.log(SECRET_ID)
+        console.log(REFRESH_TOKEN)
 
-        transporter.sendMail({
-            from: EMAIL,
-            to: emails,
-            subject: `Demande de validation rapport de ${intervention.etablissement} générer par ${inspecteur.nom} ${inspecteur.prenom}`,
-            html: htmlToSend,
-            attachments: [{
-                filename: 'output.docx', // <= Here: made sure file name match
-                path: path.join(__dirname, '../rapports/output.docx'), // <= Here
-                contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-            }],
-        }, (error, res) => {
-            if (error) {
-                console.log(error)
-                response.status(400).json(error);
-            } else {
-                console.log(true)
-                response.status(200).json(true);
-            }
-        });
+        console.log(request.params)
 
-    } catch (error) {
+        const OAuth2 = google.auth.OAuth2;
+        const OAuth2_client = new OAuth2(CLIENT_ID, SECRET_ID);
+        OAuth2_client.setCredentials({ refresh_token: REFRESH_TOKEN })
+        const accessToken = OAuth2_client.getAccessToken();
+    
+        const observateurId = String(request.params.observateurId);
+        const inspecteurId = String(request.params.inspecteurId);
+        const ip = request.params.ip;
+        var geo = geoip.lookup(ip);
+
+        console.log(geo);
+    
+        const inspecteur = await Inspecteur.findById(inspecteurId);
+        const observateur = await Observateur.findById(observateurId);
+        const intervention = await Intervention.findById(observateur.interventionId);
+    
+        const emails = [
+            "jamal.ettariqi@gthconsult.ma",
+            "tarik.addioui@gthconsult.ma",
+            "service.clients@gthconsult.ma"
+        ];
+
+        
+
+        // var transporter = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         type: 'OAuth2',
+        //         user: EMAIL,
+        //         clientId: CLIENT_ID,
+        //         clientSecret: SECRET_ID,
+        //         refreshToken: REFRESH_TOKEN,
+        //         accessToken: accessToken
+        //     }
+        // });
+
+        // const filePath = path.join(__dirname, "/views/send_rapport.html");
+        // const source = fs.readFileSync(filePath, 'utf-8').toString();
+        // const template = handlebars.compile(source);
+        // const replacements = {
+        //     img: "https://gthpdf.fra1.digitaloceanspaces.com/logogth.png",
+        //     nom: inspecteur.nom,
+        //     prenom: inspecteur.prenom,
+        //     numeroAffaire: intervention.numeroAffaire,
+        //     etablissement: intervention.etablissement,
+        //     lieu: `${intervention.adresse} ${intervention.codePostal} ${intervention.codePostal} ${intervention.ville} ${intervention.pays}`,
+        //     date: `${new Date(observateur.date).toLocaleDateString()}`,
+        //     categorieAppareil: observateur.categorieAppareil,
+        //     equipement: observateur.equipement,
+        //     localisation: observateur.localisation,
+        //     city: geo.city,
+        //     dateEnvoyer: `${new Date().toLocaleDateString()}`,
+        //     country: geo.country,
+        // };
+
+        // const htmlToSend = template(replacements);
+
+        // transporter.sendMail({
+        //     from: EMAIL,
+        //     to: emails,
+        //     subject: `Demande de validation rapport de ${intervention.etablissement} générer par ${inspecteur.nom} ${inspecteur.prenom}`,
+        //     html: htmlToSend,
+        //     attachments: [{
+        //         filename: 'output.docx',
+        //         path: path.join(__dirname, '../rapports/output.docx'),
+        //         contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        //     }],
+        // }, (error, res) => {
+        //     if (error) {
+        //         console.log(1)
+        //         console.log(error.message)
+        //         response.status(400).json(error);
+        //     } else {
+        //         console.log(true)
+        //         response.status(200).json(true);
+        //     }
+        // });
+
+
+
+    } catch(error) {
+        console.log(2)
         console.log(error.message)
         response.status(400).json(error)
     }
+
+
 }
 
 export default { create, read, update, deleteOne, select, apercu, selected, envoyer, terminer, cacher, readTerminer }

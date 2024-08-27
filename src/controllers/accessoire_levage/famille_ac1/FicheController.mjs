@@ -23,7 +23,7 @@ const create = async (request, response) => {
                                     fiche: true
                                 } 
                             })
-                            .then(() => {
+                            .then((result) => {
                                 response.status(201).json({ msg: "Modifié avec succès", renseignementId: result._id });
                             })
                             .catch((error) => {
@@ -45,7 +45,7 @@ const create = async (request, response) => {
                                 fiche: true
                             } 
                         })
-                        .then(() => {
+                        .then((result) => {
                             response.status(201).json({ msg: "Enregistré avec succès", renseignementId: result._id });
                         })
                         .catch((error) => {
@@ -84,7 +84,7 @@ const reset = async (request, response) => {
                     }
                 })
                 .then(() => {
-                    response.status(201).json({ msg: "Deleted Done!" });
+                    response.status(201).json(true);
                 });
             })
             .catch((error) => {
@@ -108,6 +108,8 @@ const select = async (request, response) => {
 
         if(fiches) {
             response.status(200).json(fiches);
+        } else {
+            response.status(200).json(null);
         }
 
     } catch (error) {

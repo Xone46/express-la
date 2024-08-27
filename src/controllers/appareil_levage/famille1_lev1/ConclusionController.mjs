@@ -35,7 +35,7 @@ const create = async (request, response) => {
                                 conclusion: true
                             } 
                         })
-                        .then(() => {
+                        .then((result) => {
                             response.status(201).json({ msg: "Modifié avec succès", conclusionId : result._id });
                         })
                         .catch((error) => {

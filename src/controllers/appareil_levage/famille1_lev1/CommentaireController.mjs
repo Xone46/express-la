@@ -153,11 +153,6 @@ const supprimer = async (request, response) => {
                     if(examen[refFix][i]["titre"] == name) {
                         examen[refFix][i]["o"] = false;
                     }
-                    // examen[refFix][i]["be"][name] = false;
-                    // examen[refFix][i]["fc"] = false;
-                    // examen[refFix][i]["sa"] = false;
-                    // examen[refFix][i]["nv"] = false;
-                    // examen[refFix][i]["so"] = false;
                 }
             }
 

@@ -8,7 +8,7 @@ import { checkEmpty } from "../../../middelwares/examens/checkEmpty.mjs";
 
 
 const create = async (request, response) => {
-
+    
     try {
 
         const { a, b, c, d, e, f, g, h, i, j, observateurId } = request.body;
@@ -290,7 +290,6 @@ const changeStatusCritique = async (request, response) => {
 
         await Examen.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
         .then((result) => {
-            console.log(result);
             response.status(201).json({ msg: "Modifié avec succès" });
         })
         .catch((error) => {

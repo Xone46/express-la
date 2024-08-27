@@ -85,7 +85,7 @@ const create = async (request, response) => {
                             description: true,
                         }
                     })
-                    .then(() => {
+                    .then((result) => {
                         response.status(201).json({ msg: "Enregistré avec succès", renseignementId: result._id });
                     })
                     .catch((error) => {

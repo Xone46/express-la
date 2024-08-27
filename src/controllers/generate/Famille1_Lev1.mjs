@@ -33,7 +33,7 @@ const generate = async (observateurId, inspecteurId, interventionId, response) =
     const comment = await Commentaire.findOne({ observateurId: observateurId });
 
 
-    if (renseignement.length === 0 || description.length === 0 || examen.length === 0 || conclusion.length === 0 || photo.length === 0) {
+    if (renseignement.length === 0 || description.length === 0 || examen.length === 0 || conclusion.length === 0) {
         console.log(false);
     } else {
 
