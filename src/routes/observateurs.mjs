@@ -12,7 +12,7 @@ router.get("/", ObservateurCotroller.read);
 router.get("/readTerminer", ObservateurCotroller.readTerminer);
 router.get("/:interventionId", ObservateurCotroller.select);
 router.get("/apercu/:observateurId/:inspecteurId", ObservateurCotroller.apercu);
-router.get("/send/:observateurId/:inspecteurId/:ip", ObservateurCotroller.envoyer);
+router.get("/send/:observateurId/:inspecteurId/:ip/:interventionId", ObservateurCotroller.envoyer);
 router.get("/selected/:observateurId", ObservateurCotroller.selected);
 router.put("/terminer/:observateurId", ObservateurCotroller.terminer);
 router.put("/cacher/:observateurId", ObservateurCotroller.cacher);

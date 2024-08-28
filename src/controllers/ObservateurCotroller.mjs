@@ -14,16 +14,9 @@ import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
 import  FamilleAc1_Ter from "../controllers/terminer/FamilleAc1_Ter.mjs";
 import  Famille1_Lev1_Ter from "../controllers/terminer/Famille1_Lev1_Ter.mjs";
 
-import geoip from 'geoip-lite'
 
-const EMAIL = process.env.EMAIL
-const CLIENT_ID = process.env.CLIENT_ID
-const SECRET_ID = process.env.SECRET_ID
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN
-
-import nodemailer from "nodemailer";
-import handlebars from "handlebars";
-import { google } from "googleapis";
+import  FamilleAc1_Env from "./envoyer/FamilleAc1_Env.mjs";
+import  Famille1_Lev1_Env from "./envoyer/Famille1_Lev1_Env.mjs";
 
 
 
@@ -43,13 +36,14 @@ const apercu = async (request, response) => {
     const inspecteurId = String(request.params.inspecteurId);
     const obs = await Observateur.findById(observateurId);
     const interventionId = String(obs.interventionId);
+    const type = "apercu";
 
     if (obs.typeAppareil[0] == "Famille AC1") {
-        FamilleAc1.generate(observateurId, inspecteurId, interventionId, response);
+        FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
     }
 
     if(obs.typeAppareil[0] == "Famille 1 LEV1"){
-        Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, response);
+        Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
     }
 
 }
@@ -223,6 +217,7 @@ const cacher = async (request, response) => {
 
 
 const deleteOne = async (request, response) => {
+
     try {
 
         const observateurId = String(request.params.observateurId)
@@ -248,100 +243,31 @@ const envoyer = async (request, response) => {
 
     try {
 
-        const EMAIL = process.env.EMAIL
-        const CLIENT_ID = process.env.CLIENT_ID
-        const SECRET_ID = process.env.SECRET_ID
-        const REFRESH_TOKEN = process.env.REFRESH_TOKEN
-
-        console.log(EMAIL)
-        console.log(CLIENT_ID)
-        console.log(SECRET_ID)
-        console.log(REFRESH_TOKEN)
-
-        console.log(request.params)
-
-        const OAuth2 = google.auth.OAuth2;
-        const OAuth2_client = new OAuth2(CLIENT_ID, SECRET_ID);
-        OAuth2_client.setCredentials({ refresh_token: REFRESH_TOKEN })
-        const accessToken = OAuth2_client.getAccessToken();
-    
         const observateurId = String(request.params.observateurId);
         const inspecteurId = String(request.params.inspecteurId);
         const ip = request.params.ip;
-        var geo = geoip.lookup(ip);
+        const interventionId = request.params.interventionId;
+        const type = "envoyer";
 
-        console.log(geo);
+        const obs = await Observateur.findById(observateurId);
+
+        if (obs.typeAppareil[0] == "Famille AC1") {
+            const flag = FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
+            if(flag) {
+                FamilleAc1_Env.envoyer(observateurId, inspecteurId, ip, response);
+            }
+        }
     
-        const inspecteur = await Inspecteur.findById(inspecteurId);
-        const observateur = await Observateur.findById(observateurId);
-        const intervention = await Intervention.findById(observateur.interventionId);
-    
-        const emails = [
-            "jamal.ettariqi@gthconsult.ma",
-            "tarik.addioui@gthconsult.ma",
-            "service.clients@gthconsult.ma"
-        ];
+        if(obs.typeAppareil[0] == "Famille 1 LEV1") {
+            const flag = Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
 
-        
-
-        // var transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //         type: 'OAuth2',
-        //         user: EMAIL,
-        //         clientId: CLIENT_ID,
-        //         clientSecret: SECRET_ID,
-        //         refreshToken: REFRESH_TOKEN,
-        //         accessToken: accessToken
-        //     }
-        // });
-
-        // const filePath = path.join(__dirname, "/views/send_rapport.html");
-        // const source = fs.readFileSync(filePath, 'utf-8').toString();
-        // const template = handlebars.compile(source);
-        // const replacements = {
-        //     img: "https://gthpdf.fra1.digitaloceanspaces.com/logogth.png",
-        //     nom: inspecteur.nom,
-        //     prenom: inspecteur.prenom,
-        //     numeroAffaire: intervention.numeroAffaire,
-        //     etablissement: intervention.etablissement,
-        //     lieu: `${intervention.adresse} ${intervention.codePostal} ${intervention.codePostal} ${intervention.ville} ${intervention.pays}`,
-        //     date: `${new Date(observateur.date).toLocaleDateString()}`,
-        //     categorieAppareil: observateur.categorieAppareil,
-        //     equipement: observateur.equipement,
-        //     localisation: observateur.localisation,
-        //     city: geo.city,
-        //     dateEnvoyer: `${new Date().toLocaleDateString()}`,
-        //     country: geo.country,
-        // };
-
-        // const htmlToSend = template(replacements);
-
-        // transporter.sendMail({
-        //     from: EMAIL,
-        //     to: emails,
-        //     subject: `Demande de validation rapport de ${intervention.etablissement} générer par ${inspecteur.nom} ${inspecteur.prenom}`,
-        //     html: htmlToSend,
-        //     attachments: [{
-        //         filename: 'output.docx',
-        //         path: path.join(__dirname, '../rapports/output.docx'),
-        //         contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        //     }],
-        // }, (error, res) => {
-        //     if (error) {
-        //         console.log(1)
-        //         console.log(error.message)
-        //         response.status(400).json(error);
-        //     } else {
-        //         console.log(true)
-        //         response.status(200).json(true);
-        //     }
-        // });
-
+            if(flag) {
+                Famille1_Lev1_Env.envoyer(observateurId, inspecteurId, ip, response);
+            }
+        }
 
 
     } catch(error) {
-        console.log(2)
         console.log(error.message)
         response.status(400).json(error)
     }

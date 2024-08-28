@@ -22,153 +22,157 @@ const __dirname = path.dirname(__filename);
 
 
 
-const generate = async (observateurId, inspecteurId, interventionId, response) => {
+const generate = async (observateurId, inspecteurId, interventionId, type, response) => {
 
     //check is elements completed
+    const completed = await Completed.findOne({ observateurId: observateurId });
     const renseignement = await Renseignement.findOne({ observateurId: observateurId });
     const accessoire = await Accessoire.findOne({ observateurId: observateurId });
     const fiche = await Fiche.findOne({ observateurId: observateurId });
-    console.log(fiche.fiches[0]["observation"]),
-    console.log(fiche.fiches[0]["conclusion"]);
     const photo = await Photo.findOne({ observateurId: observateurId });
-    const completed = await Completed.findOne({ observateurId: observateurId });
 
-
-    if (renseignement.length === 0 || accessoire.length === 0 || fiche.length === 0) {
-        console.log(false);
-    } else {
-
-        const intervention = await Intervention.findById(interventionId);
-        const inspecteur = await Inspecteur.findById(inspecteurId);
-        const observateur = await Observateur.findById(observateurId);
-
-
-        // console.log(fiche.fiches[0].observation)
-
-
-        const pathFile = path.resolve(__dirname, `../../rapports/output.docx`);
-        fs.unlink(pathFile, (err) => {
-            if (!err) {
-                console.log('File output docx is deleted.');
-            }
-        });
-
-        const pathFilePDF = path.resolve(__dirname, `../../rapports/output-tow.pdf`);
-        fs.unlink(pathFilePDF, (err) => {
-            if (!err) {
-                console.log('File output pdf is deleted.');
-            }
-        });
+    if (completed) {
 
 
 
+        if (completed.renseignement == true && completed.accessoire == true && completed.fiche == true && completed.photo == true) {
 
-        // Load the docx file as binary content
-        const content = fs.readFileSync(
-            path.resolve(__dirname, `../../rapports/Famille-AC1_VGP.docx`),
-            "binary"
-        );
+            const intervention = await Intervention.findById(interventionId);
+            const inspecteur = await Inspecteur.findById(inspecteurId);
+            const observateur = await Observateur.findById(observateurId);
 
-        const zip = new PizZip(content);
-        const doc = new Docxtemplater(zip, {
-            paragraphLoop: true,
-            linebreaks: true,
-        });
 
-        const items = new Array();
-        for(let i = 0; i < accessoire.accessoires.length; i++) {
-            items.push({
-                num : i + 1,
-                typeAccessoire : accessoire.accessoires[i]["verfication"],
-                miseArret : accessoire.accessoires[i]["arret"],
+            const pathFile = path.resolve(__dirname, `../../rapports/output.docx`);
+            fs.unlink(pathFile, (err) => {
+                if (!err) {
+                    console.log('File output docx is deleted.');
+                }
             });
-        }
-        
 
-        doc.render({
-
-            refClient: "<<PRIVEE>>",
-            numeroAffaire: "<<PRIVEE>>",
-            numeroRapport: "<<PRIVEE>>",
-            annee: new Date().getFullYear(),
-
-            equipement: observateur.equipement,
-
-            adresse: intervention.adresse,
-            ville: intervention.ville,
-            codePostal: intervention.codePostal,
-            pays: intervention.pays,
-            etablissement: intervention.etablissement,
-
-            inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
-            localisation: observateur.localisation,
-            dateVerfification: new Date(observateur.date).toLocaleDateString(),
-            accompagnateurInspecteur: observateur.accompagnateurInspecteur,
-
-            etablissement : renseignement.etablissement,
-            adresse : renseignement.adresse,
-            etendueVerification : renseignement.etendueVerification,
-            accompagnateurClient : renseignement.accompagnateurClient,
-            personneCompteRendu : renseignement.personneCompteRendu,
-            nomVerificateur : renseignement.nomVerificateur,
-            rapportPrecedent : renseignement.rapportPrecedent,
-            datePrecedenteVerification : new Date(renseignement.datePrecedenteVerification).toLocaleDateString(), 
-            documents : renseignement.documents,
-            dateDuree : new Date(renseignement.dateDuree).toLocaleDateString(),
-
-            items : items,
-            
-            fiches : fiche.fiches
-            
-        });
-
-        const buf = doc.getZip().generate({
-            type: "nodebuffer",
-            compression: "DEFLATE",
-        });
+            const pathFilePDF = path.resolve(__dirname, `../../rapports/output-tow.pdf`);
+            fs.unlink(pathFilePDF, (err) => {
+                if (!err) {
+                    console.log('File output pdf is deleted.');
+                }
+            });
 
 
-        const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
-        if (flagSuccesWrite == undefined) {
 
-            const executePython = async (script, args) => {
 
-                const arg = args.map(arg => arg.toString());
-                const py = spawn("python", [script, ...arg]);
-                const result = await new Promise((resolve, reject) => {
+            // Load the docx file as binary content
+            const content = fs.readFileSync(
+                path.resolve(__dirname, `../../rapports/Famille-AC1_VGP.docx`),
+                "binary"
+            );
 
-                    let output;
-                    py.stdout.on("data", (data) => {
-                        output = JSON.parse(data);
-                    });
+            const zip = new PizZip(content);
+            const doc = new Docxtemplater(zip, {
+                paragraphLoop: true,
+                linebreaks: true,
+            });
 
-                    py.stderr.on("data", (data) => {
-                        console.error(`[Python] Error occured :${data}`);
-                        reject(`Error accured in ${script}`);
-                    });
-
-                    py.on("exit", (code) => {
-                        console.error(`child procces exited ith code :${code}`);
-                        resolve(output);
-                    });
-
+            const items = new Array();
+            for (let i = 0; i < accessoire.accessoires.length; i++) {
+                items.push({
+                    num: i + 1,
+                    typeAccessoire: accessoire.accessoires[i]["verfication"],
+                    miseArret: accessoire.accessoires[i]["arret"],
                 });
-
-                return result;
             }
 
 
-            try {
-                const result = await executePython('python/script.py', [5, 2]);
-                console.log(result);
-                const tempFilePath = path.resolve(__dirname, `../../rapports/output-tow.pdf`);
-                var data = fs.readFileSync(tempFilePath);
-                response.contentType("application/pdf");
-                response.send(data);
+            doc.render({
 
-            } catch (error) {
-                console.log(error);
-                response.status(500).json({ error: error });
+                refClient: "<<PRIVEE>>",
+                numeroAffaire: "<<PRIVEE>>",
+                numeroRapport: "<<PRIVEE>>",
+                annee: new Date().getFullYear(),
+
+                equipement: observateur.equipement,
+
+                adresse: intervention.adresse,
+                ville: intervention.ville,
+                codePostal: intervention.codePostal,
+                pays: intervention.pays,
+                etablissement: intervention.etablissement,
+
+                inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
+                localisation: observateur.localisation,
+                dateVerfification: new Date(observateur.date).toLocaleDateString(),
+                accompagnateurInspecteur: observateur.accompagnateurInspecteur,
+
+                etablissement: renseignement.etablissement,
+                adresse: renseignement.adresse,
+                etendueVerification: renseignement.etendueVerification,
+                accompagnateurClient: renseignement.accompagnateurClient,
+                personneCompteRendu: renseignement.personneCompteRendu,
+                nomVerificateur: renseignement.nomVerificateur,
+                rapportPrecedent: renseignement.rapportPrecedent,
+                datePrecedenteVerification: new Date(renseignement.datePrecedenteVerification).toLocaleDateString(),
+                documents: renseignement.documents,
+                dateDuree: new Date(renseignement.dateDuree).toLocaleDateString(),
+
+                items: items,
+
+                fiches: fiche.fiches
+
+            });
+
+            const buf = doc.getZip().generate({
+                type: "nodebuffer",
+                compression: "DEFLATE",
+            });
+
+
+            const flagSuccesWrite = await fs.writeFileSync(pathFile, buf);
+            if (flagSuccesWrite == undefined) {
+
+                const executePython = async (script, args) => {
+
+                    const arg = args.map(arg => arg.toString());
+                    const py = spawn("python", [script, ...arg]);
+                    const result = await new Promise((resolve, reject) => {
+
+                        let output;
+                        py.stdout.on("data", (data) => {
+                            output = JSON.parse(data);
+                        });
+
+                        py.stderr.on("data", (data) => {
+                            console.error(`[Python] Error occured :${data}`);
+                            reject(`Error accured in ${script}`);
+                        });
+
+                        py.on("exit", (code) => {
+                            console.error(`child procces exited ith code :${code}`);
+                            resolve(output);
+                        });
+
+                    });
+
+                    return result;
+                }
+
+
+                try {
+                    const result = await executePython('python/script.py', [5, 2]);
+                    console.log(result);
+                    if (type == "apercu") {
+                        const tempFilePath = path.resolve(__dirname, `../../rapports/output-tow.pdf`);
+                        var data = fs.readFileSync(tempFilePath);
+                        response.contentType("application/pdf");
+                        response.send(data);
+                    }
+
+                    if (type == "envoyer") {
+                        return true;
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                    response.status(500).json({ error: error });
+                }
+
             }
 
         }
