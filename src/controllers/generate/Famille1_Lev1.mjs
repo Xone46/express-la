@@ -200,18 +200,16 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     if (arr[i].o == false) {
                         delete arr[i].o;
                     } else {
-                        
-                        let str = "";
+
+                        console.log(val)
+                        const somme_obs = new Array();
                         for (let k = 0; k < arr_obs.length; k++) {
-
-                            if(arr_obs[k].ref == val) {
-                                console.log(arr_obs[k].ref);
-                            }
-
-                            console.log("-----------------------------");
+                                if(arr_obs[k].ref == val) {
+                                    somme_obs.push(arr_obs[k].obs)
+                                }
                         }
 
-                        arr[i].avis.push(str);
+                        arr[i].avis.push(somme_obs.toString());
                     }
 
                     if (arr[i].nv == false) {
@@ -236,7 +234,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const hExamen = fixDuplicateExamen(examen.h, "H");
             const iExamen = fixDuplicateExamen(examen.i, "I");
             const jExamen = fixDuplicateExamen(examen.j, "J");
-
 
 
             // Load the docx file as binary content
