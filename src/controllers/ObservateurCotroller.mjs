@@ -97,14 +97,16 @@ const create = async (request, response) => {
 const select = async (request, response) => {
 
     try {
+
         const interventionId = String(request.params.interventionId);
         const observateurs = await Observateur.find({ interventionId: interventionId }).sort({ date: -1 });
-        if (observateurs.length == 0) {
-            return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)ult" });
-        } else {
-            return response.status(200).json(observateurs);
-        }
 
+        if(observateurs.length == 0) {
+            return response.status(200).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)" });
+        } else {
+            return response.status(200).json({ observateurs : observateurs });
+        }
+        
     } catch (error) {
         console.log(error)
         response.status(400).json(error);
@@ -120,7 +122,7 @@ const selected = async (request, response) => {
         const observateur = await Observateur.findById(observateurId);
 
         if (observateur == null) {
-            return response.status(404).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)ult" });
+            return response.status(204).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)" });
         } else {
             return response.status(200).json(observateur);
         }

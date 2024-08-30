@@ -51,4 +51,16 @@ const supprimer = async (observateurId, response) => {
 
 }
 
-export default { supprimer }
+const supprimer_by_intervention = async (observateurId) => {
+
+    await Renseignement.deleteOne({ observateurId: observateurId });
+    await Description.deleteOne({ observateurId: observateurId });
+    await Examen.deleteOne({ observateurId: observateurId });
+    await Conclusion.deleteOne({ observateurId: observateurId });
+    await Commentaire.deleteOne({ observateurId: observateurId });
+    await Completed.deleteOne({ observateurId: observateurId });
+    await Photo.deleteOne({ observateurId: observateurId });
+
+}
+
+export default { supprimer, supprimer_by_intervention }

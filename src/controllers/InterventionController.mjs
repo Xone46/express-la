@@ -2,15 +2,10 @@
 import { Intervention } from "../models/intervention.mjs";
 import { Observateur } from "../models/observateur.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from 'url';
 
-import PizZip from "pizzip";
-import Docxtemplater from "docxtemplater";
+import  FamilleAc1_Sup from "../controllers/supprimer/FamilleAc1_Sup.mjs";
+import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const create = async (request, response) => {
 
@@ -44,10 +39,12 @@ const create = async (request, response) => {
 
 const read = async (request, response) => {
     try {
-        const interventions = await Intervention.find().sort({ date: -1 });
 
-        if (interventions.length === 0) {
-            return response.status(404).json({ msg: "Il n'y a aucune Intervention" });
+        const interventions = await Intervention.find().sort({ date: -1 });
+        console.log(interventions == null);
+
+        if (interventions == null) {
+            return response.status(204).json({ msg: "Il n'y a aucune Intervention" });
         } else {
             return response.status(200).json(interventions);
         }
@@ -55,6 +52,7 @@ const read = async (request, response) => {
     } catch (error) {
         response.status(400).json(error)
     }
+
 }
 
 const update = async (request, response) => {
@@ -71,10 +69,27 @@ const update = async (request, response) => {
 
 const deleteOne = async (request, response) => {
     try {
+
         const result = await Intervention.deleteOne({ _id: request.params.interventionId });
         if (result.acknowledged == true && result.deletedCount == 1) {
+            
+            const observateurs = await Observateur.find({ interventionId: request.params.interventionId });
+
+            for(let i = 0; i < observateurs.length; i++) {
+
+                const observateurId = observateurs[i]._id;
+
+                if (observateurs[i].typeAppareil[0] == "Famille AC1") {
+                    FamilleAc1_Sup.supprimer_by_intervention(observateurId);
+                }
+            
+                if(observateurs[i].typeAppareil[0] == "Famille 1 LEV1"){
+                    Famille1_Lev1_Sup.supprimer_by_intervention(observateurId);
+                }
+
+            }
+
             await Observateur.deleteMany({ interventionId: request.params.interventionId });
-            console.log(true)
             response.status(200).json(true);
         }
 
