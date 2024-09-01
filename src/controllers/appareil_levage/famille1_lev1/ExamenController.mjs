@@ -89,7 +89,7 @@ const reset = async (request, response) => {
                 }
             })
             .then(async() => {
-                await Commentaire.deleteOne({ observateurId : observateurId })
+                await Commentaire.deleteMany({ observateurId : observateurId })
                 .then(() => {
                     response.status(200).json({ msg : "Deleted Done!" });
                 })
