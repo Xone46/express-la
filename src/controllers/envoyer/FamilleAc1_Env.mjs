@@ -92,7 +92,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
         }, 
         {
             filename: photo.filename,
-            path: path.join(__dirname, `./${photo.filename}`)
+            path: path.join(__dirname, `../../uploads/${photo.filename}`)
         }
     ],
     }, (error, res) => {

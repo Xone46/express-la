@@ -1,5 +1,5 @@
-import { Intervention } from "../models/intervention.mjs";
-import { Inspecteur } from "../models/inspecteurs.mjs";
+// import { Intervention } from "../models/intervention.mjs";
+// import { Inspecteur } from "../models/inspecteurs.mjs";
 import { Observateur } from "../models/observateur.mjs";
 
 import Accessoire from "./completed/accessoire_levage/completeAccessoire.mjs"
@@ -39,11 +39,19 @@ const apercu = async (request, response) => {
     const type = "apercu";
 
     if (obs.typeAppareil[0] == "Famille AC1") {
-        FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
+        const res = await FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
+        console.log(res);
+        if(res == false) {
+            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+        }
     }
 
     if(obs.typeAppareil[0] == "Famille 1 LEV1"){
-        Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
+        const res = await Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
+        console.log(res);
+        if(res == false) {
+            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+        }
     }
 
 }
@@ -206,14 +214,24 @@ const terminer = async (request, response) => {
 const cacher = async (request, response) => {
 
     const observateurId = String(request.params.observateurId);
-    await Observateur.updateOne({ _id: observateurId }, { $set: { cache: true } })
-        .then(() => {
-            response.status(201).json({ msg: true });
-        })
-        .catch((error) => {
-            console.log(error)
-            response.status(400).json(error);
-        });
+    const observateur = await Observateur.findById(observateurId);
+
+    if(observateur.etat == true) {
+
+        await Observateur.updateOne({ _id: observateurId }, { $set: { cache: true } })
+            .then(() => {
+                response.status(201).json({ msg: true });
+            })
+            .catch((error) => {
+                console.log(error)
+                response.status(400).json(error);
+            });
+    }
+
+    if(observateur.etat == false) {
+        response.status(200).json({ msg: false , content : "Nous nous excusons, mais vous n'avez pas terminé de remplir toutes les étapes et d'appuyer sur un bouton Je termine" })
+    }
+
 }
 
 

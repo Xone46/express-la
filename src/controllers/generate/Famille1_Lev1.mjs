@@ -402,6 +402,8 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
             }
 
+        } else {
+            return false;
         }
 
     }

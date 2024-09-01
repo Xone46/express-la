@@ -41,12 +41,12 @@ const read = async (request, response) => {
     try {
 
         const interventions = await Intervention.find().sort({ date: -1 });
-        console.log(interventions == null);
 
-        if (interventions == null) {
-            return response.status(204).json({ msg: "Il n'y a aucune Intervention" });
+
+        if(interventions.length == 0) {
+            return response.status(200).json({ msg: "Il n'y a aucune Intervention" });
         } else {
-            return response.status(200).json(interventions);
+            return response.status(200).json({ interventions : interventions});
         }
 
     } catch (error) {
