@@ -13,11 +13,9 @@ const terminer = async (observateurId, response) => {
         try {
             await Observateur.updateOne({ _id: observateurId }, { $set: { etat: true } })
                 .then((result) => {
-                    console.log(result);
                     response.status(201).json({ msg: true });
                 })
                 .catch((error) => {
-                    console.log(error)
                     response.status(400).json(error);
                 });
 

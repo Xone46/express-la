@@ -23,6 +23,21 @@ import appareil_levage_famille1_lev1_conclusions_Router from "./routes/appareil_
 import appareil_levage_famille1_lev1_commentaires_Router from "./routes/appareil_levage/famille1_lev1/commentaire.mjs"
 import appareil_levage_famille1_lev1_completeds_Router from "./routes/appareil_levage/famille1_lev1/completed.mjs"
 
+import appareil_levage_famille2_lev2_renseignements_Router from "./routes/appareil_levage/famille2_lev2/renseignement.mjs"
+import appareil_levage_famille2_lev2_descriptions_Router from "./routes/appareil_levage/famille2_lev2/description.mjs"
+import appareil_levage_famille2_lev2_examens_Router from "./routes/appareil_levage/famille2_lev2/examen.mjs"
+import appareil_levage_famille2_lev2_photos_Router from "./routes/appareil_levage/famille2_lev2/photo.mjs"
+import appareil_levage_famille2_lev2_conclusions_Router from "./routes/appareil_levage/famille2_lev2/conclusion.mjs"
+import appareil_levage_famille2_lev2_commentaires_Router from "./routes/appareil_levage/famille2_lev2/commentaire.mjs"
+import appareil_levage_famille2_lev2_completeds_Router from "./routes/appareil_levage/famille2_lev2/completed.mjs"
+
+import appareil_levage_famille3_lev3_renseignements_Router from "./routes/appareil_levage/famille3_lev3/renseignement.mjs"
+import appareil_levage_famille3_lev3_descriptions_Router from "./routes/appareil_levage/famille3_lev3/description.mjs"
+import appareil_levage_famille3_lev3_examens_Router from "./routes/appareil_levage/famille3_lev3/examen.mjs"
+import appareil_levage_famille3_lev3_photos_Router from "./routes/appareil_levage/famille3_lev3/photo.mjs"
+import appareil_levage_famille3_lev3_conclusions_Router from "./routes/appareil_levage/famille3_lev3/conclusion.mjs"
+import appareil_levage_famille3_lev3_commentaires_Router from "./routes/appareil_levage/famille3_lev3/commentaire.mjs"
+import appareil_levage_famille3_lev3_completeds_Router from "./routes/appareil_levage/famille3_lev3/completed.mjs"
 
 
 import accessoire_levage_famille_ac1_renseignements_Router from "./routes/accessoire_levage/famille_ac1/renseignement.mjs"
@@ -88,6 +103,24 @@ app.use("/api/v1/appareil_levage-famille1_lev1/photos", appareil_levage_famille1
 app.use("/api/v1/appareil_levage-famille1_lev1/conclusions", appareil_levage_famille1_lev1_conclusions_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/commentaires", appareil_levage_famille1_lev1_commentaires_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/completeds", appareil_levage_famille1_lev1_completeds_Router);
+
+
+app.use("/api/v1/appareil_levage-famille2_lev2/renseignements", appareil_levage_famille2_lev2_renseignements_Router);
+app.use("/api/v1/appareil_levage-famille2_lev2/descriptions", appareil_levage_famille2_lev2_descriptions_Router);
+app.use("/api/v1/appareil_levage-famille2_lev2/examens", appareil_levage_famille2_lev2_examens_Router);
+app.use("/api/v1/appareil_levage-famille2_lev2/photos", appareil_levage_famille2_lev2_photos_Router);
+app.use("/api/v1/appareil_levage-famille2_lev2/conclusions", appareil_levage_famille2_lev2_conclusions_Router);
+app.use("/api/v1/appareil_levage-famille2_lev2/commentaires", appareil_levage_famille2_lev2_commentaires_Router);
+app.use("/api/v1/appareil_levage-famille2_lev2/completeds", appareil_levage_famille2_lev2_completeds_Router);
+
+
+app.use("/api/v1/appareil_levage-famille3_lev3/renseignements", appareil_levage_famille3_lev3_renseignements_Router);
+app.use("/api/v1/appareil_levage-famille3_lev3/descriptions", appareil_levage_famille3_lev3_descriptions_Router);
+app.use("/api/v1/appareil_levage-famille3_lev3/examens", appareil_levage_famille3_lev3_examens_Router);
+app.use("/api/v1/appareil_levage-famille3_lev3/photos", appareil_levage_famille3_lev3_photos_Router);
+app.use("/api/v1/appareil_levage-famille3_lev3/conclusions", appareil_levage_famille3_lev3_conclusions_Router);
+app.use("/api/v1/appareil_levage-famille3_lev3/commentaires", appareil_levage_famille3_lev3_commentaires_Router);
+app.use("/api/v1/appareil_levage-famille3_lev3/completeds", appareil_levage_famille3_lev3_completeds_Router);
 
 
 
