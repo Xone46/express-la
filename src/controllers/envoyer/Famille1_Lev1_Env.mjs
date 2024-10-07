@@ -38,9 +38,9 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
     const emails = [
         "jamal.ettariqi@gthconsult.ma",
         "tarik.addioui@gthconsult.ma",
-        // "service.clients@gthconsult.ma",
-        // "khadija.sayoti@gthconsult.ma",
-        // "direction@gthconsult.ma",
+        "service.clients@gthconsult.ma",
+        "khadija.sayoti@gthconsult.ma",
+        "direction@gthconsult.ma",
         "service.supports@gthconsult.ma"
     ];
 

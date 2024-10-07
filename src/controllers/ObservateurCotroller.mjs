@@ -7,21 +7,23 @@ import Appareil from "./completed/appareil_levage/completedAppareil.mjs"
 
 import  FamilleAc1 from "../controllers/generate/FamilleAc1.mjs";
 import  Famille1_Lev1 from "../controllers/generate/Famille1_Lev1.mjs";
+import  Famille2_Lev2 from "../controllers/generate/Famille2_Lev2.mjs";
 
 import  FamilleAc1_Sup from "../controllers/supprimer/FamilleAc1_Sup.mjs";
 import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
+import  Famille2_Lev2_Sup from "../controllers/supprimer/Famille2_Lev2_Sup.mjs";
 
 import  FamilleAc1_Ter from "../controllers/terminer/FamilleAc1_Ter.mjs";
 import  Famille1_Lev1_Ter from "../controllers/terminer/Famille1_Lev1_Ter.mjs";
+import  Famille2_Lev2_Ter from "../controllers/terminer/Famille2_Lev2_Ter.mjs";
 
 
 import  FamilleAc1_Env from "./envoyer/FamilleAc1_Env.mjs";
 import  Famille1_Lev1_Env from "./envoyer/Famille1_Lev1_Env.mjs";
-
+import  Famille2_Lev2_Env from "./envoyer/Famille1_Lev2_Env.mjs";
 
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
-import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
 
@@ -40,7 +42,6 @@ const apercu = async (request, response) => {
 
     if (obs.typeAppareil[0] == "Famille AC1") {
         const res = await FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
-        console.log(res);
         if(res == false) {
             response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
         }
@@ -48,7 +49,13 @@ const apercu = async (request, response) => {
 
     if(obs.typeAppareil[0] == "Famille 1 LEV1"){
         const res = await Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
-        console.log(res);
+        if(res == false) {
+            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+        }
+    }
+
+    if(obs.typeAppareil[0] == "Famille 2 LEV2"){
+        const res = await Famille2_Lev2.generate(observateurId, inspecteurId, interventionId, type, response);
         if(res == false) {
             response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
         }
@@ -208,6 +215,10 @@ const terminer = async (request, response) => {
         Famille1_Lev1_Ter.terminer(observateurId, response);
     }
 
+    if(obs.typeAppareil[0] == "Famille 2 LEV2"){
+        Famille2_Lev2_Ter.terminer(observateurId, response);
+    }
+
 }
 
 
@@ -250,6 +261,10 @@ const deleteOne = async (request, response) => {
         if(obs.typeAppareil[0] == "Famille 1 LEV1"){
             Famille1_Lev1_Sup.supprimer(observateurId, response);
         }
+
+        if(obs.typeAppareil[0] == "Famille 2 LEV2"){
+            Famille2_Lev2_Sup.supprimer(observateurId, response);
+        }
     
     } catch (error) {
         console.log(error)
@@ -272,17 +287,29 @@ const envoyer = async (request, response) => {
         const obs = await Observateur.findById(observateurId);
 
         if (obs.typeAppareil[0] == "Famille AC1") {
+
             const flag = FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
+
             if(flag) {
                 FamilleAc1_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
     
         if(obs.typeAppareil[0] == "Famille 1 LEV1") {
+
             const flag = Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
 
             if(flag) {
                 Famille1_Lev1_Env.envoyer(observateurId, inspecteurId, ip, response);
+            }
+        }
+
+        if(obs.typeAppareil[0] == "Famille 2 LEV2") {
+
+            const flag = Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
+
+            if(flag) {
+                Famille2_Lev2_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
 

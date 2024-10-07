@@ -39,6 +39,23 @@ import appareil_levage_famille3_lev3_conclusions_Router from "./routes/appareil_
 import appareil_levage_famille3_lev3_commentaires_Router from "./routes/appareil_levage/famille3_lev3/commentaire.mjs"
 import appareil_levage_famille3_lev3_completeds_Router from "./routes/appareil_levage/famille3_lev3/completed.mjs"
 
+import appareil_levage_famille4_lev4_renseignements_Router from "./routes/appareil_levage/famille4_lev4/renseignement.mjs"
+import appareil_levage_famille4_lev4_descriptions_Router from "./routes/appareil_levage/famille4_lev4/description.mjs"
+import appareil_levage_famille4_lev4_examens_Router from "./routes/appareil_levage/famille4_lev4/examen.mjs"
+import appareil_levage_famille4_lev4_photos_Router from "./routes/appareil_levage/famille4_lev4/photo.mjs"
+import appareil_levage_famille4_lev4_conclusions_Router from "./routes/appareil_levage/famille4_lev4/conclusion.mjs"
+import appareil_levage_famille4_lev4_commentaires_Router from "./routes/appareil_levage/famille4_lev4/commentaire.mjs"
+import appareil_levage_famille4_lev4_completeds_Router from "./routes/appareil_levage/famille4_lev4/completed.mjs"
+
+
+import appareil_levage_famille5_lev5_renseignements_Router from "./routes/appareil_levage/famille5_lev5/renseignement.mjs"
+import appareil_levage_famille5_lev5_descriptions_Router from "./routes/appareil_levage/famille5_lev5/description.mjs"
+import appareil_levage_famille5_lev5_examens_Router from "./routes/appareil_levage/famille5_lev5/examen.mjs"
+import appareil_levage_famille5_lev5_photos_Router from "./routes/appareil_levage/famille5_lev5/photo.mjs"
+import appareil_levage_famille5_lev5_conclusions_Router from "./routes/appareil_levage/famille5_lev5/conclusion.mjs"
+import appareil_levage_famille5_lev5_commentaires_Router from "./routes/appareil_levage/famille5_lev5/commentaire.mjs"
+import appareil_levage_famille5_lev5_completeds_Router from "./routes/appareil_levage/famille5_lev5/completed.mjs"
+
 
 import accessoire_levage_famille_ac1_renseignements_Router from "./routes/accessoire_levage/famille_ac1/renseignement.mjs"
 import accessoire_levage_famille_ac1_fiches_Router from "./routes/accessoire_levage/famille_ac1/fiche.mjs"
@@ -95,7 +112,6 @@ app.use("/api/v1/accessoire_levage-famille_ac1/completeds", accessoire_levage_fa
 app.use("/api/v1/accessoire_levage-famille_ac1/accessoires", accessoire_levage_famille_ac1_accessoires_Router);
 app.use("/api/v1/accessoire_levage-famille_ac1/fiches", accessoire_levage_famille_ac1_fiches_Router);
 
-
 app.use("/api/v1/appareil_levage-famille1_lev1/renseignements", appareil_levage_famille1_lev1_renseignements_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/descriptions", appareil_levage_famille1_lev1_descriptions_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/examens", appareil_levage_famille1_lev1_examens_Router);
@@ -103,7 +119,6 @@ app.use("/api/v1/appareil_levage-famille1_lev1/photos", appareil_levage_famille1
 app.use("/api/v1/appareil_levage-famille1_lev1/conclusions", appareil_levage_famille1_lev1_conclusions_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/commentaires", appareil_levage_famille1_lev1_commentaires_Router);
 app.use("/api/v1/appareil_levage-famille1_lev1/completeds", appareil_levage_famille1_lev1_completeds_Router);
-
 
 app.use("/api/v1/appareil_levage-famille2_lev2/renseignements", appareil_levage_famille2_lev2_renseignements_Router);
 app.use("/api/v1/appareil_levage-famille2_lev2/descriptions", appareil_levage_famille2_lev2_descriptions_Router);
@@ -113,7 +128,6 @@ app.use("/api/v1/appareil_levage-famille2_lev2/conclusions", appareil_levage_fam
 app.use("/api/v1/appareil_levage-famille2_lev2/commentaires", appareil_levage_famille2_lev2_commentaires_Router);
 app.use("/api/v1/appareil_levage-famille2_lev2/completeds", appareil_levage_famille2_lev2_completeds_Router);
 
-
 app.use("/api/v1/appareil_levage-famille3_lev3/renseignements", appareil_levage_famille3_lev3_renseignements_Router);
 app.use("/api/v1/appareil_levage-famille3_lev3/descriptions", appareil_levage_famille3_lev3_descriptions_Router);
 app.use("/api/v1/appareil_levage-famille3_lev3/examens", appareil_levage_famille3_lev3_examens_Router);
@@ -121,6 +135,22 @@ app.use("/api/v1/appareil_levage-famille3_lev3/photos", appareil_levage_famille3
 app.use("/api/v1/appareil_levage-famille3_lev3/conclusions", appareil_levage_famille3_lev3_conclusions_Router);
 app.use("/api/v1/appareil_levage-famille3_lev3/commentaires", appareil_levage_famille3_lev3_commentaires_Router);
 app.use("/api/v1/appareil_levage-famille3_lev3/completeds", appareil_levage_famille3_lev3_completeds_Router);
+
+app.use("/api/v1/appareil_levage-famille4_lev4/renseignements", appareil_levage_famille4_lev4_renseignements_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/descriptions", appareil_levage_famille4_lev4_descriptions_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/examens", appareil_levage_famille4_lev4_examens_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/photos", appareil_levage_famille4_lev4_photos_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/conclusions", appareil_levage_famille4_lev4_conclusions_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/commentaires", appareil_levage_famille4_lev4_commentaires_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/completeds", appareil_levage_famille4_lev4_completeds_Router);
+
+app.use("/api/v1/appareil_levage-famille5_lev5/renseignements", appareil_levage_famille5_lev5_renseignements_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/descriptions", appareil_levage_famille5_lev5_descriptions_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/examens", appareil_levage_famille5_lev5_examens_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/photos", appareil_levage_famille5_lev5_photos_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/conclusions", appareil_levage_famille5_lev5_conclusions_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/commentaires", appareil_levage_famille5_lev5_commentaires_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/completeds", appareil_levage_famille5_lev5_completeds_Router);
 
 
 
@@ -138,14 +168,6 @@ app.get("/", (request, response) => {
 
 
 
-//-----> localhost:3000/api/users?id=value1&name=value2 (with query)
-// app.get("/api/v1/users", (request, response) => {
-//   console.log(request.query)
-//   const { query : { id , name } } = request;
-// });
-
-
-
 app.listen(PORT, () => {
     console.log(`Server running in port : ${PORT}`)
-})
+});

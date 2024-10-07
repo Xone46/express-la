@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { Photo } from "../../../models/appareil_levage/famille1_lev1/photo.mjs";
-import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { Photo } from "../../../models/appareil_levage/famille3_lev3/photo.mjs";
+import { Completed } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
 import { Observateur } from "../../../models/observateur.mjs";
-import PhotoController from "../../../controllers/appareil_levage/famille1_lev1/PhotoController.mjs"
+import PhotoController from "../../../controllers/appareil_levage/famille3_lev3/PhotoController.mjs"
 const router = Router();
 import multer from 'multer'
 import path from "path";

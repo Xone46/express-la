@@ -17,11 +17,10 @@ import { fileURLToPath } from 'url';
 
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
+import ImageModule from 'docxtemplater-image-module-free';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-
 
 const generate = async (observateurId, inspecteurId, interventionId, type, response) => {
 
@@ -41,7 +40,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const intervention = await Intervention.findById(interventionId);
             const inspecteur = await Inspecteur.findById(inspecteurId);
             const observateur = await Observateur.findById(observateurId);
-
 
             const pathFile = path.resolve(__dirname, `../../rapports/output.docx`);
             fs.unlink(pathFile, (err) => {
@@ -113,8 +111,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                 })
             }
 
-
-
             // commentaire
             const arr_obs = new Array();
             const cri = new Array();
@@ -129,9 +125,9 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                         arr_obs.push({
                             text: comments[i].modelSelected[j].name,
                             status: comments[i].modelSelected[j].status,
-                            ref :  comments[i].ref,
-                            number :  comments[i].number,
-                            obs : `O${k}`
+                            ref: comments[i].ref,
+                            number: comments[i].number,
+                            obs: `O${k}`
                         });
 
                         k++;
@@ -140,26 +136,26 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
                 for (let i = 0; i < arr_obs.length; i++) {
 
-                    if(arr_obs[i].status == "non critique") {
+                    if (arr_obs[i].status == "non critique") {
                         ncri.push({
                             text: arr_obs[i].text,
                             status: arr_obs[i].status,
-                            ref :  arr_obs[i].ref,
-                            number :  arr_obs[i].number,
-                            obs : arr_obs[i].obs
+                            ref: arr_obs[i].ref,
+                            number: arr_obs[i].number,
+                            obs: arr_obs[i].obs
                         })
                     }
 
-                    if(arr_obs[i].status == "critique") {
+                    if (arr_obs[i].status == "critique") {
                         cri.push({
                             text: arr_obs[i].text,
                             status: arr_obs[i].status,
-                            ref :  arr_obs[i].ref,
-                            number :  arr_obs[i].number,
-                            obs : arr_obs[i].obs
+                            ref: arr_obs[i].ref,
+                            number: arr_obs[i].number,
+                            obs: arr_obs[i].obs
                         })
                     }
-     
+
                 }
 
             }
@@ -204,9 +200,9 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                         console.log(val)
                         const somme_obs = new Array();
                         for (let k = 0; k < arr_obs.length; k++) {
-                                if(arr_obs[k].ref == val) {
-                                    somme_obs.push(arr_obs[k].obs)
-                                }
+                            if (arr_obs[k].ref == val) {
+                                somme_obs.push(arr_obs[k].obs)
+                            }
                         }
 
                         arr[i].avis.push(somme_obs.toString());
@@ -235,6 +231,29 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const iExamen = fixDuplicateExamen(examen.i, "I");
             const jExamen = fixDuplicateExamen(examen.j, "J");
 
+            var opts = {}
+            opts.centered = false; //Set to true to always center images
+            opts.fileType = "docx"; //Or pptx
+
+            //Pass your image loader
+            opts.getImage = function (tagValue, tagName) {
+                if(tagName == "image") {
+                    return fs.readFileSync(path.resolve(__dirname, `../../uploads/${tagValue}`), "binary");
+                }
+            }
+
+            //Pass the function that return image size
+            opts.getSize = function (img, tagValue, tagName) {
+                return [300, 280];
+            }
+
+            const tagValue = "1724708194367.jpg"
+            const tagName = `image`;
+
+            opts.getImage(tagValue, tagName);
+            opts.getSize(opts.getImage(), tagValue, tagName);
+
+            var imageModule = new ImageModule(opts);
 
             // Load the docx file as binary content
             const content = fs.readFileSync(
@@ -243,105 +262,112 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             );
 
             const zip = new PizZip(content);
-            const doc = new Docxtemplater(zip, {
-                paragraphLoop: true,
-                linebreaks: true,
-            });
+            var doc = new Docxtemplater()
+                .attachModule(imageModule)
+                .loadZip(zip)
+                .setData({
+
+                    image: tagValue,
+
+                    refClient: "<<PRIVEE>>",
+                    numeroAffaire: "<<PRIVEE>>",
+                    numeroRapport: "<<PRIVEE>>",
+                    annee: new Date().getFullYear(),
+
+                    etablissement: intervention.etablissement,
+                    adresse: intervention.adresse,
+                    codePostal: intervention.codePostal,
+                    ville: intervention.ville,
+                    pays: intervention.pays,
+
+                    equipement: observateur.equipement,
+
+                    constructeur: observateur.constructeur,
+                    marquage: observateur.marquage,
+                    typeVerification: observateur.typeVerification,
+                    numeroSerie: observateur.numeroSerie,
+                    localisation: observateur.localisation,
+                    dateVerification: new Date(observateur.date).toLocaleDateString(),
+                    inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
+                    accompagnateurInspecteur: observateur.accompagnateurInspecteur,
+                    dateEmission: new Date().toLocaleDateString(),
+                    pages: "9",
+
+                    typeConstructeur: renseignement.typeConstructeur,
+                    anneeMiseService: renseignement.anneeMiseService,
+                    localisation: renseignement.localisation,
+                    numeroInterne: (renseignement.numeroInterne == "Avec Objet : ") ? renseignement.suiveNumeroInterne : "Sans Objet",
+                    typeAppareil: renseignement.typeAppareil,
+                    suiveTypeAppareil: renseignement.suiveTypeAppareil,
+                    miseEnServiceRapport: renseignement.miseEnServiceRapport,
+                    miseEnServiceEpreuves: renseignement.miseEnServiceEpreuves,
+                    suiveMiseEnServiceEpreuves: renseignement.suiveMiseEnServiceEpreuves,
+                    dateDerniereVerficationPeriodique: renseignement.dateDerniereVerficationPeriodique,
+                    suiveDateDerniereVerficationPeriodique: renseignement.suiveDateDerniereVerficationPeriodique,
+                    rapport: renseignement.rapport,
+                    essaischarge: renseignement.essaischarge,
+                    suiveEssaischarge: renseignement.suiveEssaischarge,
+                    modification: renseignement.modification,
+                    suiveModification: renseignement.suiveModification,
+
+                    marquage: description.marquage,
+                    chargeMaximaleUtile: description.chargeMaximaleUtile,
+                    porteeMinimale: description.porteeMinimale,
+                    distanceCentreGravite: description.distanceCentreGravite,
+                    course: description.course,
+                    hauteurLevage: description.hauteurLevage,
+                    portee: description.portee,
+                    porteFauxDeport: description.porteFauxDeport,
+                    longueurCheminRoulement: description.longueurCheminRoulement,
+                    dimensionPlateau: description.dimensionPlateau,
+                    modeInstallation: description.modeInstallation,
+                    suiveModeInstallation: description.suiveModeInstallation,
+                    mecanisme: description.mecanisme,
+                    suiveMecanisme: description.suiveMecanisme,
+
+                    hasCable: description.suspentes[0]["hasCable"],
+                    cable: description.suspentes[0]["cable"],
+                    detailsCable: description.suspentes[0]["detailsCable"],
+
+                    hasChaineRouleau: description.suspentes[0]["hasChaineRouleau"],
+                    chaineRouleau: description.suspentes[0]["chaineRouleau"],
+                    detailsChaineRouleau: description.suspentes[0]["detailsChaineRouleau"],
+
+                    hasChaineMaillons: description.suspentes[0]["hasChaineMaillons"],
+                    chaineMaillons: description.suspentes[0]["chaineMaillons"],
+                    detailsChaineMaillons: description.suspentes[0]["detailsChaineMaillons"],
+
+                    hasSangle: description.suspentes[0]["hasSangle"],
+                    sangle: description.suspentes[0]["sangle"],
+                    detailsSangle: description.suspentes[0]["detailsSangle"],
+
+                    aExamen: aExamen,
+                    bExamen: bExamen,
+                    cExamen: cExamen,
+                    dExamen: dExamen,
+                    eExamen: eExamen,
+                    fExamen: fExamen,
+                    gExamen: gExamen,
+                    hExamen: hExamen,
+                    iExamen: iExamen,
+                    jExamen: jExamen,
+
+                    cri: cri,
+                    ncri: ncri,
+
+                    observations: observations,
+                    consclusions: consclusions
+
+                })
+                .render();
+
+            // const doc = new Docxtemplater(zip, {
+            //     paragraphLoop: true,
+            //     linebreaks: true,
+            // });
 
 
-            doc.render({
-
-                refClient: "<<PRIVEE>>",
-                numeroAffaire: "<<PRIVEE>>",
-                numeroRapport: "<<PRIVEE>>",
-                annee: new Date().getFullYear(),
-
-                etablissement: intervention.etablissement,
-                adresse: intervention.adresse,
-                codePostal: intervention.codePostal,
-                ville: intervention.ville,
-                pays: intervention.pays,
-
-                equipement: observateur.equipement,
-
-                constructeur: observateur.constructeur,
-                marquage: observateur.marquage,
-                typeVerification: observateur.typeVerification,
-                numeroSerie: observateur.numeroSerie,
-                localisation: observateur.localisation,
-                dateVerification: new Date(observateur.date).toLocaleDateString(),
-                inspecteur: `${inspecteur.nom} ${inspecteur.prenom}`,
-                accompagnateurInspecteur: observateur.accompagnateurInspecteur,
-                dateEmission: new Date().toLocaleDateString(),
-                pages: "XXX",
-
-
-                typeConstructeur: renseignement.typeConstructeur,
-                anneeMiseService: renseignement.anneeMiseService,
-                localisation: renseignement.localisation,
-                numeroInterne: (renseignement.numeroInterne == "Avec Objet : ") ? renseignement.suiveNumeroInterne : "Sans Objet",
-                typeAppareil: renseignement.typeAppareil,
-                suiveTypeAppareil: renseignement.suiveTypeAppareil,
-                miseEnServiceRapport: renseignement.miseEnServiceRapport,
-                miseEnServiceEpreuves: renseignement.miseEnServiceEpreuves,
-                suiveMiseEnServiceEpreuves: renseignement.suiveMiseEnServiceEpreuves,
-                dateDerniereVerficationPeriodique: renseignement.dateDerniereVerficationPeriodique,
-                suiveDateDerniereVerficationPeriodique: renseignement.suiveDateDerniereVerficationPeriodique,
-                rapport: renseignement.rapport,
-                essaischarge: renseignement.essaischarge,
-                suiveEssaischarge: renseignement.suiveEssaischarge,
-                modification: renseignement.modification,
-                suiveModification: renseignement.suiveModification,
-
-                marquage: description.marquage,
-                chargeMaximaleUtile: description.chargeMaximaleUtile,
-                porteeMinimale: description.porteeMinimale,
-                distanceCentreGravite: description.distanceCentreGravite,
-                course: description.course,
-                hauteurLevage: description.hauteurLevage,
-                portee: description.portee,
-                porteFauxDeport: description.porteFauxDeport,
-                longueurCheminRoulement: description.longueurCheminRoulement,
-                dimensionPlateau: description.dimensionPlateau,
-                modeInstallation: description.modeInstallation,
-                suiveModeInstallation: description.suiveModeInstallation,
-                mecanisme: description.mecanisme,
-                suiveMecanisme: description.suiveMecanisme,
-
-                hasCable: description.suspentes[0]["hasCable"],
-                cable: description.suspentes[0]["cable"],
-                detailsCable: description.suspentes[0]["detailsCable"],
-
-                hasChaineRouleau: description.suspentes[0]["hasChaineRouleau"],
-                chaineRouleau: description.suspentes[0]["chaineRouleau"],
-                detailsChaineRouleau: description.suspentes[0]["detailsChaineRouleau"],
-
-                hasChaineMaillons: description.suspentes[0]["hasChaineMaillons"],
-                chaineMaillons: description.suspentes[0]["chaineMaillons"],
-                detailsChaineMaillons: description.suspentes[0]["detailsChaineMaillons"],
-
-                hasSangle: description.suspentes[0]["hasSangle"],
-                sangle: description.suspentes[0]["sangle"],
-                detailsSangle: description.suspentes[0]["detailsSangle"],
-
-                aExamen: aExamen,
-                bExamen: bExamen,
-                cExamen: cExamen,
-                dExamen: dExamen,
-                eExamen: eExamen,
-                fExamen: fExamen,
-                gExamen: gExamen,
-                hExamen: hExamen,
-                iExamen: iExamen,
-                jExamen: jExamen,
-
-                cri: cri,
-                ncri: ncri,
-
-                observations: observations,
-                consclusions: consclusions
-
-            });
+            // doc.render();
 
             const buf = doc.getZip().generate({
                 type: "nodebuffer",
