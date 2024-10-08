@@ -1,6 +1,6 @@
 
-import { Commentaire } from "../../../models/appareil_levage/famille1_lev1/commentaire.mjs";
-import { Examen } from "../../../models/appareil_levage/famille1_lev1/examen.mjs";
+import { Commentaire } from "../../../models/appareil_levage/famille2_lev2/commentaire.mjs";
+import { Examen } from "../../../models/appareil_levage/famille2_lev2/examen.mjs";
 
 const create = async (request, response) => {
 

@@ -28,4 +28,4 @@ const CommentaireSchema = new mongoose.Schema({
 
 });
 
-export const Commentaire = mongoose.model("Commentaire_Famille3_Lev3", CommentaireSchema);
+export const Commentaire = mongoose.model("CommentaireFamille3Lev3", CommentaireSchema);

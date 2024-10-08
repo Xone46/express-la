@@ -13,4 +13,4 @@ const FicheSchema = new mongoose.Schema({
 
 });
 
-export const Fiche = mongoose.model("Fiche_Famille_Ac1", FicheSchema);
+export const Fiche = mongoose.model("FicheFamilleAc1", FicheSchema);

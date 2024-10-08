@@ -83,4 +83,4 @@ const DescriptionSchema = new mongoose.Schema({
 
 });
 
-export const Description = mongoose.model("Description_Famille2_Lev2", DescriptionSchema);
+export const Description = mongoose.model("DescriptionFamille2Lev2", DescriptionSchema);

@@ -58,4 +58,4 @@ const ConclusionSchema = new mongoose.Schema({
 
 });
 
-export const Conclusion = mongoose.model("Conclusion_Famille1_Lev1", ConclusionSchema);
+export const Conclusion = mongoose.model("ConclusionFamille1Lev1", ConclusionSchema);

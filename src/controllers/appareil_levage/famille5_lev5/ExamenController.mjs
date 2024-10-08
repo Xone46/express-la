@@ -1,7 +1,7 @@
 
-import { Examen } from "../../../models/appareil_levage/famille1_lev1/examen.mjs";
-import { Commentaire } from "../../../models/appareil_levage/famille1_lev1/commentaire.mjs";
-import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { Examen } from "../../../models/appareil_levage/famille5_lev5/examen.mjs";
+import { Commentaire } from "../../../models/appareil_levage/famille5_lev5/commentaire.mjs";
+import { Completed } from "../../../models/appareil_levage/famille5_lev5/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/examens/checkEmpty.mjs";
 

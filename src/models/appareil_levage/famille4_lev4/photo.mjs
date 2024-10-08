@@ -16,4 +16,4 @@ const PhotoSchema = new mongoose.Schema({
     }
 });
 
-export const Photo = mongoose.model("Photo_Famille4_Lev4", PhotoSchema);
+export const Photo = mongoose.model("PhotoFamille4Lev4", PhotoSchema);

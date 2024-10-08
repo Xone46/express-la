@@ -1,6 +1,6 @@
 
-import { Renseignement } from "../../../models/appareil_levage/famille1_lev1/renseignement.mjs";
-import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { Renseignement } from "../../../models/appareil_levage/famille5_lev5/renseignement.mjs";
+import { Completed } from "../../../models/appareil_levage/famille5_lev5/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/renseignement/checkEmpty.mjs";
 

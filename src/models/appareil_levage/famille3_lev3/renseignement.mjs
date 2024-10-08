@@ -91,4 +91,4 @@ const RenseignementSchema = new mongoose.Schema({
 
 })
 
-export const Renseignement = mongoose.model("Renseignement_Famille3_Lev3", RenseignementSchema);
+export const Renseignement = mongoose.model("RenseignementFamille3Lev3", RenseignementSchema);

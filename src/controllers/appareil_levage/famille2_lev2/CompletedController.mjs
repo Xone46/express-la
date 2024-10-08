@@ -1,7 +1,7 @@
 
-import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { Completed } from "../../../models/appareil_levage/famille2_lev2/completed.mjs";
 import { Observateur } from "../../../models/observateur.mjs";
-import { Renseignement } from "../../../models/appareil_levage/famille1_lev1/renseignement.mjs";
+import { Renseignement } from "../../../models/appareil_levage/famille2_lev2/renseignement.mjs";
 
 const read = async (request, response) => {
 

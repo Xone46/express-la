@@ -32,4 +32,4 @@ const CompletedSchema = new mongoose.Schema({
     }
 });
 
-export const Completed = mongoose.model("Completed_Famille3_Lev3", CompletedSchema);
+export const Completed = mongoose.model("CompletedFamille3Lev3", CompletedSchema);

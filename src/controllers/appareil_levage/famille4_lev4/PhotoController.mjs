@@ -1,5 +1,5 @@
-import { Photo } from "../../../models/appareil_levage/famille1_lev1/photo.mjs";
-import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { Photo } from "../../../models/appareil_levage/famille4_lev4/photo.mjs";
+import { Completed } from "../../../models/appareil_levage/famille4_lev4/completed.mjs";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';

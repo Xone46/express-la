@@ -59,4 +59,4 @@ const RenseignementSchema = new mongoose.Schema({
 
 });
 
-export const Renseignement = mongoose.model("Renseignement_Famille_Ac1", RenseignementSchema);
+export const Renseignement = mongoose.model("RenseignementFamilleAc1", RenseignementSchema);

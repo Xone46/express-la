@@ -56,4 +56,4 @@ const ExamenSchema = new mongoose.Schema({
     }
 })
 
-export const Examen = mongoose.model("Examen_Famille3_Lev3", ExamenSchema);
+export const Examen = mongoose.model("ExamenFamille3Lev3", ExamenSchema);
