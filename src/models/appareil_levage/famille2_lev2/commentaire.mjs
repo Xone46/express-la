@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const CommentaireSchema = new mongoose.Schema({
+const Commentaire_famille_one_lev_one_Schema = new mongoose.Schema({
 
     observateurId: {
         type: mongoose.Schema.Types.String,
@@ -28,4 +28,4 @@ const CommentaireSchema = new mongoose.Schema({
 
 });
 
-export const Commentaire = mongoose.model("CommentaireFamille2Lev2", CommentaireSchema);
+export const Commentaire = mongoose.model("Commentaire_famille_one_lev_one", Commentaire_famille_one_lev_one_Schema);
