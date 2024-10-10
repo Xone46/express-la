@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const PhotoSchema = new mongoose.Schema({
+const PhotoFamilleTreeLevTree_Schema = new mongoose.Schema({
     filename : {
         type : mongoose.Schema.Types.String,
         required : false,
@@ -16,4 +16,4 @@ const PhotoSchema = new mongoose.Schema({
     }
 });
 
-export const Photo = mongoose.model("PhotoFamille3Lev3", PhotoSchema);
+export const PhotoFamilleTreeLevTree = mongoose.model("PhotoFamilleTreeLevTree", PhotoFamilleTreeLevTree_Schema);

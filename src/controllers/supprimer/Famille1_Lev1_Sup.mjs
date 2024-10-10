@@ -1,11 +1,11 @@
 import { Observateur } from "../../models/observateur.mjs";
-import { Renseignement } from "../../models/appareil_levage/famille1_lev1/renseignement.mjs";
-import { Description } from "../../models/appareil_levage/famille1_lev1/description.mjs";
-import { Examen } from "../../models/appareil_levage/famille1_lev1/examen.mjs";
-import { Conclusion } from "../../models/appareil_levage/famille1_lev1/conclusion.mjs";
-import { Commentaire } from "../../models/appareil_levage/famille1_lev1/commentaire.mjs";
-import { Photo } from "../../models/appareil_levage/famille1_lev1/photo.mjs";
-import { Completed } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { RenseignementFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/renseignement.mjs";
+import { DescriptionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/description.mjs";
+import { ExamenFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/examen.mjs";
+import { ConclusionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/conclusion.mjs";
+import { CommentaireFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/commentaire.mjs";
+import { PhotoFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/photo.mjs";
+import { CompletedFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
 
 
 import fs from "fs";
@@ -20,15 +20,15 @@ const supprimer = async (observateurId, response) => {
 
     const result = await Observateur.deleteOne({ _id: observateurId });
     if (result.acknowledged == true && result.deletedCount == 1) {
-        await Renseignement.deleteOne({ observateurId: observateurId });
-        await Description.deleteOne({ observateurId: observateurId });
-        await Examen.deleteOne({ observateurId: observateurId });
-        await Conclusion.deleteOne({ observateurId: observateurId });
-        await Commentaire.deleteOne({ observateurId: observateurId });
-        await Completed.deleteOne({ observateurId: observateurId });
-        const photo = await Photo.findOne({ observateurId: observateurId })
+        await RenseignementFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+        await DescriptionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+        await ExamenFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+        await ConclusionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+        await CommentaireFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+        await CompletedFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+        const photo = await PhotoFamilleOneLevOne.findOne({ observateurId: observateurId })
         if (photo) {
-            await Photo.deleteOne({ observateurId: observateurId })
+            await PhotoFamilleOneLevOne.deleteOne({ observateurId: observateurId })
                 .then(() => {
                     const pathFile = path.resolve(__dirname, `../uploads/${photo.filename}`);
                     fs.unlink(pathFile, (err) => {
@@ -53,13 +53,13 @@ const supprimer = async (observateurId, response) => {
 
 const supprimer_by_intervention = async (observateurId) => {
 
-    await Renseignement.deleteOne({ observateurId: observateurId });
-    await Description.deleteOne({ observateurId: observateurId });
-    await Examen.deleteOne({ observateurId: observateurId });
-    await Conclusion.deleteOne({ observateurId: observateurId });
-    await Commentaire.deleteOne({ observateurId: observateurId });
-    await Completed.deleteOne({ observateurId: observateurId });
-    await Photo.deleteOne({ observateurId: observateurId });
+    await RenseignementFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+    await DescriptionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+    await ExamenFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+    await ConclusionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+    await CommentaireFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+    await CompletedFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+    await PhotoFamilleOneLevOne.deleteOne({ observateurId: observateurId });
 
 }
 

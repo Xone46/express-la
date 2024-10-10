@@ -1,7 +1,7 @@
-import { Observateur } from "../../models/observateur.mjs";
-import { Inspecteur } from "../../models/inspecteurs.mjs";
-import { Intervention } from "../../models/intervention.mjs";
-import { Photo } from "../../models/accessoire_levage/famille_ac1/photo.mjs";
+import { Observateur } from "../../../models/observateur.mjs";
+import { Inspecteur } from "../../../models/inspecteurs.mjs";
+import { Intervention } from "../../../models/intervention.mjs";
+import { PhotoFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/photo.mjs";
 
 import geoip from 'geoip-lite'
 
@@ -33,7 +33,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
     const observateur = await Observateur.findById(observateurId);
     const inspecteur = await Inspecteur.findById(inspecteurId);
     const intervention = await Intervention.findById(observateur.interventionId);
-    const photo = await Photo.findOne({ observateurId : observateurId});
+    const photo = await PhotoFamilleTreeLevTree.findOne({ observateurId : observateurId});
 
     const emails = [
         "jamal.ettariqi@gthconsult.ma",

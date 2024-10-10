@@ -1,13 +1,13 @@
 import { Intervention } from "../../models/intervention.mjs";
 import { Inspecteur } from "../../models/inspecteurs.mjs";
 import { Observateur } from "../../models/observateur.mjs";
-import { Renseignement } from "../../models/appareil_levage/famille1_lev1/renseignement.mjs";
-import { Examen } from "../../models/appareil_levage/famille1_lev1/examen.mjs";
-import { Description } from "../../models/appareil_levage/famille1_lev1/description.mjs";
-import { Conclusion } from "../../models/appareil_levage/famille1_lev1/conclusion.mjs";
-import { Photo } from "../../models/appareil_levage/famille1_lev1/photo.mjs";
-import { Commentaire } from "../../models/appareil_levage/famille1_lev1/commentaire.mjs";
-import { Completed } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { RenseignementFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/renseignement.mjs";
+import { ExamenFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/examen.mjs";
+import { DescriptionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/description.mjs";
+import { ConclusionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/conclusion.mjs";
+import { PhotoFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/photo.mjs";
+import { CommentaireFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/commentaire.mjs";
+import { CompletedFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
 import { spawn } from 'child_process';
 
 
@@ -25,13 +25,13 @@ const __dirname = path.dirname(__filename);
 const generate = async (observateurId, inspecteurId, interventionId, type, response) => {
 
     //check is elements completed
-    const completed = await Completed.findOne({ observateurId: observateurId });
-    const renseignement = await Renseignement.findOne({ observateurId: observateurId });
-    const description = await Description.findOne({ observateurId: observateurId });
-    const examen = await Examen.findOne({ observateurId: observateurId });
-    const conclusion = await Conclusion.findOne({ observateurId: observateurId });
-    const photo = await Photo.findOne({ observateurId: observateurId });
-    const comments = await Commentaire.find({ observateurId: observateurId });
+    const completed = await CompletedFamilleOneLevOne.findOne({ observateurId: observateurId });
+    const renseignement = await RenseignementFamilleOneLevOne.findOne({ observateurId: observateurId });
+    const description = await DescriptionFamilleOneLevOne.findOne({ observateurId: observateurId });
+    const examen = await ExamenFamilleOneLevOne.findOne({ observateurId: observateurId });
+    const conclusion = await ConclusionFamilleOneLevOne.findOne({ observateurId: observateurId });
+    const photo = await PhotoFamilleOneLevOne.findOne({ observateurId: observateurId });
+    const comments = await CommentaireFamilleOneLevOne.find({ observateurId: observateurId });
 
     if (completed) {
 
@@ -361,13 +361,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                 })
                 .render();
 
-            // const doc = new Docxtemplater(zip, {
-            //     paragraphLoop: true,
-            //     linebreaks: true,
-            // });
-
-
-            // doc.render();
 
             const buf = doc.getZip().generate({
                 type: "nodebuffer",

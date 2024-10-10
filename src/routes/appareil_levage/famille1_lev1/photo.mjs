@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { Photo } from "../../../models/appareil_levage/famille1_lev1/photo.mjs";
-import { Completed } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
+import { PhotoFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/photo.mjs";
+import { CompletedFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
 import { Observateur } from "../../../models/observateur.mjs";
 import PhotoController from "../../../controllers/appareil_levage/famille1_lev1/PhotoController.mjs"
 const router = Router();
@@ -30,7 +30,7 @@ router.post("/create", upload.single('file'), async (request, response) => {
         const observateurId = String(request.body.observateurId);
         let mimetype = request.file.mimetype.substring(6);
 
-        const photo = new Photo({
+        const photo = new PhotoFamilleOneLevOne({
             filename: request.file.filename,
             mimetype : mimetype,
             observateurId : request.body.observateurId
@@ -39,7 +39,7 @@ router.post("/create", upload.single('file'), async (request, response) => {
        await photo.save()
        .then(async() => {
 
-            await Completed.updateOne({ observateurId: observateurId }, {
+            await CompletedFamilleOneLevOne.updateOne({ observateurId: observateurId }, {
                 $set: {
                     photo: true,
                 }

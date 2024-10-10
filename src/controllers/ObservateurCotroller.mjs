@@ -18,9 +18,10 @@ import  Famille1_Lev1_Ter from "../controllers/terminer/Famille1_Lev1_Ter.mjs";
 import  Famille2_Lev2_Ter from "../controllers/terminer/Famille2_Lev2_Ter.mjs";
 
 
-import  FamilleAc1_Env from "./envoyer/FamilleAc1_Env.mjs";
-import  Famille1_Lev1_Env from "./envoyer/Famille1_Lev1_Env.mjs";
-import  Famille2_Lev2_Env from "./envoyer/Famille1_Lev2_Env.mjs";
+import  FamilleAc1_Env from "./envoyer/accessoire_levage/FamilleAc1_Env.mjs";
+import  Famille1_Lev1_Env from "./envoyer/appareil_levage/Famille1_Lev1_Env.mjs";
+import  Famille2_Lev2_Env from "./envoyer/appareil_levage/Famille2_Lev2_Env.mjs";
+import  Famille3_Lev3_Env from "./envoyer/appareil_levage/Famille3_Lev3_Env.mjs";
 
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
@@ -310,6 +311,15 @@ const envoyer = async (request, response) => {
 
             if(flag) {
                 Famille2_Lev2_Env.envoyer(observateurId, inspecteurId, ip, response);
+            }
+        }
+        
+        if(obs.typeAppareil[0] == "Famille 3 LEV3") {
+
+            const flag = Famille3_Lev3.generate(observateurId, inspecteurId, interventionId, type, response);
+
+            if(flag) {
+                Famille3_Lev3_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
 

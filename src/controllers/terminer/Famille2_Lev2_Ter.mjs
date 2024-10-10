@@ -1,10 +1,10 @@
 import { Observateur } from "../../models/observateur.mjs";
-import { Completed } from "../../models/appareil_levage/famille2_lev2/completed.mjs";
+import { CompletedFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/completed.mjs";
 
 
 const terminer = async (observateurId, response) => {
 
-    const completed = await Completed.findOne({ observateurId: observateurId });
+    const completed = await CompletedFamilleTowLevTow.findOne({ observateurId: observateurId });
     const tab = new Array(completed.renseignement, completed.description, completed.examen, completed.conclusion, completed.photo);
     let checker = arr => arr.every(v => v === true);
     if (checker(tab) == false) {

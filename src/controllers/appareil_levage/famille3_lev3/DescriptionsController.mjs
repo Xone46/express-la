@@ -1,5 +1,5 @@
-import { Description } from "../../../models/appareil_levage/famille3_lev3/description.mjs";
-import { Completed } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
+import { DescriptionFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/description.mjs";
+import { CompletedFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/description/checkEmpty.mjs";
 
@@ -28,10 +28,10 @@ const create = async (request, response) => {
         } = request;
 
         // get renseignement
-        const description = await Description.findOne({ observateurId: request.body.observateurId });
+        const description = await DescriptionFamilleTreeLevTree.findOne({ observateurId: request.body.observateurId });
 
         if (description) {
-            await Description.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
+            await DescriptionFamilleTreeLevTree.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
                 marquage : marquage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
                 porteeMinimale : porteeMinimale,
@@ -59,7 +59,7 @@ const create = async (request, response) => {
 
         } else {
             
-            await Description({
+            await DescriptionFamilleTreeLevTree({
                 marquage : marquage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
                 porteeMinimale : porteeMinimale,
@@ -80,7 +80,7 @@ const create = async (request, response) => {
                 .save()
                 .then(async(result) => {
     
-                    await Completed.updateOne({ observateurId: observateurId }, {
+                    await CompletedFamilleTreeLevTree.updateOne({ observateurId: observateurId }, {
                         $set: {
                             description: true,
                         }
@@ -115,7 +115,7 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const description = await Description.findOne({ observateurId : observateurId });
+        const description = await DescriptionFamilleTreeLevTree.findOne({ observateurId : observateurId });
         if(description) {
             response.status(200).json({ description : description });
         } 

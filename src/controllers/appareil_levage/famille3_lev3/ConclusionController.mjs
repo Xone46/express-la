@@ -1,6 +1,6 @@
 
-import { Conclusion } from "../../../models/appareil_levage/famille3_lev3/conclusion.mjs";
-import { Completed } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
+import { ConclusionFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/conclusion.mjs";
+import { CompletedFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 
 
@@ -10,11 +10,11 @@ const create = async (request, response) => {
     try {
 
         const { a, b, c, d, e, f, g, poids, commentaire, observateurId, child } = request.body;
-        const conclusion = await Conclusion.findOne({ observateurId: request.body.observateurId });
+        const conclusion = await ConclusionFamilleTreeLevTree.findOne({ observateurId: request.body.observateurId });
 
         if(conclusion) {
 
-            await Conclusion.updateOne({ observateurId: request.body.observateurId }, {
+            await ConclusionFamilleTreeLevTree.updateOne({ observateurId: request.body.observateurId }, {
                 $set: {
                     a : request.body.a,  
                     b : request.body.b,  
@@ -30,7 +30,7 @@ const create = async (request, response) => {
             })
                 .then(async(result) => {
 
-                await Completed.updateOne({ observateurId: request.body.observateurId }, {
+                await CompletedFamilleTreeLevTree.updateOne({ observateurId: request.body.observateurId }, {
                             $set: { 
                                 conclusion: true
                             } 
@@ -53,7 +53,7 @@ const create = async (request, response) => {
             .save()
             .then(async () => {
 
-                await Completed.updateOne({ observateurId: observateurId }, {
+                await CompletedFamilleTreeLevTree.updateOne({ observateurId: observateurId }, {
                     $set: {
                         conclusion: true,
                     }
@@ -87,9 +87,9 @@ const reset = async (request, response) => {
 
     try {
         const observateurId = String(request.params.observateurId);
-        const conclusion = await Conclusion.deleteOne({ observateurId : observateurId });
+        const conclusion = await ConclusionFamilleTreeLevTree.deleteOne({ observateurId : observateurId });
         if(conclusion.deletedCount == 1) {
-                await Completed.updateOne({ observateurId: observateurId }, {
+                await CompletedFamilleTreeLevTree.updateOne({ observateurId: observateurId }, {
                     $set: {
                         conclusion: false,
                     }
@@ -116,7 +116,7 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const conclusion = await Conclusion.findOne({ observateurId : observateurId });
+        const conclusion = await ConclusionFamilleTreeLevTree.findOne({ observateurId : observateurId });
         response.status(200).json(conclusion);
 
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Examen_famille_one_lev_one_Schema = new mongoose.Schema({
+const ExamenFamilleOneLevOne_Schema = new mongoose.Schema({
     a : {
         type : mongoose.Schema.Types.Array,
         required : false,
@@ -56,4 +56,4 @@ const Examen_famille_one_lev_one_Schema = new mongoose.Schema({
     }
 })
 
-export const Examen = mongoose.model("Examen_famille_one_lev_one", Examen_famille_one_lev_one_Schema);
+export const ExamenFamilleOneLevOne = mongoose.model("ExamenFamilleOneLevOne", ExamenFamilleOneLevOne_Schema);

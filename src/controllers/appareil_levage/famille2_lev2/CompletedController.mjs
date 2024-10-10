@@ -1,7 +1,7 @@
 
-import { Completed } from "../../../models/appareil_levage/famille2_lev2/completed.mjs";
+import { CompletedFamilleTowLevTow } from "../../../models/appareil_levage/famille2_lev2/completed.mjs";
 import { Observateur } from "../../../models/observateur.mjs";
-import { Renseignement } from "../../../models/appareil_levage/famille2_lev2/renseignement.mjs";
+import { RenseignementFamilleTowLevTow } from "../../../models/appareil_levage/famille2_lev2/renseignement.mjs";
 
 const read = async (request, response) => {
 
@@ -16,7 +16,7 @@ const read = async (request, response) => {
 const checkRenseignement = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
-        const renseignement = await Renseignement.find({ observateurId: observateurId });
+        const renseignement = await RenseignementFamilleTowLevTow.find({ observateurId: observateurId });
         if (renseignement.length == 0) {
             response.status(200).json(false);
         } else {
@@ -33,7 +33,7 @@ const checkRenseignement = async (request, response) => {
 const checkExamen = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
-        const completed = await Completed.find({ observateurId: observateurId, examen: true });
+        const completed = await CompletedFamilleTowLevTow.find({ observateurId: observateurId, examen: true });
         if (completed.length != 0) {
             response.status(200).json(true);
         } else {
@@ -49,7 +49,7 @@ const checkExamen = async (request, response) => {
 const checkDescription = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
-        const completed = await Completed.find({ observateurId: observateurId, description: true });
+        const completed = await CompletedFamilleTowLevTow.find({ observateurId: observateurId, description: true });
         if (completed.length != 0) {
             response.status(200).json(true);
         } else {
@@ -65,7 +65,7 @@ const checkDescription = async (request, response) => {
 const checkConclusion = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
-        const completed = await Completed.find({ observateurId: observateurId, conclusion: true });
+        const completed = await CompletedFamilleTowLevTow.find({ observateurId: observateurId, conclusion: true });
         if (completed.length != 0) {
             response.status(200).json(true);
         } else {
@@ -83,7 +83,7 @@ const checkPhoto = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
 
-        const completed = await Completed.find({ observateurId: observateurId, photo: true });
+        const completed = await CompletedFamilleTowLevTow.find({ observateurId: observateurId, photo: true });
 
         if (completed.length != 0) {
             response.status(200).json(true);

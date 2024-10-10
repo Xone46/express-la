@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const RenseignementSchema = new mongoose.Schema({
+const RenseignementFamilleTreeLevTree_Schema = new mongoose.Schema({
 
     constructeur: {
         type: mongoose.Schema.Types.String,
@@ -91,4 +91,4 @@ const RenseignementSchema = new mongoose.Schema({
 
 })
 
-export const Renseignement = mongoose.model("RenseignementFamille3Lev3", RenseignementSchema);
+export const RenseignementFamilleTreeLevTree = mongoose.model("RenseignementFamilleTreeLevTree", RenseignementFamilleTreeLevTree_Schema);

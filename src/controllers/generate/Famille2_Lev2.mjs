@@ -1,13 +1,13 @@
 import { Intervention } from "../../models/intervention.mjs";
 import { Inspecteur } from "../../models/inspecteurs.mjs";
 import { Observateur } from "../../models/observateur.mjs";
-import { Renseignement } from "../../models/appareil_levage/famille2_lev2/renseignement.mjs";
-import { Examen } from "../../models/appareil_levage/famille2_lev2/examen.mjs";
-import { Description } from "../../models/appareil_levage/famille2_lev2/description.mjs";
-import { Conclusion } from "../../models/appareil_levage/famille2_lev2/conclusion.mjs";
-import { Photo } from "../../models/appareil_levage/famille2_lev2/photo.mjs";
-import { Commentaire } from "../../models/appareil_levage/famille2_lev2/commentaire.mjs";
-import { Completed } from "../../models/appareil_levage/famille2_lev2/completed.mjs";
+import { RenseignementFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/renseignement.mjs";
+import { ExamenFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/examen.mjs";
+import { DescriptionFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/description.mjs";
+import { ConclusionFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/conclusion.mjs";
+import { PhotoFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/photo.mjs";
+import { CommentaireFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/commentaire.mjs";
+import { CompletedFamilleTowLevTow } from "../../models/appareil_levage/famille2_lev2/completed.mjs";
 import { spawn } from 'child_process';
 
 
@@ -25,13 +25,13 @@ const __dirname = path.dirname(__filename);
 const generate = async (observateurId, inspecteurId, interventionId, type, response) => {
 
     //check is elements completed
-    const completed = await Completed.findOne({ observateurId: observateurId });
-    const renseignement = await Renseignement.findOne({ observateurId: observateurId });
-    const description = await Description.findOne({ observateurId: observateurId });
-    const examen = await Examen.findOne({ observateurId: observateurId });
-    const conclusion = await Conclusion.findOne({ observateurId: observateurId });
-    const photo = await Photo.findOne({ observateurId: observateurId });
-    const comments = await Commentaire.find({ observateurId: observateurId });
+    const completed = await CompletedFamilleTowLevTow.findOne({ observateurId: observateurId });
+    const renseignement = await RenseignementFamilleTowLevTow.findOne({ observateurId: observateurId });
+    const description = await DescriptionFamilleTowLevTow.findOne({ observateurId: observateurId });
+    const examen = await ExamenFamilleTowLevTow.findOne({ observateurId: observateurId });
+    const conclusion = await ConclusionFamilleTowLevTow.findOne({ observateurId: observateurId });
+    const photo = await PhotoFamilleTowLevTow.findOne({ observateurId: observateurId });
+    const comments = await CommentaireFamilleTowLevTow.find({ observateurId: observateurId });
 
     if (completed) {
 
@@ -197,7 +197,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                         delete arr[i].o;
                     } else {
 
-                        console.log(val)
                         const somme_obs = new Array();
                         for (let k = 0; k < arr_obs.length; k++) {
                             if (arr_obs[k].ref == val) {
@@ -230,7 +229,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const hExamen = fixDuplicateExamen(examen.h, "H");
             const iExamen = fixDuplicateExamen(examen.i, "I");
             const jExamen = fixDuplicateExamen(examen.j, "J");
-            const KExamen = fixDuplicateExamen(examen.k, "K");
 
             var opts = {}
             opts.centered = false; //Set to true to always center images
@@ -248,7 +246,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                 return [300, 280];
             }
 
-            const tagValue = String(photo.filename);
+            const tagValue = "1724708194367.jpg"
             const tagName = `image`;
 
             opts.getImage(tagValue, tagName);
@@ -258,7 +256,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
             // Load the docx file as binary content
             const content = fs.readFileSync(
-                path.resolve(__dirname, `../../rapports/Famille2-LEV2_VGP.docx`),
+                path.resolve(__dirname, `../../rapports/Famille1-LEV1_VGP.docx`),
                 "binary"
             );
 
@@ -352,7 +350,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     hExamen: hExamen,
                     iExamen: iExamen,
                     jExamen: jExamen,
-                    KExamen: KExamen,
 
                     cri: cri,
                     ncri: ncri,
@@ -363,13 +360,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                 })
                 .render();
 
-            // const doc = new Docxtemplater(zip, {
-            //     paragraphLoop: true,
-            //     linebreaks: true,
-            // });
-
-
-            // doc.render();
 
             const buf = doc.getZip().generate({
                 type: "nodebuffer",

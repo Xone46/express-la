@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const ExamenSchema = new mongoose.Schema({
+const ExamenFamilleTreeLevTree_Schema = new mongoose.Schema({
     a : {
         type : mongoose.Schema.Types.Array,
         required : false,
@@ -56,4 +56,4 @@ const ExamenSchema = new mongoose.Schema({
     }
 })
 
-export const Examen = mongoose.model("ExamenFamille3Lev3", ExamenSchema);
+export const ExamenFamilleTreeLevTree = mongoose.model("ExamenFamilleTreeLevTree", ExamenFamilleTreeLevTree_Schema);

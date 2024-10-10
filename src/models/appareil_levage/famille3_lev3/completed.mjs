@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const CompletedSchema = new mongoose.Schema({
+const CompletedFamilleTreeLevTree_Schema = new mongoose.Schema({
 
     observateurId : {
         type : mongoose.Schema.Types.String,
@@ -32,4 +32,4 @@ const CompletedSchema = new mongoose.Schema({
     }
 });
 
-export const Completed = mongoose.model("CompletedFamille3Lev3", CompletedSchema);
+export const CompletedFamilleTreeLevTree = mongoose.model("CompletedFamilleTreeLevTree", CompletedFamilleTreeLevTree_Schema);

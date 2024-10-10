@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Description_famille_one_lev_one_Schema = new mongoose.Schema({
+const DescriptionFamilleOneLevOne_Schema = new mongoose.Schema({
     
     marquage: {
         type : mongoose.Schema.Types.String,
@@ -83,4 +83,4 @@ const Description_famille_one_lev_one_Schema = new mongoose.Schema({
 
 });
 
-export const Description = mongoose.model("Description_famille_one_lev_one", Description_famille_one_lev_one_Schema);
+export const DescriptionFamilleOneLevOne = mongoose.model("DescriptionFamilleOneLevOne", DescriptionFamilleOneLevOne_Schema);

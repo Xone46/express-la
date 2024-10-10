@@ -1,5 +1,5 @@
-import { Photo } from "../../../models/appareil_levage/famille3_lev3/photo.mjs";
-import { Completed } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
+import { PhotoFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/photo.mjs";
+import { CompletedFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
@@ -12,7 +12,7 @@ const select = async (request, response) => {
     
     try {
         const observateurId = String(request.params.observateurId);
-        const photo = await Photo.findOne({ observateurId : observateurId });
+        const photo = await PhotoFamilleTreeLevTree.findOne({ observateurId : observateurId });
 
         if(photo) {
             const urlImage = path.resolve(__dirname, `../../../uploads/${photo.filename}`);
@@ -37,14 +37,14 @@ const reset = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const photo = await Photo.findOne({ observateurId : observateurId });
-        const deleted = await Photo.deleteOne({ observateurId : observateurId });
+        const photo = await PhotoFamilleTreeLevTree.findOne({ observateurId : observateurId });
+        const deleted = await PhotoFamilleTreeLevTree.deleteOne({ observateurId : observateurId });
         
         if(deleted) {
             const urlImage = path.resolve(__dirname, `../../../uploads/${photo.filename}`);
             fs.unlink(urlImage, async(err) => {
                 if (err) throw err;
-                    await Completed.updateOne({ observateurId: observateurId }, {
+                    await CompletedFamilleTreeLevTree.updateOne({ observateurId: observateurId }, {
                         $set: {
                             photo: false,
                         }

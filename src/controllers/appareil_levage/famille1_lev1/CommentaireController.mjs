@@ -1,6 +1,7 @@
 
-import { Commentaire_famille_one_lev_one } from "../../../models/appareil_levage/famille1_lev1/commentaire.mjs";
-import { Examen_famille_one_lev_one } from "../../../models/appareil_levage/famille1_lev1/examen.mjs";
+import { CommentaireFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/commentaire.mjs";
+import { ExamenFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/examen.mjs";
+
 
 const create = async (request, response) => {
 
@@ -8,9 +9,9 @@ const create = async (request, response) => {
 
         const { observateurId, ref, number, titre, modelSelected } = request.body;
 
-        const exist = await Commentaire_famille_one_lev_one.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
+        const exist = await CommentaireFamilleOneLevOne.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
         if(exist) {
-            await Commentaire_famille_one_lev_one.updateOne({observateurId : observateurId }, { $set : { ref : ref, number : number, titre : titre, modelSelected :modelSelected }})
+            await CommentaireFamilleOneLevOne.updateOne({observateurId : observateurId }, { $set : { ref : ref, number : number, titre : titre, modelSelected :modelSelected }})
             .then(() => {
                 response.status(201).json({ msg: "Modifié avec succès" })
             })
@@ -19,7 +20,7 @@ const create = async (request, response) => {
             });
 
         } else {
-            await Commentaire_famille_one_lev_one({ observateurId, ref, number, titre, modelSelected })
+            await CommentaireFamilleOneLevOne({ observateurId, ref, number, titre, modelSelected })
             .save()
             .then(() => {
                 response.status(201).json({ msg: "Enregistré avec succès" });
@@ -46,7 +47,7 @@ const select = async (request, response) => {
 
         const { observateurId, ref, number, titre } = request.body;
 
-        const commentaire = await Commentaire_famille_one_lev_one.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
+        const commentaire = await CommentaireFamilleOneLevOne.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
         if(commentaire) {
             response.status(200).json(commentaire);
         }
@@ -63,7 +64,7 @@ const deleteOne = async (request, response) => {
     try {
 
         const { commentaireId } = request.params;
-        const commentaire = await Commentaire_famille_one_lev_one.deleteOne({ _id : commentaireId });
+        const commentaire = await CommentaireFamilleOneLevOne.deleteOne({ _id : commentaireId });
         if(commentaire) {
             response.status(200).json(commentaire);
         }
@@ -79,7 +80,7 @@ const readCommentaires = async (request, response) => {
 
     try {
         const { observateurId } = request.params;
-        const commentaire = await Commentaire_famille_one_lev_one.find({ observateurId : observateurId });
+        const commentaire = await CommentaireFamilleOneLevOne.find({ observateurId : observateurId });
         if(commentaire) {
             console.log(commentaire)
             response.status(200).json(commentaire);
@@ -97,7 +98,7 @@ const deleteByRefAndObservateurId = async (request, response) => {
 
     try {
         const { observateurId, ref } = request.params;
-        const commentaire = await Commentaire_famille_one_lev_one.deleteOne({ ref : ref, observateurId : observateurId });
+        const commentaire = await CommentaireFamilleOneLevOne.deleteOne({ ref : ref, observateurId : observateurId });
         if(commentaire) {
             console.log(commentaire)
             response.status(200).json(true);
@@ -123,7 +124,7 @@ const supprimer = async (request, response) => {
 
 
 
-        const commentaire = await Commentaire_famille_one_lev_one.findOne({ observateurId : observateurId, ref : ref });
+        const commentaire = await CommentaireFamilleOneLevOne.findOne({ observateurId : observateurId, ref : ref });
         for(let i = 0; i < commentaire.modelSelected.length; i++) {
             if(commentaire.modelSelected[i].name == name) {
                 commentaire.modelSelected.splice(i, 1);
@@ -131,7 +132,7 @@ const supprimer = async (request, response) => {
         } 
 
         if(commentaire.modelSelected.length > 0) {
-            await Commentaire_famille_one_lev_one.updateOne({ observateurId: observateurId }, {
+            await CommentaireFamilleOneLevOne.updateOne({ observateurId: observateurId }, {
                 $set: {
                     "modelSelected": commentaire.modelSelected,
                 }
@@ -146,8 +147,8 @@ const supprimer = async (request, response) => {
         }
 
         if(commentaire.modelSelected.length == 0) {
-            const examen = await Examen.findOne({ observateurId : observateurId });
-            const commentaire = await Commentaire_famille_one_lev_one.deleteOne({ observateurId: observateurId, ref : ref });
+            const examen = await ExamenFamilleOneLevOne.findOne({ observateurId : observateurId });
+            const commentaire = await CommentaireFamilleOneLevOne.deleteOne({ observateurId: observateurId, ref : ref });
             if(commentaire) {
                 for(let i = 0; i < examen[refFix].length; i++) {
                     if(examen[refFix][i]["titre"] == name) {
@@ -156,7 +157,7 @@ const supprimer = async (request, response) => {
                 }
             }
 
-            await Examen.updateOne({ observateurId: observateurId }, {
+            await ExamenFamilleOneLevOne.updateOne({ observateurId: observateurId }, {
                 $set: {
                     a : examen["a"],
                     b : examen["b"],

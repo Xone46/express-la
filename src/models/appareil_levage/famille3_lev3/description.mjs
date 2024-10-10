@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const DescriptionSchema = new mongoose.Schema({
+const DescriptionFamilleTreeLevTree_Schema = new mongoose.Schema({
     
     marquage: {
         type : mongoose.Schema.Types.String,
@@ -83,4 +83,4 @@ const DescriptionSchema = new mongoose.Schema({
 
 });
 
-export const Description = mongoose.model("DescriptionFamille3Lev3", DescriptionSchema);
+export const DescriptionFamilleTreeLevTree = mongoose.model("DescriptionFamilleTreeLevTree", DescriptionFamilleTreeLevTree_Schema);

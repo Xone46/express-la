@@ -1,7 +1,7 @@
 
-import { Examen } from "../../../models/appareil_levage/famille2_lev2/examen.mjs";
-import { Commentaire } from "../../../models/appareil_levage/famille2_lev2/commentaire.mjs";
-import { Completed } from "../../../models/appareil_levage/famille2_lev2/completed.mjs";
+import { ExamenFamilleTowLevTow } from "../../../models/appareil_levage/famille2_lev2/examen.mjs";
+import { CommentaireFamilleTowLevTow } from "../../../models/appareil_levage/famille2_lev2/commentaire.mjs";
+import { CompletedFamilleTowLevTow } from "../../../models/appareil_levage/famille2_lev2/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/examens/checkEmpty.mjs";
 
@@ -12,8 +12,8 @@ const create = async (request, response) => {
     try {
 
         const { a, b, c, d, e, f, g, h, i, j, observateurId } = request.body;
-
-        const exist = await Examen.findOne({ observateurId : observateurId });
+        
+        const exist = await ExamenFamilleTowLevTow.findOne({ observateurId : observateurId });
         if(exist) {
 
             await Examen.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j }})
@@ -30,7 +30,7 @@ const create = async (request, response) => {
             .save()
             .then(async () => {
 
-                await Completed.updateOne({ observateurId: observateurId }, {
+                await CompletedFamilleTowLevTow.updateOne({ observateurId: observateurId }, {
                     $set: {
                         examen: true,
                     }
@@ -62,7 +62,7 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const examen = await Examen.findOne({ observateurId : observateurId });
+        const examen = await ExamenFamilleTowLevTow.findOne({ observateurId : observateurId });
         if(examen) {
             response.status(200).json({ examen : examen });
         } 
@@ -80,16 +80,16 @@ const reset = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        await Examen.deleteOne({ observateurId : observateurId })
+        await ExamenFamilleTowLevTow.deleteOne({ observateurId : observateurId })
         .then(async() => {
             
-            await Completed.updateOne({ observateurId: observateurId }, {
+            await CompletedFamilleTowLevTow.updateOne({ observateurId: observateurId }, {
                 $set: {
                     examen: false,
                 }
             })
             .then(async() => {
-                await Commentaire.deleteMany({ observateurId : observateurId })
+                await CommentaireFamilleTowLevTow.deleteMany({ observateurId : observateurId })
                 .then(() => {
                     response.status(200).json({ msg : "Deleted Done!" });
                 })
@@ -122,21 +122,21 @@ const updateStatus = async (request, response) => {
         const observateurId = String(request.body.observateurId);
         const titreReserve = String(request.body.titreReserve);
 
-        const res = await Examen.findOne({ observateurId : observateurId });
+        const res = await ExamenFamilleTowLevTow.findOne({ observateurId : observateurId });
 
         const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
 
         a.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         b.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
 
             }
         });
@@ -151,34 +151,35 @@ const updateStatus = async (request, response) => {
         d.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         e.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         f.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         g.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         h.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
@@ -192,12 +193,12 @@ const updateStatus = async (request, response) => {
         j.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await CommentaireFamilleTowLevTow.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
 
-        await Examen.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
+        await ExamenFamilleTowLevTow.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
         .then((result) => {
             console.log(result);
             response.status(201).json({ msg: "Modifié avec succès" });
@@ -222,7 +223,7 @@ const changeStatusCritique = async (request, response) => {
         const titreReserve = String(request.body.titre);
         const statusCritique = Boolean(request.body.statusCritique);
 
-        const res = await Examen.findOne({ observateurId : observateurId });
+        const res = await ExamenFamilleTowLevTow.findOne({ observateurId : observateurId });
 
         const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
 
@@ -288,7 +289,7 @@ const changeStatusCritique = async (request, response) => {
 
 
 
-        await Examen.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
+        await ExamenFamilleTowLevTow.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
         .then((result) => {
             response.status(201).json({ msg: "Modifié avec succès" });
         })

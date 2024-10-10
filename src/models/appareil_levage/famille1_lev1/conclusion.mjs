@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const Conclusion_famille_one_lev_one_Schema = new mongoose.Schema({
+const ConclusionFamilleOneLevOne_Schema = new mongoose.Schema({
 
     a: {
         type: mongoose.Schema.Types.String,
@@ -58,4 +58,4 @@ const Conclusion_famille_one_lev_one_Schema = new mongoose.Schema({
 
 });
 
-export const Conclusion = mongoose.model("Conclusion_famille_one_lev_one", Conclusion_famille_one_lev_one_Schema);
+export const ConclusionFamilleOneLevOne = mongoose.model("ConclusionFamilleOneLevOne", ConclusionFamilleOneLevOne_Schema);
