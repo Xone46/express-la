@@ -3,7 +3,7 @@ import { RenseignementFamilleTreeLevTree } from "../../models/appareil_levage/fa
 import { DescriptionFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/description.mjs";
 import { ExamenFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/examen.mjs";
 import { ConclusionFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/conclusion.mjs";
-import { CommentaireFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/commentaire.mjs";
+import { Commentaire } from "../../models/commentaire.mjs";
 import { PhotoFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/photo.mjs";
 import { CompletedFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/completed.mjs";
 
@@ -24,7 +24,7 @@ const supprimer = async (observateurId, response) => {
         await DescriptionFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
         await ExamenFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
         await ConclusionFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
-        await CommentaireFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
+        await Commentaire.deleteOne({ observateurId: observateurId });
         await CompletedFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
         const photo = await PhotoFamilleTreeLevTree.findOne({ observateurId: observateurId })
         if (photo) {
@@ -57,7 +57,7 @@ const supprimer_by_intervention = async (observateurId) => {
     await DescriptionFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
     await ExamenFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
     await ConclusionFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
-    await CommentaireFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
+    await Commentaire.deleteOne({ observateurId: observateurId });
     await CompletedFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
     await PhotoFamilleTreeLevTree.deleteOne({ observateurId: observateurId });
 

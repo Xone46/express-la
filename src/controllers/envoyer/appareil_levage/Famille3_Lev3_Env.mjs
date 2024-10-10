@@ -38,9 +38,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
     const emails = [
         "jamal.ettariqi@gthconsult.ma",
         "tarik.addioui@gthconsult.ma",
-        // "service.clients@gthconsult.ma",
-        // "khadija.sayoti@gthconsult.ma",
-        // "direction@gthconsult.ma",
+        "service.clients@gthconsult.ma",
         "service.supports@gthconsult.ma"
     ];
 
@@ -58,7 +56,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
         }
     });
 
-    const filePath = path.join(__dirname, "/views/send_rapport.html");
+    const filePath = path.join(__dirname, "../../../controllers/envoyer/views/send_rapport.html");
     const source = fs.readFileSync(filePath, 'utf-8').toString();
     const template = handlebars.compile(source);
     const replacements = {
@@ -85,15 +83,15 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
         subject: `E-RAPPORT GTHCONSULT : Demande de validation rapport de ${intervention.etablissement}`,
         html: htmlToSend,
         attachments: [
-        {
-            filename: 'output.docx',
-            path: path.join(__dirname, '../../rapports/output.docx'),
-            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        }, 
-        {
-            filename: photo.filename,
-            path: path.join(__dirname, `../../uploads/${photo.filename}`)
-        }
+            {
+                filename: 'output.docx',
+                path: path.join(__dirname, '../../../rapports/output.docx'),
+                contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            }, 
+            {
+                filename: photo.filename,
+                path: path.join(__dirname, `../../../uploads/${photo.filename}`)
+            }
     ],
     }, (error, res) => {
         if (error) {

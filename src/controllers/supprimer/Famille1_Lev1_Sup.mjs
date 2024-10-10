@@ -3,7 +3,7 @@ import { RenseignementFamilleOneLevOne } from "../../models/appareil_levage/fami
 import { DescriptionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/description.mjs";
 import { ExamenFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/examen.mjs";
 import { ConclusionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/conclusion.mjs";
-import { CommentaireFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/commentaire.mjs";
+import { Commentaire } from "../../models/commentaire.mjs";
 import { PhotoFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/photo.mjs";
 import { CompletedFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
 
@@ -24,7 +24,7 @@ const supprimer = async (observateurId, response) => {
         await DescriptionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
         await ExamenFamilleOneLevOne.deleteOne({ observateurId: observateurId });
         await ConclusionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
-        await CommentaireFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+        await Commentaire.deleteOne({ observateurId: observateurId });
         await CompletedFamilleOneLevOne.deleteOne({ observateurId: observateurId });
         const photo = await PhotoFamilleOneLevOne.findOne({ observateurId: observateurId })
         if (photo) {
@@ -57,7 +57,7 @@ const supprimer_by_intervention = async (observateurId) => {
     await DescriptionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
     await ExamenFamilleOneLevOne.deleteOne({ observateurId: observateurId });
     await ConclusionFamilleOneLevOne.deleteOne({ observateurId: observateurId });
-    await CommentaireFamilleOneLevOne.deleteOne({ observateurId: observateurId });
+    await Commentaire.deleteOne({ observateurId: observateurId });
     await CompletedFamilleOneLevOne.deleteOne({ observateurId: observateurId });
     await PhotoFamilleOneLevOne.deleteOne({ observateurId: observateurId });
 

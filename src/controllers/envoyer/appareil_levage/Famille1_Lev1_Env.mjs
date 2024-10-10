@@ -36,9 +36,9 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
     const photo = await PhotoFamilleOneLevOne.findOne({ observateurId : observateurId});
 
     const emails = [
-        // "jamal.ettariqi@gthconsult.ma",
-        // "tarik.addioui@gthconsult.ma",
-        // "service.clients@gthconsult.ma",
+        "jamal.ettariqi@gthconsult.ma",
+        "tarik.addioui@gthconsult.ma",
+        "service.clients@gthconsult.ma",
         // "khadija.sayoti@gthconsult.ma",
         // "direction@gthconsult.ma",
         "service.supports@gthconsult.ma"

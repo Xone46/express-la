@@ -6,7 +6,7 @@ import { ExamenFamilleOneLevOne } from "../../models/appareil_levage/famille1_le
 import { DescriptionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/description.mjs";
 import { ConclusionFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/conclusion.mjs";
 import { PhotoFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/photo.mjs";
-import { CommentaireFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/commentaire.mjs";
+import { Commentaire } from "../../models/commentaire.mjs";
 import { CompletedFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
 import { spawn } from 'child_process';
 
@@ -31,7 +31,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
     const examen = await ExamenFamilleOneLevOne.findOne({ observateurId: observateurId });
     const conclusion = await ConclusionFamilleOneLevOne.findOne({ observateurId: observateurId });
     const photo = await PhotoFamilleOneLevOne.findOne({ observateurId: observateurId });
-    const comments = await CommentaireFamilleOneLevOne.find({ observateurId: observateurId });
+    const comments = await Commentaire.find({ observateurId: observateurId });
 
     if (completed) {
 

@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import CommentaireController from "../../../controllers/appareil_levage/famille2_lev2/CommentaireController.mjs";
+import CommentaireController from "../controllers/CommentaireController.mjs";
+
 
 router.post("/create", CommentaireController.create);
 router.post("/", CommentaireController.select);

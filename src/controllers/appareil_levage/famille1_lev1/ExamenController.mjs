@@ -1,6 +1,6 @@
 
 import { ExamenFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/examen.mjs";
-import { CommentaireFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/commentaire.mjs";
+import { Commentaire } from "../../../models/commentaire.mjs";
 import { CompletedFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/examens/checkEmpty.mjs";
@@ -89,7 +89,7 @@ const reset = async (request, response) => {
                 }
             })
             .then(async() => {
-                await CommentaireFamilleOneLevOne.deleteMany({ observateurId : observateurId })
+                await Commentaire.deleteMany({ observateurId : observateurId })
                 .then(() => {
                     response.status(200).json({ msg : "Deleted Done!" });
                 })
@@ -129,14 +129,14 @@ const updateStatus = async (request, response) => {
         a.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         b.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
 
             }
         });
@@ -151,35 +151,35 @@ const updateStatus = async (request, response) => {
         d.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         e.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         f.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         g.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
         h.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
@@ -193,7 +193,7 @@ const updateStatus = async (request, response) => {
         j.forEach(async (element) => {
             if(element.titre == titreReserve) {
                 element.o = false;
-                await CommentaireFamilleOneLevOne.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
             }
         });
 
