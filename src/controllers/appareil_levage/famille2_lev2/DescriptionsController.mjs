@@ -9,21 +9,27 @@ const create = async (request, response) => {
         const {
             body : {
                 marquage,
+                modeLevage,
                 chargeMaximaleUtile,
-                porteeMinimale,
-                distanceCentreGravite,
+                hauteurDeLevage,
                 course,
                 hauteurLevage,
                 portee,
-                porteFauxDeport,
+                porteFaux,
                 longueurCheminRoulement,
-                dimensionPlateau,
+                suspentesLevage,
+                mouflage,
+                diametre,
+                levageAuxilaire,
+                mouflageLevageAuxilaire,
+                diametreLevageAuxilaire,
                 modeInstallation,
-                suiveModeInstallation,
-                mecanisme,
-                suiveMecanisme,
-                suspentes,
-                observateurId,
+                complementModeInstallation,
+                flagComplementModeInstallation,
+                sourceEnergie,
+                flagcomplementSourceEnergie,
+                complementSourceEnergie,
+                observateurId
             }
         } = request;
 
@@ -32,22 +38,28 @@ const create = async (request, response) => {
 
         if (description) {
             await DescriptionFamilleTowLevTow.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
-                marquage : marquage,
+                marquage :marquage,
+                modeLevage : modeLevage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
-                porteeMinimale : porteeMinimale,
-                distanceCentreGravite : distanceCentreGravite,
+                hauteurDeLevage : hauteurDeLevage,
                 course : course,
                 hauteurLevage : hauteurLevage,
                 portee : portee,
-                porteFauxDeport : porteFauxDeport,
+                porteFaux : porteFaux,
                 longueurCheminRoulement : longueurCheminRoulement,
-                dimensionPlateau : dimensionPlateau,
+                suspentesLevage : suspentesLevage,
+                mouflage : mouflage,
+                diametre : diametre,
+                levageAuxilaire : levageAuxilaire,
+                mouflageLevageAuxilaire : mouflageLevageAuxilaire,
+                diametreLevageAuxilaire : diametreLevageAuxilaire,
                 modeInstallation : modeInstallation,
-                suiveModeInstallation : suiveModeInstallation,
-                mecanisme : mecanisme,
-                suiveMecanisme : suiveMecanisme,
-                suspentes : suspentes,
-                observateurId : observateurId,
+                complementModeInstallation : complementModeInstallation,
+                flagComplementModeInstallation : flagComplementModeInstallation,
+                sourceEnergie : sourceEnergie,
+                flagcomplementSourceEnergie : flagcomplementSourceEnergie,
+                complementSourceEnergie : complementSourceEnergie,
+                observateurId : observateurId
             } })
             .then((result) => {
                 response.status(201).json({ msg: "Modifié avec succès", descriptionId : result._id });
@@ -60,22 +72,28 @@ const create = async (request, response) => {
         } else {
             
             await DescriptionFamilleTowLevTow({
-                marquage : marquage,
+                marquage :marquage,
+                modeLevage : modeLevage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
-                porteeMinimale : porteeMinimale,
-                distanceCentreGravite : distanceCentreGravite,
+                hauteurDeLevage : hauteurDeLevage,
                 course : course,
                 hauteurLevage : hauteurLevage,
                 portee : portee,
-                porteFauxDeport : porteFauxDeport,
+                porteFaux : porteFaux,
                 longueurCheminRoulement : longueurCheminRoulement,
-                dimensionPlateau : dimensionPlateau,
+                suspentesLevage : suspentesLevage,
+                mouflage : mouflage,
+                diametre : diametre,
+                levageAuxilaire : levageAuxilaire,
+                mouflageLevageAuxilaire : mouflageLevageAuxilaire,
+                diametreLevageAuxilaire : diametreLevageAuxilaire,
                 modeInstallation : modeInstallation,
-                suiveModeInstallation : suiveModeInstallation,
-                mecanisme : mecanisme,
-                suiveMecanisme : suiveMecanisme,
-                suspentes : suspentes,
-                observateurId : observateurId,
+                complementModeInstallation : complementModeInstallation,
+                flagComplementModeInstallation : flagComplementModeInstallation,
+                sourceEnergie : sourceEnergie,
+                flagcomplementSourceEnergie : flagcomplementSourceEnergie,
+                complementSourceEnergie : complementSourceEnergie,
+                observateurId : observateurId
                 })
                 .save()
                 .then(async(result) => {

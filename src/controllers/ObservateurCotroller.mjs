@@ -132,6 +132,8 @@ const select = async (request, response) => {
 
 const selected = async (request, response) => {
 
+    console.log(request.body)
+
     try {
 
         const observateurId = String(request.params.observateurId);

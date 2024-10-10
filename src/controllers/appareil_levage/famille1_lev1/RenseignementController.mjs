@@ -59,7 +59,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Renseignement(request.body)
+            await RenseignementFamilleOneLevOne(request.body)
                 .save()
                 .then(async () => {
 

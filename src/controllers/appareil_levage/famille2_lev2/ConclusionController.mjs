@@ -49,7 +49,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId, child })
+            await ConclusionFamilleTowLevTow({ a, b, c, d, e, f, g, poids, commentaire, observateurId, child })
             .save()
             .then(async () => {
 

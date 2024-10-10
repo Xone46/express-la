@@ -3,8 +3,12 @@ import { RenseignementFamilleTowLevTow } from "../../../models/appareil_levage/f
 import { CompletedFamilleTowLevTow } from "../../../models/appareil_levage/famille2_lev2/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/renseignement/checkEmpty.mjs";
+// import mongoose from "mongoose"
+// var RenseignementFamilleTowLevTow = mongoose.model('RenseignementFamilleTowLevTow');
+// var CompletedFamilleTowLevTow = mongoose.model('CompletedFamilleTowLevTow');
 
 const create = async (request, response) => {
+
 
 
     try {
@@ -59,7 +63,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Renseignement(request.body)
+            await RenseignementFamilleTowLevTow(request.body)
                 .save()
                 .then(async () => {
 

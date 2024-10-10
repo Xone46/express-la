@@ -246,7 +246,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                 return [300, 280];
             }
 
-            const tagValue = "1724708194367.jpg"
+            const tagValue = photo.filename;
             const tagName = `image`;
 
             opts.getImage(tagValue, tagName);
@@ -256,7 +256,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
             // Load the docx file as binary content
             const content = fs.readFileSync(
-                path.resolve(__dirname, `../../rapports/Famille1-LEV1_VGP.docx`),
+                path.resolve(__dirname, `../../rapports/Famille3-LEV3_VGP.docx`),
                 "binary"
             );
 

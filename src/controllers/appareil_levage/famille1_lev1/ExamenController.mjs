@@ -16,7 +16,7 @@ const create = async (request, response) => {
         const exist = await ExamenFamilleOneLevOne.findOne({ observateurId : observateurId });
         if(exist) {
 
-            await Examen.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j }})
+            await ExamenFamilleOneLevOne.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j }})
             .then(() => {
                 response.status(201).json({ msg: "Modifié avec succès" });
             })
@@ -26,7 +26,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Examen({ a, b, c, d, e, f, g, h, i, j, observateurId })
+            await ExamenFamilleOneLevOne({ a, b, c, d, e, f, g, h, i, j, observateurId })
             .save()
             .then(async () => {
 

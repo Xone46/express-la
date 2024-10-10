@@ -247,7 +247,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                 return [300, 280];
             }
 
-            const tagValue = "1724708194367.jpg"
+            const tagValue = photo.filename;
             const tagName = `image`;
 
             opts.getImage(tagValue, tagName);
