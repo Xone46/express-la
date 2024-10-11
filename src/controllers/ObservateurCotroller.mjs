@@ -2,7 +2,7 @@
 // import { Inspecteur } from "../models/inspecteurs.mjs";
 import { Observateur } from "../models/observateur.mjs";
 
-import Accessoire from "./completed/accessoire_levage/completeAccessoire.mjs"
+import Accessoire from "./completed/accessoire_levage/completedAccessoire.mjs"
 import Appareil from "./completed/appareil_levage/completedAppareil.mjs"
 
 import  FamilleAc1 from "../controllers/generate/FamilleAc1.mjs";
@@ -81,19 +81,21 @@ const create = async (request, response) => {
             .save()
             .then(async (result) => {
 
-                var flag = false;
 
-                flag = data.typeAppareil[0] == 'Famille 1 LEV1' ||
+                const lev = data.typeAppareil[0] == 'Famille 1 LEV1' ||
                     data.typeAppareil[0] == 'Famille 2 LEV2' ||
                     data.typeAppareil[0] == 'Famille 3 LEV3' ||
                     data.typeAppareil[0] == 'Famille 4 LEV4' ||
                     data.typeAppareil[0] == 'Famille 5 LEV5';
 
+                const ac = data.typeAppareil[0] == 'Famille AC1' ||
+                    data.typeAppareil[0] == 'Famille AC2'
+
                 if (flag) {
                     Appareil.save(request, response, result._id);
                 }
 
-                if (data.typeAppareil[0] == 'Famille AC1') {
+                if(ac) {
                     Accessoire.save(request, response, result._id);
                 }
 
