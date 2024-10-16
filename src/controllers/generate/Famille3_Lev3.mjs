@@ -1,15 +1,14 @@
 import { Intervention } from "../../models/intervention.mjs";
 import { Inspecteur } from "../../models/inspecteurs.mjs";
 import { Observateur } from "../../models/observateur.mjs";
-import { RenseignementFamilleTreeLevTree } from "../../models/appareil_levage/famille2_lev2/renseignement.mjs";
-import { ExamenFamilleTreeLevTree } from "../../models/appareil_levage/famille2_lev2/examen.mjs";
-import { DescriptionFamilleTreeLevTree } from "../../models/appareil_levage/famille2_lev2/description.mjs";
-import { ConclusionFamilleTreeLevTree } from "../../models/appareil_levage/famille2_lev2/conclusion.mjs";
-import { PhotoFamilleTreeLevTree } from "../../models/appareil_levage/famille2_lev2/photo.mjs";
+import { RenseignementFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/renseignement.mjs";
+import { ExamenFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/examen.mjs";
+import { DescriptionFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/description.mjs";
+import { ConclusionFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/conclusion.mjs";
+import { PhotoFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/photo.mjs";
 import { Commentaire } from "../../models/commentaire.mjs";
-import { CompletedFamilleTreeLevTree } from "../../models/appareil_levage/famille2_lev2/completed.mjs";
+import { CompletedFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/completed.mjs";
 import { spawn } from 'child_process';
-
 
 import fs from "fs";
 import path from "path";
@@ -197,6 +196,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                         delete arr[i].o;
                     } else {
 
+                        console.log(val)
                         const somme_obs = new Array();
                         for (let k = 0; k < arr_obs.length; k++) {
                             if (arr_obs[k].ref == val) {
@@ -256,7 +256,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
             // Load the docx file as binary content
             const content = fs.readFileSync(
-                path.resolve(__dirname, `../../rapports/Famille3-LEV3_VGP.docx`),
+                path.resolve(__dirname, `../../rapports/Famille1-LEV1_VGP.docx`),
                 "binary"
             );
 

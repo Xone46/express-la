@@ -8,6 +8,7 @@ import Appareil from "./completed/appareil_levage/completedAppareil.mjs"
 import  FamilleAc1 from "../controllers/generate/FamilleAc1.mjs";
 import  Famille1_Lev1 from "../controllers/generate/Famille1_Lev1.mjs";
 import  Famille2_Lev2 from "../controllers/generate/Famille2_Lev2.mjs";
+import  Famille3_Lev3 from "../controllers/generate/Famille3_Lev3.mjs";
 
 import  FamilleAc1_Sup from "../controllers/supprimer/FamilleAc1_Sup.mjs";
 import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
@@ -62,6 +63,27 @@ const apercu = async (request, response) => {
         }
     }
 
+    if(obs.typeAppareil[0] == "Famille 3 LEV3"){
+        const res = await Famille3_Lev3.generate(observateurId, inspecteurId, interventionId, type, response);
+        if(res == false) {
+            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+        }
+    }
+
+    // if(obs.typeAppareil[0] == "Famille 4 LEV4"){
+    //     const res = await Famille4_Lev4.generate(observateurId, inspecteurId, interventionId, type, response);
+    //     if(res == false) {
+    //         response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+    //     }
+    // }
+
+    // if(obs.typeAppareil[0] == "Famille 5 LEV5"){
+    //     const res = await Famille5_Lev5.generate(observateurId, inspecteurId, interventionId, type, response);
+    //     if(res == false) {
+    //         response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+    //     }
+    // }
+
 }
 
 
@@ -81,17 +103,15 @@ const create = async (request, response) => {
             .save()
             .then(async (result) => {
 
-
                 const lev = data.typeAppareil[0] == 'Famille 1 LEV1' ||
                     data.typeAppareil[0] == 'Famille 2 LEV2' ||
                     data.typeAppareil[0] == 'Famille 3 LEV3' ||
                     data.typeAppareil[0] == 'Famille 4 LEV4' ||
                     data.typeAppareil[0] == 'Famille 5 LEV5';
 
-                const ac = data.typeAppareil[0] == 'Famille AC1' ||
-                    data.typeAppareil[0] == 'Famille AC2'
+                const ac = data.typeAppareil[0] == 'Famille AC1' || data.typeAppareil[0] == 'Famille AC2';
 
-                if (flag) {
+                if (lev) {
                     Appareil.save(request, response, result._id);
                 }
 
@@ -134,7 +154,6 @@ const select = async (request, response) => {
 
 const selected = async (request, response) => {
 
-    console.log(request.body)
 
     try {
 
