@@ -229,6 +229,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const hExamen = fixDuplicateExamen(examen.h, "H");
             const iExamen = fixDuplicateExamen(examen.i, "I");
             const jExamen = fixDuplicateExamen(examen.j, "J");
+            const kExamen = fixDuplicateExamen(examen.k, "K");
 
             var opts = {}
             opts.centered = false; //Set to true to always center images
@@ -256,9 +257,12 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
             // Load the docx file as binary content
             const content = fs.readFileSync(
-                path.resolve(__dirname, `../../rapports/Famille1-LEV1_VGP.docx`),
+                path.resolve(__dirname, `../../rapports/Famille3-LEV3_VGP.docx`),
                 "binary"
             );
+
+
+            console.log(description);
 
             const zip = new PizZip(content);
             var doc = new Docxtemplater()
@@ -309,37 +313,19 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     modification: renseignement.modification,
                     suiveModification: renseignement.suiveModification,
 
-                    marquage: description.marquage,
-                    chargeMaximaleUtile: description.chargeMaximaleUtile,
-                    porteeMinimale: description.porteeMinimale,
-                    distanceCentreGravite: description.distanceCentreGravite,
-                    course: description.course,
-                    hauteurLevage: description.hauteurLevage,
-                    portee: description.portee,
-                    porteFauxDeport: description.porteFauxDeport,
-                    longueurCheminRoulement: description.longueurCheminRoulement,
-                    dimensionPlateau: description.dimensionPlateau,
-                    modeInstallation: description.modeInstallation,
-                    suiveModeInstallation: description.suiveModeInstallation,
-                    mecanisme: description.mecanisme,
-                    suiveMecanisme: description.suiveMecanisme,
-
-                    hasCable: description.suspentes[0]["hasCable"],
-                    cable: description.suspentes[0]["cable"],
-                    detailsCable: description.suspentes[0]["detailsCable"],
-
-                    hasChaineRouleau: description.suspentes[0]["hasChaineRouleau"],
-                    chaineRouleau: description.suspentes[0]["chaineRouleau"],
-                    detailsChaineRouleau: description.suspentes[0]["detailsChaineRouleau"],
-
-                    hasChaineMaillons: description.suspentes[0]["hasChaineMaillons"],
-                    chaineMaillons: description.suspentes[0]["chaineMaillons"],
-                    detailsChaineMaillons: description.suspentes[0]["detailsChaineMaillons"],
-
-                    hasSangle: description.suspentes[0]["hasSangle"],
-                    sangle: description.suspentes[0]["sangle"],
-                    detailsSangle: description.suspentes[0]["detailsSangle"],
-
+                    chargeMaximaleUtile : description.chargeMaximaleUtile,
+                    distanceCentreGravite :  description.distanceCentreGravite,
+                    chargeMaximalUtileHauteurLeveeMaximale :  description.chargeMaximalUtileHauteurLeveeMaximale,
+                    hauteurLeveeMaximale :  description.hauteurLeveeMaximale,
+                    chariotsSansMarquage :  description.chariotsSansMarquage,
+                    mecanismes :  description.mecanismes,
+                    sourceEnergie :  description.sourceEnergie,
+                    translation :  description.translation,
+                    dispositifsElevation :  description.dispositifsElevation,
+                    dispositifPrehension :  description.dispositifPrehension,
+                    equipementsInterchangable :  description.equipementsInterchangable,
+                    siPresence :  description.siPresence,
+ 
                     aExamen: aExamen,
                     bExamen: bExamen,
                     cExamen: cExamen,
@@ -350,6 +336,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     hExamen: hExamen,
                     iExamen: iExamen,
                     jExamen: jExamen,
+                    kExamen: kExamen,
 
                     cri: cri,
                     ncri: ncri,

@@ -28,7 +28,7 @@ const create = async (request, response) => {
                     child : request.body.child
                 }
             })
-                .then(async(result) => {
+                .then(async() => {
 
                 await CompletedFamilleTreeLevTree.updateOne({ observateurId: request.body.observateurId }, {
                             $set: { 
@@ -49,7 +49,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Conclusion({ a, b, c, d, e, f, g, poids, commentaire, observateurId, child })
+            await ConclusionFamilleTreeLevTree({ a, b, c, d, e, f, g, poids, commentaire, observateurId, child })
             .save()
             .then(async () => {
 

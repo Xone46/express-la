@@ -11,12 +11,12 @@ const create = async (request, response) => {
     
     try {
 
-        const { a, b, c, d, e, f, g, h, i, j, observateurId } = request.body;
+        const { a, b, c, d, e, f, g, h, i, j, k, observateurId } = request.body;
         
         const exist = await ExamenFamilleTreeLevTree.findOne({ observateurId : observateurId });
         if(exist) {
 
-            await Examen.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j }})
+            await ExamenFamilleTreeLevTree.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j, k : k }})
             .then(() => {
                 response.status(201).json({ msg: "Modifié avec succès" });
             })
@@ -26,7 +26,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Examen({ a, b, c, d, e, f, g, h, i, j, observateurId })
+            await ExamenFamilleTreeLevTree({ a, b, c, d, e, f, g, h, i, j, k, observateurId })
             .save()
             .then(async () => {
 
@@ -124,7 +124,7 @@ const updateStatus = async (request, response) => {
 
         const res = await ExamenFamilleTreeLevTree.findOne({ observateurId : observateurId });
 
-        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
+        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j, k } = res;
 
         a.forEach(async (element) => {
             if(element.titre == titreReserve) {
@@ -197,8 +197,15 @@ const updateStatus = async (request, response) => {
             }
         });
 
+        k.forEach(async (element) => {
+            if(element.titre == titreReserve) {
+                element.o = false;
+                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
+            }
+        });
 
-        await ExamenFamilleTreeLevTree.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
+
+        await ExamenFamilleTreeLevTree.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j, k : k }})
         .then((result) => {
             console.log(result);
             response.status(201).json({ msg: "Modifié avec succès" });
@@ -225,7 +232,7 @@ const changeStatusCritique = async (request, response) => {
 
         const res = await ExamenFamilleTreeLevTree.findOne({ observateurId : observateurId });
 
-        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
+        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j, k } = res;
 
         a.forEach(element => {
             if(element.titre == titreReserve) {
@@ -287,9 +294,15 @@ const changeStatusCritique = async (request, response) => {
             }
         });
 
+        k.forEach(element => {
+            if(element.titre == titreReserve) {
+                element.statusCritique = statusCritique;
+            }
+        });
 
 
-        await ExamenFamilleTreeLevTree.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
+
+        await ExamenFamilleTreeLevTree.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j, k : k }})
         .then((result) => {
             response.status(201).json({ msg: "Modifié avec succès" });
         })

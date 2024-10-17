@@ -10,20 +10,18 @@ const create = async (request, response) => {
             body : {
                 marquage,
                 chargeMaximaleUtile,
-                porteeMinimale,
                 distanceCentreGravite,
-                course,
-                hauteurLevage,
-                portee,
-                porteFauxDeport,
-                longueurCheminRoulement,
-                dimensionPlateau,
-                modeInstallation,
-                suiveModeInstallation,
-                mecanisme,
-                suiveMecanisme,
-                suspentes,
-                observateurId,
+                chargeMaximalUtileHauteurLeveeMaximale,
+                hauteurLeveeMaximale,
+                chariotsSansMarquage,
+                mecanismes,
+                sourceEnergie,
+                translation,
+                dispositifsElevation,
+                dispositifPrehension,
+                equipementsInterchangable,
+                siPresence,
+                observateurId
             }
         } = request;
 
@@ -32,22 +30,20 @@ const create = async (request, response) => {
 
         if (description) {
             await DescriptionFamilleTreeLevTree.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
-                marquage : marquage,
+                marquage :marquage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
-                porteeMinimale : porteeMinimale,
                 distanceCentreGravite : distanceCentreGravite,
-                course : course,
-                hauteurLevage : hauteurLevage,
-                portee : portee,
-                porteFauxDeport : porteFauxDeport,
-                longueurCheminRoulement : longueurCheminRoulement,
-                dimensionPlateau : dimensionPlateau,
-                modeInstallation : modeInstallation,
-                suiveModeInstallation : suiveModeInstallation,
-                mecanisme : mecanisme,
-                suiveMecanisme : suiveMecanisme,
-                suspentes : suspentes,
-                observateurId : observateurId,
+                chargeMaximalUtileHauteurLeveeMaximale : chargeMaximalUtileHauteurLeveeMaximale,
+                hauteurLeveeMaximale : hauteurLeveeMaximale,
+                chariotsSansMarquage : chariotsSansMarquage,
+                mecanismes : mecanismes,
+                sourceEnergie : sourceEnergie,
+                translation : translation,
+                dispositifsElevation : dispositifsElevation,
+                dispositifPrehension : dispositifPrehension,
+                equipementsInterchangable : equipementsInterchangable,
+                siPresence : siPresence,
+                observateurId : observateurId
             } })
             .then((result) => {
                 response.status(201).json({ msg: "Modifié avec succès", descriptionId : result._id });
@@ -60,22 +56,20 @@ const create = async (request, response) => {
         } else {
             
             await DescriptionFamilleTreeLevTree({
-                marquage : marquage,
-                chargeMaximaleUtile : chargeMaximaleUtile,
-                porteeMinimale : porteeMinimale,
-                distanceCentreGravite : distanceCentreGravite,
-                course : course,
-                hauteurLevage : hauteurLevage,
-                portee : portee,
-                porteFauxDeport : porteFauxDeport,
-                longueurCheminRoulement : longueurCheminRoulement,
-                dimensionPlateau : dimensionPlateau,
-                modeInstallation : modeInstallation,
-                suiveModeInstallation : suiveModeInstallation,
-                mecanisme : mecanisme,
-                suiveMecanisme : suiveMecanisme,
-                suspentes : suspentes,
-                observateurId : observateurId,
+                    marquage :marquage,
+                    chargeMaximaleUtile : chargeMaximaleUtile,
+                    distanceCentreGravite : distanceCentreGravite,
+                    chargeMaximalUtileHauteurLeveeMaximale : chargeMaximalUtileHauteurLeveeMaximale,
+                    hauteurLeveeMaximale : hauteurLeveeMaximale,
+                    chariotsSansMarquage : chariotsSansMarquage,
+                    mecanismes : mecanismes,
+                    sourceEnergie : sourceEnergie,
+                    translation : translation,
+                    dispositifsElevation : dispositifsElevation,
+                    dispositifPrehension : dispositifPrehension,
+                    equipementsInterchangable : equipementsInterchangable,
+                    siPresence : siPresence,
+                    observateurId : observateurId
                 })
                 .save()
                 .then(async(result) => {
@@ -116,6 +110,7 @@ const select = async (request, response) => {
 
         const observateurId = String(request.params.observateurId);
         const description = await DescriptionFamilleTreeLevTree.findOne({ observateurId : observateurId });
+
         if(description) {
             response.status(200).json({ description : description });
         } 
@@ -132,7 +127,7 @@ const reset = async (request, response) => {
 
     try {
         const observateurId = String(request.params.observateurId);
-        await Description.deleteOne({ observateurId: observateurId })
+        await DescriptionFamilleTreeLevTree.deleteOne({ observateurId: observateurId })
             .then(async () => {
                     await Completed.updateOne({ observateurId: observateurId }, {
                         $set: {

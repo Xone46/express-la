@@ -11,74 +11,64 @@ const DescriptionFamilleTreeLevTree_Schema = new mongoose.Schema({
         required : false,
     },
 
-    porteeMinimale: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
     distanceCentreGravite: {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    course: {
+    chargeMaximalUtileHauteurLeveeMaximale: {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    hauteurLevage: {
+    hauteurLeveeMaximale: {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    portee: {
+    chariotsSansMarquage: {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    porteFauxDeport: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    longueurCheminRoulement: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-    
-    dimensionPlateau: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    modeInstallation: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    suiveModeInstallation : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    mecanisme : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    suiveMecanisme : {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    suspentes : {
+    mecanismes: {
         type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    sourceEnergie: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    translation: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    dispositifsElevation: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    dispositifPrehension: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    equipementsInterchangable: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    siPresence: {
+        type : mongoose.Schema.Types.String,
         required : false,
     },
 
     observateurId: {
         type : mongoose.Schema.Types.String,
-        required : false,
+        required : false
     }
 
 });

@@ -59,7 +59,7 @@ const create = async (request, response) => {
 
         } else {
 
-            await Renseignement(request.body)
+            await RenseignementFamilleTreeLevTree(request.body)
                 .save()
                 .then(async () => {
 

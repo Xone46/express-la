@@ -14,7 +14,9 @@ const read = async (request, response) => {
 }
 
 const checkRenseignement = async (request, response) => {
+
     const observateurId = String(request.params.observateurId);
+
     try {
         const renseignement = await RenseignementFamilleTreeLevTree.find({ observateurId: observateurId });
         if (renseignement.length == 0) {
