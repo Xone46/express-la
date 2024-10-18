@@ -1,13 +1,13 @@
 import { Intervention } from "../../models/intervention.mjs";
 import { Inspecteur } from "../../models/inspecteurs.mjs";
 import { Observateur } from "../../models/observateur.mjs";
-import { RenseignementFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/renseignement.mjs";
-import { ExamenFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/examen.mjs";
-import { DescriptionFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/description.mjs";
-import { ConclusionFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/conclusion.mjs";
-import { PhotoFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/photo.mjs";
+import { RenseignementFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/renseignement.mjs";
+import { ExamenFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/examen.mjs";
+import { DescriptionFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/description.mjs";
+import { ConclusionFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/conclusion.mjs";
+import { PhotoFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/photo.mjs";
 import { Commentaire } from "../../models/commentaire.mjs";
-import { CompletedFamilleTreeLevTree } from "../../models/appareil_levage/famille3_lev3/completed.mjs";
+import { CompletedFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/completed.mjs";
 import { spawn } from 'child_process';
 
 import fs from "fs";
@@ -24,12 +24,12 @@ const __dirname = path.dirname(__filename);
 const generate = async (observateurId, inspecteurId, interventionId, type, response) => {
 
     //check is elements completed
-    const completed = await CompletedFamilleTreeLevTree.findOne({ observateurId: observateurId });
-    const renseignement = await RenseignementFamilleTreeLevTree.findOne({ observateurId: observateurId });
-    const description = await DescriptionFamilleTreeLevTree.findOne({ observateurId: observateurId });
-    const examen = await ExamenFamilleTreeLevTree.findOne({ observateurId: observateurId });
-    const conclusion = await ConclusionFamilleTreeLevTree.findOne({ observateurId: observateurId });
-    const photo = await PhotoFamilleTreeLevTree.findOne({ observateurId: observateurId });
+    const completed = await CompletedFamilleFourLevFour.findOne({ observateurId: observateurId });
+    const renseignement = await RenseignementFamilleFourLevFour.findOne({ observateurId: observateurId });
+    const description = await DescriptionFamilleFourLevFour.findOne({ observateurId: observateurId });
+    const examen = await ExamenFamilleFourLevFour.findOne({ observateurId: observateurId });
+    const conclusion = await ConclusionFamilleFourLevFour.findOne({ observateurId: observateurId });
+    const photo = await PhotoFamilleFourLevFour.findOne({ observateurId: observateurId });
     const comments = await Commentaire.find({ observateurId: observateurId });
 
     if (completed) {

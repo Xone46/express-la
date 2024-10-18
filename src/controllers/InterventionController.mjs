@@ -5,6 +5,9 @@ import { query, body, validationResult, matchedData, checkSchema } from "express
 
 import  FamilleAc1_Sup from "../controllers/supprimer/FamilleAc1_Sup.mjs";
 import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
+import  Famille2_Lev2_Sup from "../controllers/supprimer/Famille2_Lev2_Sup.mjs";
+import  Famille3_Lev3_Sup from "../controllers/supprimer/Famille3_Lev3_Sup.mjs";
+import  Famille4_Lev4_Sup from "../controllers/supprimer/Famille4_Lev4_Sup.mjs";
 
 
 const create = async (request, response) => {
@@ -85,6 +88,18 @@ const deleteOne = async (request, response) => {
             
                 if(observateurs[i].typeAppareil[0] == "Famille 1 LEV1"){
                     Famille1_Lev1_Sup.supprimer_by_intervention(observateurId);
+                }
+
+                if(observateurs[i].typeAppareil[0] == "Famille 2 LEV2"){
+                    Famille2_Lev2_Sup.supprimer_by_intervention(observateurId);
+                }
+
+                if(observateurs[i].typeAppareil[0] == "Famille 3 LEV3"){
+                    Famille3_Lev3_Sup.supprimer_by_intervention(observateurId);
+                }
+
+                if(observateurs[i].typeAppareil[0] == "Famille 4 LEV4"){
+                    Famille4_Lev4_Sup.supprimer_by_intervention(observateurId);
                 }
 
             }
