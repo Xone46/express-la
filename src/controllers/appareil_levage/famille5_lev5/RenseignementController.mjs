@@ -1,6 +1,6 @@
 
-import { RenseignementFamilleFourLevFour } from "../../../models/appareil_levage/famille4_lev4/renseignement.mjs";
-import { CompletedFamilleFourLevFour} from "../../../models/appareil_levage/famille4_lev4/completed.mjs";
+import { RenseignementFamilleFiveLevFive } from "../../../models/appareil_levage/famille5_lev5/renseignement.mjs";
+import { CompletedFamilleFiveLevFive} from "../../../models/appareil_levage/famille5_lev5/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/renseignement/checkEmpty.mjs";
 
@@ -10,10 +10,10 @@ const create = async (request, response) => {
     try {
 
         // get renseignement
-        const renseignement = await RenseignementFamilleFourLevFour.findOne({ observateurId: request.body.observateurId });
+        const renseignement = await RenseignementFamilleFiveLevFive.findOne({ observateurId: request.body.observateurId });
         if (renseignement) {
 
-            await RenseignementFamilleFourLevFour.updateOne({ observateurId: request.body.observateurId }, {
+            await RenseignementFamilleFiveLevFive.updateOne({ observateurId: request.body.observateurId }, {
                 $set: {
                     constructeur : request.body.constructeur,  
                     typeConstructeur : request.body.typeConstructeur,  
@@ -39,7 +39,7 @@ const create = async (request, response) => {
             })
                 .then(async(result) => {
 
-                await CompletedFamilleFourLevFour.updateOne({ observateurId: request.body.observateurId }, {
+                await CompletedFamilleFiveLevFive.updateOne({ observateurId: request.body.observateurId }, {
                             $set: { 
                                 renseignement: true
                             } 
@@ -59,11 +59,11 @@ const create = async (request, response) => {
 
         } else {
 
-            await RenseignementFamilleFourLevFour(request.body)
+            await RenseignementFamilleFiveLevFive(request.body)
                 .save()
                 .then(async () => {
 
-                    await CompletedFamilleFourLevFour.updateOne({ observateurId: request.body.observateurId }, {
+                    await CompletedFamilleFiveLevFive.updateOne({ observateurId: request.body.observateurId }, {
                         $set: { 
                             renseignement: true
                         } 
@@ -98,9 +98,9 @@ const reset = async (request, response) => {
 
     try {
         const observateurId = String(request.params.observateurId);
-        await RenseignementFamilleFourLevFour.deleteOne({ observateurId: observateurId })
+        await RenseignementFamilleFiveLevFive.deleteOne({ observateurId: observateurId })
             .then(async () => {
-                await CompletedFamilleFourLevFour.updateOne({ observateurId: observateurId }, {
+                await CompletedFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                     $set: {
                         renseignement: false,
                     }
@@ -130,7 +130,7 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const renseignement = await RenseignementFamilleFourLevFour.findOne({ observateurId: observateurId }); 
+        const renseignement = await RenseignementFamilleFiveLevFive.findOne({ observateurId: observateurId }); 
         if(renseignement) {
             response.status(200).json({ renseignement : renseignement });
         }

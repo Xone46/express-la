@@ -3,11 +3,12 @@ import { Commentaire } from "../models/commentaire.mjs";
 import { Observateur } from "../models/observateur.mjs";
 import { ExamenFamilleOneLevOne } from "../models/appareil_levage/famille1_lev1/examen.mjs";
 import { ExamenFamilleTowLevTow } from "../models/appareil_levage/famille2_lev2/examen.mjs";
+import { ExamenFamilleTreeLevTree } from "../models/appareil_levage/famille3_lev3/examen.mjs";
+import { ExamenFamilleFourLevFour } from "../models/appareil_levage/famille4_lev4/examen.mjs";
+import { ExamenFamilleFiveLevFive } from "../models/appareil_levage/famille5_lev5/examen.mjs";
 
 
 const create = async (request, response) => {
-
-    console.log(request.body)
 
     try {
 
@@ -152,7 +153,9 @@ const supprimer = async (request, response) => {
         }
 
         if(commentaire.modelSelected.length == 0) {
+
             const observateur = await Observateur.findById(observateurId);
+
 
             if(observateur.typeAppareil[0] == "Famille 1 LEV1") {
 
@@ -178,7 +181,6 @@ const supprimer = async (request, response) => {
                         h : examen["h"],
                         i : examen["i"],
                         j : examen["j"],
-                        k : examen["k"]
                     }
                 })
                 .then(() => {
@@ -203,6 +205,114 @@ const supprimer = async (request, response) => {
                 }
     
                 await ExamenFamilleTowLevTow.updateOne({ observateurId: observateurId }, {
+                    $set: {
+                        a : examen["a"],
+                        b : examen["b"],
+                        c : examen["c"],
+                        d : examen["d"],
+                        e : examen["e"],
+                        f : examen["f"],
+                        g : examen["g"],
+                        h : examen["h"],
+                        i : examen["i"],
+                        j : examen["j"],
+                        k : examen["k"]
+                    }
+                })
+                .then(() => {
+                    response.status(200).json(true);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+            }
+
+            if(observateur.typeAppareil[0] == "Famille 3 LEV3") {
+
+                const examen = await ExamenFamilleTreeLevTree.findOne({ observateurId : observateurId });
+                const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
+                if(commentaire) {
+                    for(let i = 0; i < examen[refFix].length; i++) {
+                        if(examen[refFix][i]["titre"] == name) {
+                            examen[refFix][i]["o"] = false;
+                        }
+                    }
+                }
+    
+                await ExamenFamilleTreeLevTree.updateOne({ observateurId: observateurId }, {
+                    $set: {
+                        a : examen["a"],
+                        b : examen["b"],
+                        c : examen["c"],
+                        d : examen["d"],
+                        e : examen["e"],
+                        f : examen["f"],
+                        g : examen["g"],
+                        h : examen["h"],
+                        i : examen["i"],
+                        j : examen["j"],
+                        k : examen["k"]
+                    }
+                })
+                .then(() => {
+                    response.status(200).json(true);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+            }
+
+            if(observateur.typeAppareil[0] == "Famille 4 LEV4") {
+
+                const examen = await ExamenFamilleFourLevFour.findOne({ observateurId : observateurId });
+                const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
+                if(commentaire) {
+                    for(let i = 0; i < examen[refFix].length; i++) {
+                        if(examen[refFix][i]["titre"] == name) {
+                            examen[refFix][i]["o"] = false;
+                        }
+                    }
+                }
+    
+                await ExamenFamilleFourLevFour.updateOne({ observateurId: observateurId }, {
+                    $set: {
+                        a : examen["a"],
+                        b : examen["b"],
+                        c : examen["c"],
+                        d : examen["d"],
+                        e : examen["e"],
+                        f : examen["f"],
+                        g : examen["g"],
+                        h : examen["h"],
+                        i : examen["i"],
+                        j : examen["j"],
+                        k : examen["k"]
+                    }
+                })
+                .then(() => {
+                    response.status(200).json(true);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+            }
+
+            if(observateur.typeAppareil[0] == "Famille 5 LEV5") {
+
+                const examen = await ExamenFamilleFiveLevFive.findOne({ observateurId : observateurId });
+                const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
+                if(commentaire) {
+                    for(let i = 0; i < examen[refFix].length; i++) {
+                        if(examen[refFix][i]["titre"] == name) {
+                            examen[refFix][i]["o"] = false;
+                        }
+                    }
+                }
+    
+                await ExamenFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                     $set: {
                         a : examen["a"],
                         b : examen["b"],

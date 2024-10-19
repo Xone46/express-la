@@ -10,18 +10,23 @@ import  Famille1_Lev1 from "../controllers/generate/Famille1_Lev1.mjs";
 import  Famille2_Lev2 from "../controllers/generate/Famille2_Lev2.mjs";
 import  Famille3_Lev3 from "../controllers/generate/Famille3_Lev3.mjs";
 import  Famille4_Lev4 from "../controllers/generate/Famille4_Lev4.mjs";
+import  Famille5_Lev5 from "../controllers/generate/Famille5_Lev5.mjs";
+
 
 import  FamilleAc1_Sup from "../controllers/supprimer/FamilleAc1_Sup.mjs";
 import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
 import  Famille2_Lev2_Sup from "../controllers/supprimer/Famille2_Lev2_Sup.mjs";
 import  Famille3_Lev3_Sup from "../controllers/supprimer/Famille3_Lev3_Sup.mjs";
 import  Famille4_Lev4_Sup from "../controllers/supprimer/Famille4_Lev4_Sup.mjs";
+import  Famille5_Lev5_Sup from "../controllers/supprimer/Famille5_Lev5_Sup.mjs";
+
 
 import  FamilleAc1_Ter from "../controllers/terminer/FamilleAc1_Ter.mjs";
 import  Famille1_Lev1_Ter from "../controllers/terminer/Famille1_Lev1_Ter.mjs";
 import  Famille2_Lev2_Ter from "../controllers/terminer/Famille2_Lev2_Ter.mjs";
 import  Famille3_Lev3_Ter from "../controllers/terminer/Famille3_Lev3_Ter.mjs";
 import  Famille4_Lev4_Ter from "../controllers/terminer/Famille4_Lev4_Ter.mjs";
+import  Famille5_Lev5_Ter from "../controllers/terminer/Famille5_Lev5_Ter.mjs";
 
 
 import  FamilleAc1_Env from "./envoyer/accessoire_levage/FamilleAc1_Env.mjs";
@@ -29,6 +34,7 @@ import  Famille1_Lev1_Env from "./envoyer/appareil_levage/Famille1_Lev1_Env.mjs"
 import  Famille2_Lev2_Env from "./envoyer/appareil_levage/Famille2_Lev2_Env.mjs";
 import  Famille3_Lev3_Env from "./envoyer/appareil_levage/Famille3_Lev3_Env.mjs";
 import  Famille4_Lev4_Env from "./envoyer/appareil_levage/Famille4_Lev4_Env.mjs";
+import  Famille5_Lev5_Env from "./envoyer/appareil_levage/Famille5_Lev5_Env.mjs";
 
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
@@ -83,12 +89,12 @@ const apercu = async (request, response) => {
         }
     }
 
-    // if(obs.typeAppareil[0] == "Famille 5 LEV5"){
-    //     const res = await Famille5_Lev5.generate(observateurId, inspecteurId, interventionId, type, response);
-    //     if(res == false) {
-    //         response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
-    //     }
-    // }
+    if(obs.typeAppareil[0] == "Famille 5 LEV5"){
+        const res = await Famille5_Lev5.generate(observateurId, inspecteurId, interventionId, type, response);
+        if(res == false) {
+            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+        }
+    }
 
 }
 
@@ -249,6 +255,18 @@ const terminer = async (request, response) => {
         Famille2_Lev2_Ter.terminer(observateurId, response);
     }
 
+    if(obs.typeAppareil[0] == "Famille 3 LEV3"){
+        Famille3_Lev3_Ter.terminer(observateurId, response);
+    }
+
+    if(obs.typeAppareil[0] == "Famille 4 LEV4"){
+        Famille4_Lev4_Ter.terminer(observateurId, response);
+    }
+
+    if(obs.typeAppareil[0] == "Famille 5 LEV5"){
+        Famille5_Lev5_Ter.terminer(observateurId, response);
+    }
+2
 }
 
 
@@ -302,6 +320,10 @@ const deleteOne = async (request, response) => {
 
         if(obs.typeAppareil[0] == "Famille 4 LEV4"){
             Famille4_Lev4_Sup.supprimer(observateurId, response);
+        }
+
+        if(obs.typeAppareil[0] == "Famille 5 LEV5"){
+            Famille5_Lev5_Sup.supprimer(observateurId, response);
         }
     
     } catch (error) {
@@ -362,10 +384,19 @@ const envoyer = async (request, response) => {
 
         if(obs.typeAppareil[0] == "Famille 4 LEV4") {
 
-            const flag = Famille3_Lev3.generate(observateurId, inspecteurId, interventionId, type, response);
+            const flag = Famille4_Lev4.generate(observateurId, inspecteurId, interventionId, type, response);
 
             if(flag) {
-                Famille3_Lev3_Env.envoyer(observateurId, inspecteurId, ip, response);
+                Famille4_Lev4_Env.envoyer(observateurId, inspecteurId, ip, response);
+            }
+        }
+
+        if(obs.typeAppareil[0] == "Famille 5 LEV5") {
+
+            const flag = Famille5_Lev5.generate(observateurId, inspecteurId, interventionId, type, response);
+
+            if(flag) {
+                Famille5_Lev5_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
 

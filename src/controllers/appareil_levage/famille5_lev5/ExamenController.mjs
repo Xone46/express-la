@@ -1,23 +1,22 @@
 
-import { ExamenFamilleFourLevFour } from "../../../models/appareil_levage/famille4_lev4/examen.mjs";
+import { ExamenFamilleFiveLevFive } from "../../../models/appareil_levage/famille5_lev5/examen.mjs";
 import { Commentaire } from "../../../models/commentaire.mjs";
-import { CompletedFamilleFourLevFour } from "../../../models/appareil_levage/famille4_lev4/completed.mjs";
+import { CompletedFamilleFiveLevFive } from "../../../models/appareil_levage/famille5_lev5/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/examens/checkEmpty.mjs";
 
 
 
 const create = async (request, response) => {
-
     
     try {
 
-        const { a, b, c, d, e, f, g, h, i, j, k, observateurId } = request.body;
+        const { a, b, c, d, e, f, g, h, i, j, observateurId } = request.body;
         
-        const exist = await ExamenFamilleFourLevFour.findOne({ observateurId : observateurId });
+        const exist = await ExamenFamilleFiveLevFive.findOne({ observateurId : observateurId });
         if(exist) {
 
-            await ExamenFamilleFourLevFour.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j, k : k }})
+            await ExamenFamilleFiveLevFive.updateOne({ observateurId : observateurId }, { $set : { a : a, b : b, c : c, d : d, e : e, f : f, g : g, h : h, i : i, j : j }})
             .then(() => {
                 response.status(201).json({ msg: "Modifié avec succès" });
             })
@@ -27,11 +26,11 @@ const create = async (request, response) => {
 
         } else {
 
-            await ExamenFamilleFourLevFour({ a, b, c, d, e, f, g, h, i, j, k, observateurId })
+            await ExamenFamilleFiveLevFive({ a, b, c, d, e, f, g, h, i, j, observateurId })
             .save()
             .then(async () => {
 
-                await CompletedFamilleFourLevFour.updateOne({ observateurId: observateurId }, {
+                await CompletedFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                     $set: {
                         examen: true,
                     }
@@ -63,7 +62,7 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const examen = await ExamenFamilleFourLevFour.findOne({ observateurId : observateurId });
+        const examen = await ExamenFamilleFiveLevFive.findOne({ observateurId : observateurId });
         if(examen) {
             response.status(200).json({ examen : examen });
         } 
@@ -81,10 +80,10 @@ const reset = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        await ExamenFamilleFourLevFour.deleteOne({ observateurId : observateurId })
+        await ExamenFamilleFiveLevFive.deleteOne({ observateurId : observateurId })
         .then(async() => {
             
-            await CompletedFamilleFourLevFour.updateOne({ observateurId: observateurId }, {
+            await CompletedFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                 $set: {
                     examen: false,
                 }
@@ -123,9 +122,9 @@ const updateStatus = async (request, response) => {
         const observateurId = String(request.body.observateurId);
         const titreReserve = String(request.body.titreReserve);
 
-        const res = await ExamenFamilleFourLevFour.findOne({ observateurId : observateurId });
+        const res = await ExamenFamilleFiveLevFive.findOne({ observateurId : observateurId });
 
-        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j, k } = res;
+        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
 
         a.forEach(async (element) => {
             if(element.titre == titreReserve) {
@@ -198,16 +197,10 @@ const updateStatus = async (request, response) => {
             }
         });
 
-        k.forEach(async (element) => {
-            if(element.titre == titreReserve) {
-                element.o = false;
-                await Commentaire.deleteOne({ titreReserve : titreReserve, observateurId : observateurId});
-            }
-        });
 
-
-        await ExamenFamilleFourLevFour.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j, k : k }})
-        .then(() => {
+        await ExamenFamilleFiveLevFive.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
+        .then((result) => {
+            console.log(result);
             response.status(201).json({ msg: "Modifié avec succès" });
         })
         .catch((error) => {
@@ -230,9 +223,9 @@ const changeStatusCritique = async (request, response) => {
         const titreReserve = String(request.body.titre);
         const statusCritique = Boolean(request.body.statusCritique);
 
-        const res = await ExamenFamilleFourLevFour.findOne({ observateurId : observateurId });
+        const res = await ExamenFamilleFiveLevFive.findOne({ observateurId : observateurId });
 
-        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j, k } = res;
+        const { a ,b ,c ,d ,e ,f ,g ,h ,i ,j } = res;
 
         a.forEach(element => {
             if(element.titre == titreReserve) {
@@ -294,16 +287,10 @@ const changeStatusCritique = async (request, response) => {
             }
         });
 
-        k.forEach(element => {
-            if(element.titre == titreReserve) {
-                element.statusCritique = statusCritique;
-            }
-        });
 
 
-
-        await ExamenFamilleFourLevFour.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j, k : k }})
-        .then(() => {
+        await ExamenFamilleFiveLevFive.updateOne({ observateurId : observateurId } , { $set : { a : a ,b : b ,c : c ,d : d ,e : e ,f : f ,g : g ,h : h ,i : i ,j : j }})
+        .then((result) => {
             response.status(201).json({ msg: "Modifié avec succès" });
         })
         .catch((error) => {

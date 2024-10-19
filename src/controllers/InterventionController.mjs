@@ -8,6 +8,7 @@ import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
 import  Famille2_Lev2_Sup from "../controllers/supprimer/Famille2_Lev2_Sup.mjs";
 import  Famille3_Lev3_Sup from "../controllers/supprimer/Famille3_Lev3_Sup.mjs";
 import  Famille4_Lev4_Sup from "../controllers/supprimer/Famille4_Lev4_Sup.mjs";
+import  Famille5_Lev5_Sup from "../controllers/supprimer/Famille5_Lev5_Sup.mjs";
 
 
 const create = async (request, response) => {
@@ -74,6 +75,7 @@ const deleteOne = async (request, response) => {
     try {
 
         const result = await Intervention.deleteOne({ _id: request.params.interventionId });
+
         if (result.acknowledged == true && result.deletedCount == 1) {
             
             const observateurs = await Observateur.find({ interventionId: request.params.interventionId });
@@ -102,9 +104,14 @@ const deleteOne = async (request, response) => {
                     Famille4_Lev4_Sup.supprimer_by_intervention(observateurId);
                 }
 
+                if(observateurs[i].typeAppareil[0] == "Famille 5 LEV5"){
+                    Famille5_Lev5_Sup.supprimer_by_intervention(observateurId);
+                }
+
             }
 
             await Observateur.deleteMany({ interventionId: request.params.interventionId });
+            
             response.status(200).json(true);
         }
 

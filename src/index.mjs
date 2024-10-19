@@ -40,21 +40,21 @@ import appareil_levage_famille3_lev3_conclusions_Router from "./routes/appareil_
 // import appareil_levage_famille3_lev3_commentaires_Router from "./routes/appareil_levage/famille3_lev3/commentaire.mjs"
 import appareil_levage_famille3_lev3_completeds_Router from "./routes/appareil_levage/famille3_lev3/completed.mjs"
 
-// import appareil_levage_famille4_lev4_renseignements_Router from "./routes/appareil_levage/famille4_lev4/renseignement.mjs"
-// import appareil_levage_famille4_lev4_descriptions_Router from "./routes/appareil_levage/famille4_lev4/description.mjs"
-// import appareil_levage_famille4_lev4_examens_Router from "./routes/appareil_levage/famille4_lev4/examen.mjs"
-// import appareil_levage_famille4_lev4_photos_Router from "./routes/appareil_levage/famille4_lev4/photo.mjs"
-// import appareil_levage_famille4_lev4_conclusions_Router from "./routes/appareil_levage/famille4_lev4/conclusion.mjs"
+import appareil_levage_famille4_lev4_renseignements_Router from "./routes/appareil_levage/famille4_lev4/renseignement.mjs"
+import appareil_levage_famille4_lev4_descriptions_Router from "./routes/appareil_levage/famille4_lev4/description.mjs"
+import appareil_levage_famille4_lev4_examens_Router from "./routes/appareil_levage/famille4_lev4/examen.mjs"
+import appareil_levage_famille4_lev4_photos_Router from "./routes/appareil_levage/famille4_lev4/photo.mjs"
+import appareil_levage_famille4_lev4_conclusions_Router from "./routes/appareil_levage/famille4_lev4/conclusion.mjs"
 // import appareil_levage_famille4_lev4_commentaires_Router from "./routes/appareil_levage/famille4_lev4/commentaire.mjs"
-// import appareil_levage_famille4_lev4_completeds_Router from "./routes/appareil_levage/famille4_lev4/completed.mjs"
+import appareil_levage_famille4_lev4_completeds_Router from "./routes/appareil_levage/famille4_lev4/completed.mjs"
 
-// import appareil_levage_famille5_lev5_renseignements_Router from "./routes/appareil_levage/famille5_lev5/renseignement.mjs"
-// import appareil_levage_famille5_lev5_descriptions_Router from "./routes/appareil_levage/famille5_lev5/description.mjs"
-// import appareil_levage_famille5_lev5_examens_Router from "./routes/appareil_levage/famille5_lev5/examen.mjs"
-// import appareil_levage_famille5_lev5_photos_Router from "./routes/appareil_levage/famille5_lev5/photo.mjs"
-// import appareil_levage_famille5_lev5_conclusions_Router from "./routes/appareil_levage/famille5_lev5/conclusion.mjs"
+import appareil_levage_famille5_lev5_renseignements_Router from "./routes/appareil_levage/famille5_lev5/renseignement.mjs"
+import appareil_levage_famille5_lev5_descriptions_Router from "./routes/appareil_levage/famille5_lev5/description.mjs"
+import appareil_levage_famille5_lev5_examens_Router from "./routes/appareil_levage/famille5_lev5/examen.mjs"
+import appareil_levage_famille5_lev5_photos_Router from "./routes/appareil_levage/famille5_lev5/photo.mjs"
+import appareil_levage_famille5_lev5_conclusions_Router from "./routes/appareil_levage/famille5_lev5/conclusion.mjs"
 // import appareil_levage_famille5_lev5_commentaires_Router from "./routes/appareil_levage/famille5_lev5/commentaire.mjs"
-// import appareil_levage_famille5_lev5_completeds_Router from "./routes/appareil_levage/famille5_lev5/completed.mjs"
+import appareil_levage_famille5_lev5_completeds_Router from "./routes/appareil_levage/famille5_lev5/completed.mjs"
 
 
 import accessoire_levage_famille_ac1_renseignements_Router from "./routes/accessoire_levage/famille_ac1/renseignement.mjs"
@@ -137,21 +137,21 @@ app.use("/api/v1/appareil_levage-famille3_lev3/conclusions", appareil_levage_fam
 // app.use("/api/v1/appareil_levage-famille3_lev3/commentaires", appareil_levage_famille3_lev3_commentaires_Router);
 app.use("/api/v1/appareil_levage-famille3_lev3/completeds", appareil_levage_famille3_lev3_completeds_Router);
 
-// app.use("/api/v1/appareil_levage-famille4_lev4/renseignements", appareil_levage_famille4_lev4_renseignements_Router);
-// app.use("/api/v1/appareil_levage-famille4_lev4/descriptions", appareil_levage_famille4_lev4_descriptions_Router);
-// app.use("/api/v1/appareil_levage-famille4_lev4/examens", appareil_levage_famille4_lev4_examens_Router);
-// app.use("/api/v1/appareil_levage-famille4_lev4/photos", appareil_levage_famille4_lev4_photos_Router);
-// app.use("/api/v1/appareil_levage-famille4_lev4/conclusions", appareil_levage_famille4_lev4_conclusions_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/renseignements", appareil_levage_famille4_lev4_renseignements_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/descriptions", appareil_levage_famille4_lev4_descriptions_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/examens", appareil_levage_famille4_lev4_examens_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/photos", appareil_levage_famille4_lev4_photos_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/conclusions", appareil_levage_famille4_lev4_conclusions_Router);
 // app.use("/api/v1/appareil_levage-famille4_lev4/commentaires", appareil_levage_famille4_lev4_commentaires_Router);
-// app.use("/api/v1/appareil_levage-famille4_lev4/completeds", appareil_levage_famille4_lev4_completeds_Router);
+app.use("/api/v1/appareil_levage-famille4_lev4/completeds", appareil_levage_famille4_lev4_completeds_Router);
 
-// app.use("/api/v1/appareil_levage-famille5_lev5/renseignements", appareil_levage_famille5_lev5_renseignements_Router);
-// app.use("/api/v1/appareil_levage-famille5_lev5/descriptions", appareil_levage_famille5_lev5_descriptions_Router);
-// app.use("/api/v1/appareil_levage-famille5_lev5/examens", appareil_levage_famille5_lev5_examens_Router);
-// app.use("/api/v1/appareil_levage-famille5_lev5/photos", appareil_levage_famille5_lev5_photos_Router);
-// app.use("/api/v1/appareil_levage-famille5_lev5/conclusions", appareil_levage_famille5_lev5_conclusions_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/renseignements", appareil_levage_famille5_lev5_renseignements_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/descriptions", appareil_levage_famille5_lev5_descriptions_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/examens", appareil_levage_famille5_lev5_examens_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/photos", appareil_levage_famille5_lev5_photos_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/conclusions", appareil_levage_famille5_lev5_conclusions_Router);
 // app.use("/api/v1/appareil_levage-famille5_lev5/commentaires", appareil_levage_famille5_lev5_commentaires_Router);
-// app.use("/api/v1/appareil_levage-famille5_lev5/completeds", appareil_levage_famille5_lev5_completeds_Router);
+app.use("/api/v1/appareil_levage-famille5_lev5/completeds", appareil_levage_famille5_lev5_completeds_Router);
 
 
 

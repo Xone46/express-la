@@ -1,14 +1,15 @@
 import { Intervention } from "../../models/intervention.mjs";
 import { Inspecteur } from "../../models/inspecteurs.mjs";
 import { Observateur } from "../../models/observateur.mjs";
-import { RenseignementFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/renseignement.mjs";
-import { ExamenFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/examen.mjs";
-import { DescriptionFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/description.mjs";
-import { ConclusionFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/conclusion.mjs";
-import { PhotoFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/photo.mjs";
+import { RenseignementFamilleFiveLevFive } from "../../models/appareil_levage/famille5_lev5/renseignement.mjs";
+import { ExamenFamilleFiveLevFive } from "../../models/appareil_levage/famille5_lev5/examen.mjs";
+import { DescriptionFamilleFiveLevFive } from "../../models/appareil_levage/famille5_lev5/description.mjs";
+import { ConclusionFamilleFiveLevFive } from "../../models/appareil_levage/famille5_lev5/conclusion.mjs";
+import { PhotoFamilleFiveLevFive } from "../../models/appareil_levage/famille5_lev5/photo.mjs";
 import { Commentaire } from "../../models/commentaire.mjs";
-import { CompletedFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/completed.mjs";
+import { CompletedFamilleFiveLevFive } from "../../models/appareil_levage/famille5_lev5/completed.mjs";
 import { spawn } from 'child_process';
+
 
 import fs from "fs";
 import path from "path";
@@ -24,12 +25,12 @@ const __dirname = path.dirname(__filename);
 const generate = async (observateurId, inspecteurId, interventionId, type, response) => {
 
     //check is elements completed
-    const completed = await CompletedFamilleFourLevFour.findOne({ observateurId: observateurId });
-    const renseignement = await RenseignementFamilleFourLevFour.findOne({ observateurId: observateurId });
-    const description = await DescriptionFamilleFourLevFour.findOne({ observateurId: observateurId });
-    const examen = await ExamenFamilleFourLevFour.findOne({ observateurId: observateurId });
-    const conclusion = await ConclusionFamilleFourLevFour.findOne({ observateurId: observateurId });
-    const photo = await PhotoFamilleFourLevFour.findOne({ observateurId: observateurId });
+    const completed = await CompletedFamilleFiveLevFive.findOne({ observateurId: observateurId });
+    const renseignement = await RenseignementFamilleFiveLevFive.findOne({ observateurId: observateurId });
+    const description = await DescriptionFamilleFiveLevFive.findOne({ observateurId: observateurId });
+    const examen = await ExamenFamilleFiveLevFive.findOne({ observateurId: observateurId });
+    const conclusion = await ConclusionFamilleFiveLevFive.findOne({ observateurId: observateurId });
+    const photo = await PhotoFamilleFiveLevFive.findOne({ observateurId: observateurId });
     const comments = await Commentaire.find({ observateurId: observateurId });
 
     if (completed) {
@@ -229,7 +230,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const hExamen = fixDuplicateExamen(examen.h, "H");
             const iExamen = fixDuplicateExamen(examen.i, "I");
             const jExamen = fixDuplicateExamen(examen.j, "J");
-            const kExamen = fixDuplicateExamen(examen.k, "K");
 
             var opts = {}
             opts.centered = false; //Set to true to always center images
@@ -257,7 +257,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
             // Load the docx file as binary content
             const content = fs.readFileSync(
-                path.resolve(__dirname, `../../rapports/Famille4-LEV4_VGP.docx`),
+                path.resolve(__dirname, `../../rapports/Famille1-LEV1_VGP.docx`),
                 "binary"
             );
 
@@ -310,21 +310,37 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     modification: renseignement.modification,
                     suiveModification: renseignement.suiveModification,
 
+                    marquage: description.marquage,
+                    chargeMaximaleUtile: description.chargeMaximaleUtile,
+                    porteeMinimale: description.porteeMinimale,
+                    distanceCentreGravite: description.distanceCentreGravite,
+                    course: description.course,
+                    hauteurLevage: description.hauteurLevage,
+                    portee: description.portee,
+                    porteFauxDeport: description.porteFauxDeport,
+                    longueurCheminRoulement: description.longueurCheminRoulement,
+                    dimensionPlateau: description.dimensionPlateau,
+                    modeInstallation: description.modeInstallation,
+                    suiveModeInstallation: description.suiveModeInstallation,
+                    mecanisme: description.mecanisme,
+                    suiveMecanisme: description.suiveMecanisme,
 
-                    chargeMaximaleUtile : description.chargeMaximaleUtile,
-                    hauteurElevation :  description.hauteurElevation,  
-                    extensionPlateforme :  description.extensionPlateforme,
-                    deversAutorise :  description.deversAutorise,     
-                    nombrePersonnes :  description.nombrePersonnes,   
-                    portee :  description.portee,
-                    mecanismes :  description.mecanismes,
-                    sourceEnergie :  description.sourceEnergie,
-                    translation :  description.translation,
-                    chainesCablesElevation :  description.chainesCablesElevation,
-                    caracteristiquesSuspenteOne :  description.caracteristiquesSuspenteOne,
-                    caracteristiquesSuspenteTow :  description.caracteristiquesSuspenteTow,
-                    siPresence :  description.siPresence,
- 
+                    hasCable: description.suspentes[0]["hasCable"],
+                    cable: description.suspentes[0]["cable"],
+                    detailsCable: description.suspentes[0]["detailsCable"],
+
+                    hasChaineRouleau: description.suspentes[0]["hasChaineRouleau"],
+                    chaineRouleau: description.suspentes[0]["chaineRouleau"],
+                    detailsChaineRouleau: description.suspentes[0]["detailsChaineRouleau"],
+
+                    hasChaineMaillons: description.suspentes[0]["hasChaineMaillons"],
+                    chaineMaillons: description.suspentes[0]["chaineMaillons"],
+                    detailsChaineMaillons: description.suspentes[0]["detailsChaineMaillons"],
+
+                    hasSangle: description.suspentes[0]["hasSangle"],
+                    sangle: description.suspentes[0]["sangle"],
+                    detailsSangle: description.suspentes[0]["detailsSangle"],
+
                     aExamen: aExamen,
                     bExamen: bExamen,
                     cExamen: cExamen,
@@ -335,7 +351,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     hExamen: hExamen,
                     iExamen: iExamen,
                     jExamen: jExamen,
-                    kExamen: kExamen,
 
                     cri: cri,
                     ncri: ncri,

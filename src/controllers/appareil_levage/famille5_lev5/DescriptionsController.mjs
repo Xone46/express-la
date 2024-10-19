@@ -1,5 +1,5 @@
-import { DescriptionFamilleFourLevFour } from "../../../models/appareil_levage/famille4_lev4/description.mjs";
-import { CompletedFamilleFourLevFour } from "../../../models/appareil_levage/famille4_lev4/completed.mjs";
+import { DescriptionFamilleFiveLevFive } from "../../../models/appareil_levage/famille5_lev5/description.mjs";
+import { CompletedFamilleFiveLevFive } from "../../../models/appareil_levage/famille5_lev5/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
 import { checkEmpty } from "../../../middelwares/description/checkEmpty.mjs";
 
@@ -8,44 +8,46 @@ const create = async (request, response) => {
     try {
         const {
             body : {
-                marquage,   
+                marquage,
                 chargeMaximaleUtile,
-                hauteurElevation,  
-                extensionPlateforme,
-                deversAutorise,     
-                nombrePersonnes,   
+                porteeMinimale,
+                distanceCentreGravite,
+                course,
+                hauteurLevage,
                 portee,
-                mecanismes,
-                sourceEnergie,
-                translation,
-                chainesCablesElevation,
-                caracteristiquesSuspenteOne,
-                caracteristiquesSuspenteTow,
-                siPresence,
-                observateurId
+                porteFauxDeport,
+                longueurCheminRoulement,
+                dimensionPlateau,
+                modeInstallation,
+                suiveModeInstallation,
+                mecanisme,
+                suiveMecanisme,
+                suspentes,
+                observateurId,
             }
         } = request;
 
         // get renseignement
-        const description = await DescriptionFamilleFourLevFour.findOne({ observateurId: request.body.observateurId });
+        const description = await DescriptionFamilleFiveLevFive.findOne({ observateurId: request.body.observateurId });
 
         if (description) {
-            await DescriptionFamilleFourLevFour.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
-                marquage : marquage,   
+            await DescriptionFamilleFiveLevFive.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
+                marquage : marquage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
-                hauteurElevation : hauteurElevation,  
-                extensionPlateforme : extensionPlateforme,
-                deversAutorise : deversAutorise,     
-                nombrePersonnes : nombrePersonnes,   
+                porteeMinimale : porteeMinimale,
+                distanceCentreGravite : distanceCentreGravite,
+                course : course,
+                hauteurLevage : hauteurLevage,
                 portee : portee,
-                mecanismes : mecanismes,
-                sourceEnergie : sourceEnergie,
-                translation : translation,
-                chainesCablesElevation : chainesCablesElevation,
-                caracteristiquesSuspenteOne : caracteristiquesSuspenteOne,
-                caracteristiquesSuspenteTow : caracteristiquesSuspenteTow,
-                siPresence : siPresence,
-                observateurId : observateurId
+                porteFauxDeport : porteFauxDeport,
+                longueurCheminRoulement : longueurCheminRoulement,
+                dimensionPlateau : dimensionPlateau,
+                modeInstallation : modeInstallation,
+                suiveModeInstallation : suiveModeInstallation,
+                mecanisme : mecanisme,
+                suiveMecanisme : suiveMecanisme,
+                suspentes : suspentes,
+                observateurId : observateurId,
             } })
             .then((result) => {
                 response.status(201).json({ msg: "Modifié avec succès", descriptionId : result._id });
@@ -57,27 +59,28 @@ const create = async (request, response) => {
 
         } else {
             
-            await DescriptionFamilleFourLevFour({
-                marquage : marquage,   
+            await DescriptionFamilleFiveLevFive({
+                marquage : marquage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
-                hauteurElevation : hauteurElevation,  
-                extensionPlateforme : extensionPlateforme,
-                deversAutorise : deversAutorise,     
-                nombrePersonnes : nombrePersonnes,   
+                porteeMinimale : porteeMinimale,
+                distanceCentreGravite : distanceCentreGravite,
+                course : course,
+                hauteurLevage : hauteurLevage,
                 portee : portee,
-                mecanismes : mecanismes,
-                sourceEnergie : sourceEnergie,
-                translation : translation,
-                chainesCablesElevation : chainesCablesElevation,
-                caracteristiquesSuspenteOne : caracteristiquesSuspenteOne,
-                caracteristiquesSuspenteTow : caracteristiquesSuspenteTow,
-                siPresence : siPresence,
-                observateurId : observateurId
+                porteFauxDeport : porteFauxDeport,
+                longueurCheminRoulement : longueurCheminRoulement,
+                dimensionPlateau : dimensionPlateau,
+                modeInstallation : modeInstallation,
+                suiveModeInstallation : suiveModeInstallation,
+                mecanisme : mecanisme,
+                suiveMecanisme : suiveMecanisme,
+                suspentes : suspentes,
+                observateurId : observateurId,
                 })
                 .save()
                 .then(async(result) => {
     
-                    await CompletedFamilleFourLevFour.updateOne({ observateurId: observateurId }, {
+                    await CompletedFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                         $set: {
                             description: true,
                         }
@@ -112,7 +115,7 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const description = await DescriptionFamilleFourLevFour.findOne({ observateurId : observateurId });
+        const description = await DescriptionFamilleFiveLevFive.findOne({ observateurId : observateurId });
         if(description) {
             response.status(200).json({ description : description });
         } 
