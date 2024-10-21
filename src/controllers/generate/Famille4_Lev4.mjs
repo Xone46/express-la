@@ -310,7 +310,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     modification: renseignement.modification,
                     suiveModification: renseignement.suiveModification,
 
-
                     chargeMaximaleUtile : description.chargeMaximaleUtile,
                     hauteurElevation :  description.hauteurElevation,  
                     extensionPlateforme :  description.extensionPlateforme,

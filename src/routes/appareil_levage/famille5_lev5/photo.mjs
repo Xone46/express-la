@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { PhotoFamilleFiveLevFive } from "../../../models/appareil_levage/famille5_lev5/photo.mjs";
 import { CompletedFamilleFiveLevFive } from "../../../models/appareil_levage/famille5_lev5/completed.mjs";
-import { Observateur } from "../../../models/observateur.mjs";
+// import { Observateur } from "../../../models/observateur.mjs";
 import PhotoController from "../../../controllers/appareil_levage/famille5_lev5/PhotoController.mjs"
 const router = Router();
 import multer from 'multer'
