@@ -6,7 +6,6 @@ import { checkEmpty } from "../../../middelwares/renseignement/checkEmpty.mjs";
 
 const create = async (request, response) => {
 
-
     try {
 
         // get renseignement
@@ -15,26 +14,25 @@ const create = async (request, response) => {
 
             await RenseignementFamilleFiveLevFive.updateOne({ observateurId: request.body.observateurId }, {
                 $set: {
-                    constructeur : request.body.constructeur,  
-                    typeConstructeur : request.body.typeConstructeur,  
-                    anneeMiseService : request.body.anneeMiseService,  
-                    numeroSerie : request.body.numeroSerie,  
-                    numeroInterne : request.body.numeroInterne,  
-                    suiveNumeroInterne : request.body.suiveNumeroInterne,  
-                    localisation : request.body.localisation,  
-                    typeAppareil : request.body.typeAppareil,
-                    suiveTypeAppareil : request.body.suiveTypeAppareil,  
-                    miseEnServiceRapport : request.body.miseEnServiceRapport,  
-                    miseEnServiceEpreuves : request.body.miseEnServiceEpreuves,  
-                    suiveMiseEnServiceEpreuves : request.body.suiveMiseEnServiceEpreuves,  
-                    dateDerniereVerficationPeriodique : request.body.dateDerniereVerficationPeriodique,  
-                    suiveDateDerniereVerficationPeriodique : request.body.suiveDateDerniereVerficationPeriodique,
-                    rapport : request.body.rapport,  
-                    essaischarge : request.body.essaischarge,
-                    suiveEssaischarge : request.body.suiveEssaischarge,  
-                    modification : request.body.modification,
-                    suiveModification : request.body.suiveModification,  
-                    observateurId : request.body.observateurId
+                    constructeur: request.body.constructeur,
+                    typeConstructeur: request.body.typeConstructeur,
+                    anneeMiseService: request.body.anneeMiseService,
+                    numeroSerie: request.body.numeroSerie,
+                    numeroInterne: request.body.numeroInterne,
+                    suiveNumeroInterne: request.body.suiveNumeroInterne,
+                    localisation: request.body.localisation,
+                    typeAppareil: request.body.typeAppareil,
+                    suiveTypeAppareil: request.body.suiveTypeAppareil,
+                    typeVerification: request.body.typeVerification,
+                    suiveTypeVerification: request.body.suiveTypeVerification,
+                    documentationTechniqueConstructeur: request.body.documentationTechniqueConstructeur,
+                    epreuves: request.body.epreuves,
+                    essaischarge: request.body.essaischarge,
+                    suiveEssaischarge: request.body.suiveEssaischarge,
+                    examenMontageInstallation: request.body.examenMontageInstallation,
+                    modification: request.body.modification,
+                    suiveModification: request.body.suiveModification,
+                    observateurId: request.body.observateurId
                 }
             })
                 .then(async(result) => {

@@ -35,50 +35,57 @@ const RenseignementFamilleFiveLevFive_Schema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         required: false,
     },
+
     typeAppareil: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
+
     suiveTypeAppareil: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
-    miseEnServiceRapport: {
+
+    typeVerification: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
-    miseEnServiceEpreuves: {
+
+    suiveTypeVerification: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
-    suiveMiseEnServiceEpreuves: {
+
+    documentationTechniqueConstructeur: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
-    dateDerniereVerficationPeriodique: {
+
+    epreuves: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
-    suiveDateDerniereVerficationPeriodique: {
-        type: mongoose.Schema.Types.String,
-        required: false,
-    },
-    rapport: {
-        type: mongoose.Schema.Types.String,
-        required: false,
-    },
+
     essaischarge: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
+
     suiveEssaischarge: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
+
+    examenMontageInstallation: {
+        type: mongoose.Schema.Types.String,
+        required: false,
+    },
+
     modification: {
         type: mongoose.Schema.Types.String,
         required: false,
     },
+
     suiveModification: {
         type: mongoose.Schema.Types.String,
         required: false,
