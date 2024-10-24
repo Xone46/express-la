@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const DescriptionFamilleFiveLevFive_Schema = new mongoose.Schema({
-    
+
     marquage: {
         type : mongoose.Schema.Types.String,
         required : false,
@@ -11,27 +11,12 @@ const DescriptionFamilleFiveLevFive_Schema = new mongoose.Schema({
         required : false,
     },
 
-    distanceCentreGravite: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    chargeMaximalUtileHauteurLeveeMaximale: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
     hauteurLeveeMaximale: {
         type : mongoose.Schema.Types.String,
         required : false,
     },
 
-    chariotsSansMarquage: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
-
-    mecanismes: {
+    levage: {
         type : mongoose.Schema.Types.Array,
         required : false,
     },
@@ -41,28 +26,43 @@ const DescriptionFamilleFiveLevFive_Schema = new mongoose.Schema({
         required : false,
     },
 
-    translation: {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    dispositifsElevation: {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    dispositifPrehension: {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    equipementsInterchangable: {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
-    siPresence: {
+    dispositifElevation: {
         type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    transmissionElevation: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    nombreChainesCables: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    chargeRupture: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    coefficientUtilisation: {
+        type : mongoose.Schema.Types.String,
+        required : false,
+    },
+
+    organesSuspension: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    supoprtCharge: {
+        type : mongoose.Schema.Types.Array,
+        required : false,
+    },
+
+    levageAuxiliaire: {
+        type : mongoose.Schema.Types.Array,
         required : false,
     },
 

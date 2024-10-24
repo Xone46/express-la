@@ -10,20 +10,18 @@ const create = async (request, response) => {
             body : {
                 marquage,
                 chargeMaximaleUtile,
-                porteeMinimale,
-                distanceCentreGravite,
-                course,
-                hauteurLevage,
-                portee,
-                porteFauxDeport,
-                longueurCheminRoulement,
-                dimensionPlateau,
-                modeInstallation,
-                suiveModeInstallation,
-                mecanisme,
-                suiveMecanisme,
-                suspentes,
-                observateurId,
+                hauteurLeveeMaximale,
+                levage,
+                sourceEnergie,
+                dispositifElevation,
+                transmissionElevation,
+                nombreChainesCables,
+                chargeRupture,
+                coefficientUtilisation,
+                organesSuspension,
+                supoprtCharge,
+                levageAuxiliaire,
+                observateurId
             }
         } = request;
 
@@ -34,20 +32,18 @@ const create = async (request, response) => {
             await DescriptionFamilleFiveLevFive.updateOne({ observateurId: request.body.observateurId }, { $set: {                 
                 marquage : marquage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
-                porteeMinimale : porteeMinimale,
-                distanceCentreGravite : distanceCentreGravite,
-                course : course,
-                hauteurLevage : hauteurLevage,
-                portee : portee,
-                porteFauxDeport : porteFauxDeport,
-                longueurCheminRoulement : longueurCheminRoulement,
-                dimensionPlateau : dimensionPlateau,
-                modeInstallation : modeInstallation,
-                suiveModeInstallation : suiveModeInstallation,
-                mecanisme : mecanisme,
-                suiveMecanisme : suiveMecanisme,
-                suspentes : suspentes,
-                observateurId : observateurId,
+                hauteurLeveeMaximale : hauteurLeveeMaximale,
+                levage : levage,
+                sourceEnergie : sourceEnergie,
+                dispositifElevation : dispositifElevation,
+                transmissionElevation : transmissionElevation,
+                nombreChainesCables : nombreChainesCables,
+                chargeRupture : chargeRupture,
+                coefficientUtilisation : coefficientUtilisation,
+                organesSuspension : organesSuspension,
+                supoprtCharge : supoprtCharge,
+                levageAuxiliaire : levageAuxiliaire,
+                observateurId : observateurId
             } })
             .then((result) => {
                 response.status(201).json({ msg: "Modifié avec succès", descriptionId : result._id });
@@ -62,23 +58,21 @@ const create = async (request, response) => {
             await DescriptionFamilleFiveLevFive({
                 marquage : marquage,
                 chargeMaximaleUtile : chargeMaximaleUtile,
-                porteeMinimale : porteeMinimale,
-                distanceCentreGravite : distanceCentreGravite,
-                course : course,
-                hauteurLevage : hauteurLevage,
-                portee : portee,
-                porteFauxDeport : porteFauxDeport,
-                longueurCheminRoulement : longueurCheminRoulement,
-                dimensionPlateau : dimensionPlateau,
-                modeInstallation : modeInstallation,
-                suiveModeInstallation : suiveModeInstallation,
-                mecanisme : mecanisme,
-                suiveMecanisme : suiveMecanisme,
-                suspentes : suspentes,
-                observateurId : observateurId,
+                hauteurLeveeMaximale : chargeMaximaleUtile,
+                levage : levage,
+                sourceEnergie : sourceEnergie,
+                dispositifElevation : dispositifElevation,
+                transmissionElevation : transmissionElevation,
+                nombreChainesCables : nombreChainesCables,
+                chargeRupture : chargeRupture,
+                coefficientUtilisation : coefficientUtilisation,
+                organesSuspension : organesSuspension,
+                supoprtCharge : supoprtCharge,
+                levageAuxiliaire : levageAuxiliaire,
+                observateurId : observateurId
                 })
                 .save()
-                .then(async(result) => {
+                .then(async() => {
     
                     await CompletedFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                         $set: {
@@ -132,9 +126,9 @@ const reset = async (request, response) => {
 
     try {
         const observateurId = String(request.params.observateurId);
-        await Description.deleteOne({ observateurId: observateurId })
+        await DescriptionFamilleFiveLevFive.deleteOne({ observateurId: observateurId })
             .then(async () => {
-                    await Completed.updateOne({ observateurId: observateurId }, {
+                    await CompletedFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                         $set: {
                             description: false,
                         }

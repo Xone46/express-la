@@ -50,11 +50,6 @@ const ExamenFamilleFiveLevFive_Schema = new mongoose.Schema({
         required : false,
     },
 
-    k : {
-        type : mongoose.Schema.Types.Array,
-        required : false,
-    },
-
     observateurId : {
         type : mongoose.Schema.Types.String,
         required : false,
