@@ -33,6 +33,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
     const photo = await PhotoFamilleFiveLevFive.findOne({ observateurId: observateurId });
     const comments = await Commentaire.find({ observateurId: observateurId });
 
+
     if (completed) {
 
         if (completed.renseignement == true && completed.description == true && completed.examen == true && completed.conclusion == true && completed.photo == true) {
@@ -257,7 +258,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
             // Load the docx file as binary content
             const content = fs.readFileSync(
-                path.resolve(__dirname, `../../rapports/Famille1-LEV1_VGP.docx`),
+                path.resolve(__dirname, `../../rapports/Famille5-LEV5_VGP.docx`),
                 "binary"
             );
 
@@ -312,34 +313,17 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
                     marquage: description.marquage,
                     chargeMaximaleUtile: description.chargeMaximaleUtile,
-                    porteeMinimale: description.porteeMinimale,
-                    distanceCentreGravite: description.distanceCentreGravite,
-                    course: description.course,
-                    hauteurLevage: description.hauteurLevage,
-                    portee: description.portee,
-                    porteFauxDeport: description.porteFauxDeport,
-                    longueurCheminRoulement: description.longueurCheminRoulement,
-                    dimensionPlateau: description.dimensionPlateau,
-                    modeInstallation: description.modeInstallation,
-                    suiveModeInstallation: description.suiveModeInstallation,
-                    mecanisme: description.mecanisme,
-                    suiveMecanisme: description.suiveMecanisme,
-
-                    hasCable: description.suspentes[0]["hasCable"],
-                    cable: description.suspentes[0]["cable"],
-                    detailsCable: description.suspentes[0]["detailsCable"],
-
-                    hasChaineRouleau: description.suspentes[0]["hasChaineRouleau"],
-                    chaineRouleau: description.suspentes[0]["chaineRouleau"],
-                    detailsChaineRouleau: description.suspentes[0]["detailsChaineRouleau"],
-
-                    hasChaineMaillons: description.suspentes[0]["hasChaineMaillons"],
-                    chaineMaillons: description.suspentes[0]["chaineMaillons"],
-                    detailsChaineMaillons: description.suspentes[0]["detailsChaineMaillons"],
-
-                    hasSangle: description.suspentes[0]["hasSangle"],
-                    sangle: description.suspentes[0]["sangle"],
-                    detailsSangle: description.suspentes[0]["detailsSangle"],
+                    hauteurLeveeMaximale: description.hauteurLeveeMaximale,
+                    levage: description.levage,
+                    sourceEnergie: description.sourceEnergie,
+                    dispositifElevation: description.dispositifElevation,
+                    transmissionElevation: description.transmissionElevation,
+                    nombreChainesCables: description.nombreChainesCables,
+                    chargeRupture: description.chargeRupture,
+                    coefficientUtilisation: description.coefficientUtilisation,
+                    organesSuspension: description.organesSuspension,
+                    supoprtCharge: description.supoprtCharge,
+                    levageAuxiliaire: description.levageAuxiliaire,
 
                     aExamen: aExamen,
                     bExamen: bExamen,
