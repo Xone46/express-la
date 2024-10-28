@@ -9,5 +9,6 @@ router.post("/supprimer", CommentaireController.supprimer);
 router.delete("/:commentaireId", CommentaireController.deleteOne);
 router.delete("/:ref/:observateurId", CommentaireController.deleteByRefAndObservateurId);
 router.get("/:observateurId", CommentaireController.readCommentaires);
+router.delete("/:ref/:number/:titre/:index/:observateurId", CommentaireController.deleteByIndexAndRef);
 
 export default router;

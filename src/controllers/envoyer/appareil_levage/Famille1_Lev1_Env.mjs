@@ -92,7 +92,6 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
         {
             filename: 'output.docx',
             path: path.join(__dirname, '../../../rapports/output.docx'),
-            
             contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         }, 
         {

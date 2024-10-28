@@ -8,7 +8,30 @@ import { ExamenFamilleFourLevFour } from "../models/appareil_levage/famille4_lev
 import { ExamenFamilleFiveLevFive } from "../models/appareil_levage/famille5_lev5/examen.mjs";
 
 
+const deleteByIndexAndRef = async (request, response) => {
+
+    const { ref, number, titre, index, observateurId } = request.params;
+    const commentaire = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number });
+    if(commentaire) {
+        commentaire.modelSelected.splice(index, 1);
+        const newModelSelected = commentaire.modelSelected;
+        await Commentaire.updateOne({observateurId : observateurId }, { $set : { modelSelected : newModelSelected }})
+        .then(() => {
+            response.status(201).json(true);
+        })
+        .catch((error) => {
+            response.status(400).json(error);
+        });
+    }
+
+}
+
 const create = async (request, response) => {
+
+    const { modelSelected } = request.body;
+    for(let i = 0; i < modelSelected.length; i++) {
+        modelSelected[i]["etat"] = "saved";
+    }
 
     try {
 
@@ -347,4 +370,7 @@ const supprimer = async (request, response) => {
 
 }
 
-export default { create , select, deleteOne, readCommentaires, deleteByRefAndObservateurId, supprimer }
+
+
+
+export default { create , select, deleteOne, readCommentaires, deleteByRefAndObservateurId, supprimer, deleteByIndexAndRef }
