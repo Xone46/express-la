@@ -65,7 +65,9 @@ const select = async (request, response) => {
         const examen = await ExamenFamilleFiveLevFive.findOne({ observateurId : observateurId });
         if(examen) {
             response.status(200).json({ examen : examen });
-        } 
+        } else {
+            response.status(200).json({ examen : null });
+        }
 
 
     } catch (error) {

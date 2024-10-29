@@ -8,5 +8,6 @@ router.get("/:observateurId", ExamenController.select);
 router.delete("/:observateurId", ExamenController.reset);
 router.post("/updateStatus", ExamenController.updateStatus);
 router.post("/changeStatusCritique", ExamenController.changeStatusCritique);
+router.delete("/deleteAllCommentairesExamen/:observateurId", ExamenController.deleteAllCommentairesExamen);
 
 export default router;

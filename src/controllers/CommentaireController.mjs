@@ -37,9 +37,11 @@ const create = async (request, response) => {
 
         const { observateurId, ref, number, titre, modelSelected } = request.body;
 
-        const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number, titre : titre });
+        const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number });
 
-        if(exist) {
+
+        if(exist != null) {
+
             await Commentaire.updateOne({observateurId : observateurId }, { $set : { ref : ref, number : number, titre : titre, modelSelected :modelSelected }})
             .then(() => {
                 response.status(201).json(true)
@@ -48,22 +50,26 @@ const create = async (request, response) => {
                 response.status(400).json(error);
             });
 
-        } else {
+        }
+        
+        if(exist == null) {
+
             await Commentaire({ observateurId, ref, number, titre, modelSelected })
             .save()
             .then(() => {
                 response.status(201).json(true);
             })
             .catch((error) => {
-                response.status(400).json(error);
                 console.log(error)
+                response.status(400).json(error);
             });
+
         }
 
 
 
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         response.status(400).json(error);
     }
 
@@ -143,24 +149,29 @@ const deleteByRefAndObservateurId = async (request, response) => {
 const supprimer = async (request, response) => {
 
     try {
+        
         const {                 
+            titre,
             ref,
-            observateurId,
-            name
+            name,
+            observateurId
         } = request.body;
 
         const refFix = String(ref).toLowerCase();
 
-
-
         const commentaire = await Commentaire.findOne({ observateurId : observateurId, ref : ref });
+
+        // search commentaire specfique
         for(let i = 0; i < commentaire.modelSelected.length; i++) {
             if(commentaire.modelSelected[i].name == name) {
                 commentaire.modelSelected.splice(i, 1);
             }
         } 
 
-        if(commentaire.modelSelected.length > 0) {
+
+        // Modfier que exite au moins un valeur
+        if(Number(commentaire.modelSelected.length) != 0) {
+
             await Commentaire.updateOne({ observateurId: observateurId }, {
                 $set: {
                     "modelSelected": commentaire.modelSelected,
@@ -175,35 +186,38 @@ const supprimer = async (request, response) => {
             });
         }
 
-        if(commentaire.modelSelected.length == 0) {
+        if(Number(commentaire.modelSelected.length) == 0) {
+
 
             const observateur = await Observateur.findById(observateurId);
-
 
             if(observateur.typeAppareil[0] == "Famille 1 LEV1") {
 
                 const examen = await ExamenFamilleOneLevOne.findOne({ observateurId : observateurId });
+
                 const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
-                if(commentaire) {
+
+                if(commentaire.deletedCount == 1) {
                     for(let i = 0; i < examen[refFix].length; i++) {
-                        if(examen[refFix][i]["titre"] == name) {
+                        if(examen[refFix][i].titre == titre) {
                             examen[refFix][i]["o"] = false;
                         }
                     }
                 }
-    
+
                 await ExamenFamilleOneLevOne.updateOne({ observateurId: observateurId }, {
                     $set: {
-                        a : examen["a"],
-                        b : examen["b"],
-                        c : examen["c"],
-                        d : examen["d"],
-                        e : examen["e"],
-                        f : examen["f"],
-                        g : examen["g"],
-                        h : examen["h"],
-                        i : examen["i"],
-                        j : examen["j"],
+                        a : examen.a,
+                        b : examen.b,
+                        c : examen.c,
+                        d : examen.d,
+                        e : examen.e,
+                        f : examen.f,
+                        g : examen.g,
+                        h : examen.h,
+                        i : examen.i,
+                        j : examen.j,
+                        k : examen.k,
                     }
                 })
                 .then(() => {
@@ -219,9 +233,9 @@ const supprimer = async (request, response) => {
 
                 const examen = await ExamenFamilleTowLevTow.findOne({ observateurId : observateurId });
                 const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
-                if(commentaire) {
+                if(commentaire.deletedCount == 1) {
                     for(let i = 0; i < examen[refFix].length; i++) {
-                        if(examen[refFix][i]["titre"] == name) {
+                        if(examen[refFix][i]["titre"] == titre) {
                             examen[refFix][i]["o"] = false;
                         }
                     }
@@ -229,17 +243,17 @@ const supprimer = async (request, response) => {
     
                 await ExamenFamilleTowLevTow.updateOne({ observateurId: observateurId }, {
                     $set: {
-                        a : examen["a"],
-                        b : examen["b"],
-                        c : examen["c"],
-                        d : examen["d"],
-                        e : examen["e"],
-                        f : examen["f"],
-                        g : examen["g"],
-                        h : examen["h"],
-                        i : examen["i"],
-                        j : examen["j"],
-                        k : examen["k"]
+                        a : examen.a,
+                        b : examen.b,
+                        c : examen.c,
+                        d : examen.d,
+                        e : examen.e,
+                        f : examen.f,
+                        g : examen.g,
+                        h : examen.h,
+                        i : examen.i,
+                        j : examen.j,
+                        k : examen.k,
                     }
                 })
                 .then(() => {
@@ -255,9 +269,9 @@ const supprimer = async (request, response) => {
 
                 const examen = await ExamenFamilleTreeLevTree.findOne({ observateurId : observateurId });
                 const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
-                if(commentaire) {
+                if(commentaire.deletedCount == 1) {
                     for(let i = 0; i < examen[refFix].length; i++) {
-                        if(examen[refFix][i]["titre"] == name) {
+                        if(examen[refFix][i]["titre"] == titre) {
                             examen[refFix][i]["o"] = false;
                         }
                     }
@@ -265,17 +279,17 @@ const supprimer = async (request, response) => {
     
                 await ExamenFamilleTreeLevTree.updateOne({ observateurId: observateurId }, {
                     $set: {
-                        a : examen["a"],
-                        b : examen["b"],
-                        c : examen["c"],
-                        d : examen["d"],
-                        e : examen["e"],
-                        f : examen["f"],
-                        g : examen["g"],
-                        h : examen["h"],
-                        i : examen["i"],
-                        j : examen["j"],
-                        k : examen["k"]
+                        a : examen.a,
+                        b : examen.b,
+                        c : examen.c,
+                        d : examen.d,
+                        e : examen.e,
+                        f : examen.f,
+                        g : examen.g,
+                        h : examen.h,
+                        i : examen.i,
+                        j : examen.j,
+                        k : examen.k,
                     }
                 })
                 .then(() => {
@@ -291,9 +305,9 @@ const supprimer = async (request, response) => {
 
                 const examen = await ExamenFamilleFourLevFour.findOne({ observateurId : observateurId });
                 const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
-                if(commentaire) {
+                if(commentaire.deletedCount == 1) {
                     for(let i = 0; i < examen[refFix].length; i++) {
-                        if(examen[refFix][i]["titre"] == name) {
+                        if(examen[refFix][i]["titre"] == titre) {
                             examen[refFix][i]["o"] = false;
                         }
                     }
@@ -301,17 +315,17 @@ const supprimer = async (request, response) => {
     
                 await ExamenFamilleFourLevFour.updateOne({ observateurId: observateurId }, {
                     $set: {
-                        a : examen["a"],
-                        b : examen["b"],
-                        c : examen["c"],
-                        d : examen["d"],
-                        e : examen["e"],
-                        f : examen["f"],
-                        g : examen["g"],
-                        h : examen["h"],
-                        i : examen["i"],
-                        j : examen["j"],
-                        k : examen["k"]
+                        a : examen.a,
+                        b : examen.b,
+                        c : examen.c,
+                        d : examen.d,
+                        e : examen.e,
+                        f : examen.f,
+                        g : examen.g,
+                        h : examen.h,
+                        i : examen.i,
+                        j : examen.j,
+                        k : examen.k,
                     }
                 })
                 .then(() => {
@@ -327,9 +341,9 @@ const supprimer = async (request, response) => {
 
                 const examen = await ExamenFamilleFiveLevFive.findOne({ observateurId : observateurId });
                 const commentaire = await Commentaire.deleteOne({ observateurId: observateurId, ref : ref });
-                if(commentaire) {
+                if(commentaire.deletedCount == 1) {
                     for(let i = 0; i < examen[refFix].length; i++) {
-                        if(examen[refFix][i]["titre"] == name) {
+                        if(examen[refFix][i]["titre"] == titre) {
                             examen[refFix][i]["o"] = false;
                         }
                     }
@@ -337,17 +351,17 @@ const supprimer = async (request, response) => {
     
                 await ExamenFamilleFiveLevFive.updateOne({ observateurId: observateurId }, {
                     $set: {
-                        a : examen["a"],
-                        b : examen["b"],
-                        c : examen["c"],
-                        d : examen["d"],
-                        e : examen["e"],
-                        f : examen["f"],
-                        g : examen["g"],
-                        h : examen["h"],
-                        i : examen["i"],
-                        j : examen["j"],
-                        k : examen["k"]
+                        a : examen.a,
+                        b : examen.b,
+                        c : examen.c,
+                        d : examen.d,
+                        e : examen.e,
+                        f : examen.f,
+                        g : examen.g,
+                        h : examen.h,
+                        i : examen.i,
+                        j : examen.j,
+                        k : examen.k,
                     }
                 })
                 .then(() => {

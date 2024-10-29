@@ -66,7 +66,9 @@ const select = async (request, response) => {
         const examen = await ExamenFamilleFourLevFour.findOne({ observateurId : observateurId });
         if(examen) {
             response.status(200).json({ examen : examen });
-        } 
+        } else {
+            response.status(200).json({ examen : null });
+        }
 
 
     } catch (error) {
@@ -318,4 +320,20 @@ const changeStatusCritique = async (request, response) => {
 
 }
 
-export default { create, select, updateStatus, changeStatusCritique, reset }
+const deleteAllCommentairesExamen = async (request, response) => {
+
+    try {
+        const { observateurId } = request.params;
+        const commentaires = await Commentaire.deleteMany({ observateurId : observateurId });
+        if(commentaires) {
+            response.status(200).json(true);
+        }
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+
+}
+
+export default { create, select, updateStatus, changeStatusCritique, reset, deleteAllCommentairesExamen }
