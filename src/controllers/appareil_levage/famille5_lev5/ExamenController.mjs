@@ -324,4 +324,6 @@ const deleteAllCommentairesExamen = async (request, response) => {
 
 }
 
+
+
 export default { create, select, updateStatus, changeStatusCritique, reset, deleteAllCommentairesExamen }
