@@ -66,6 +66,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const g = String(conclusion.g);
 
 
+
             const observations = new Array();
             const consclusions = new Array();
 
@@ -110,6 +111,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     content: g
                 })
             }
+
 
             // commentaire
             const arr_obs = new Array();

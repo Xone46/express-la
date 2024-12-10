@@ -130,10 +130,13 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
-        const renseignement = await RenseignementFamilleOneLevOne.findOne({ observateurId: observateurId }); 
+        const renseignement = await RenseignementFamilleOneLevOne.findOne({ observateurId: observateurId });
         if(renseignement) {
             response.status(200).json({ renseignement : renseignement });
+        } else {
+            response.status(200).json({ renseignement : null });
         }
+
     } catch (error) {
         console.log(error)
         response.status(400).json(error);

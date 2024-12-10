@@ -117,7 +117,11 @@ const select = async (request, response) => {
 
         const observateurId = String(request.params.observateurId);
         const conclusion = await ConclusionFamilleOneLevOne.findOne({ observateurId : observateurId });
-        response.status(200).json(conclusion);
+        if(conclusion) {
+            response.status(200).json(conclusion);
+        } else {
+            response.status(200).json(null);
+        }
 
 
     } catch (error) {
