@@ -415,7 +415,6 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                         return true;
                     }
 
-
                 } catch (error) {
                     console.log(error);
                     response.status(500).json({ error: error });
