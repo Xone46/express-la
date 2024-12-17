@@ -329,8 +329,8 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
 
                         levageAuxilaire: description.levageAuxilaire,
 
-                        mouflageLevageAuxilaire : description.mouflageLevageAuxilaire,
-                        diametreLevageAuxilaire : description.diametreLevageAuxilaire,
+                        // mouflageLevageAuxilaire : description.mouflageLevageAuxilaire,
+                        dla : description.diametreLevageAuxilaire,
 
                         modeInstallation : description.modeInstallation,
                         complementModeInstallation : description.complementModeInstallation,

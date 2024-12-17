@@ -66,10 +66,10 @@ const DescriptionFamilleTowLevTow_Schema = new mongoose.Schema({
         required : false,
     },
 
-    mouflageLevageAuxilaire: {
-        type : mongoose.Schema.Types.String,
-        required : false,
-    },
+    // mouflageLevageAuxilaire: {
+    //     type : mongoose.Schema.Types.String,
+    //     required : false,
+    // },
 
     diametreLevageAuxilaire: {
         type : mongoose.Schema.Types.String,
