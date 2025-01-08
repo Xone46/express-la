@@ -66,6 +66,11 @@ const DescriptionFamilleTreeLevTree_Schema = new mongoose.Schema({
         required : false,
     },
 
+    statusSiPresence: {
+        type : mongoose.Schema.Types.Boolean,
+        required : false,
+    },
+
     observateurId: {
         type : mongoose.Schema.Types.String,
         required : false

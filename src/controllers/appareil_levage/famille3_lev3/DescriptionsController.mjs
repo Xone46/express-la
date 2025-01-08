@@ -43,6 +43,7 @@ const create = async (request, response) => {
                 dispositifPrehension : dispositifPrehension,
                 equipementsInterchangable : equipementsInterchangable,
                 siPresence : siPresence,
+                statusSiPresence : siPresence.length == 0 ? false: true,
                 observateurId : observateurId
             } })
             .then((result) => {
@@ -69,6 +70,7 @@ const create = async (request, response) => {
                     dispositifPrehension : dispositifPrehension,
                     equipementsInterchangable : equipementsInterchangable,
                     siPresence : siPresence,
+                    statusSiPresence : siPresence.length == 0 ? false: true,
                     observateurId : observateurId
                 })
                 .save()
@@ -129,7 +131,7 @@ const reset = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         await DescriptionFamilleTreeLevTree.deleteOne({ observateurId: observateurId })
             .then(async () => {
-                    await Completed.updateOne({ observateurId: observateurId }, {
+                    await CompletedFamilleTreeLevTree.updateOne({ observateurId: observateurId }, {
                         $set: {
                             description: false,
                         }

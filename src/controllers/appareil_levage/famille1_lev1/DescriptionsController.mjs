@@ -136,7 +136,7 @@ const reset = async (request, response) => {
         const observateurId = String(request.params.observateurId);
         await Description.deleteOne({ observateurId: observateurId })
             .then(async () => {
-                    await Completed.updateOne({ observateurId: observateurId }, {
+                    await CompletedFamilleOneLevOne.updateOne({ observateurId: observateurId }, {
                         $set: {
                             description: false,
                         }

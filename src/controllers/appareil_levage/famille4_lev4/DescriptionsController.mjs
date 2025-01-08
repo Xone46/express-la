@@ -127,11 +127,12 @@ const select = async (request, response) => {
 
 const reset = async (request, response) => {
 
+
     try {
         const observateurId = String(request.params.observateurId);
-        await Description.deleteOne({ observateurId: observateurId })
+        await DescriptionFamilleFourLevFour.deleteOne({ observateurId: observateurId })
             .then(async () => {
-                    await Completed.updateOne({ observateurId: observateurId }, {
+                    await CompletedFamilleFourLevFour.updateOne({ observateurId: observateurId }, {
                         $set: {
                             description: false,
                         }

@@ -322,6 +322,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
                     dispositifPrehension :  description.dispositifPrehension,
                     equipementsInterchangable :  description.equipementsInterchangable,
                     siPresence :  description.siPresence,
+                    statusSiPresence :  description.statusSiPresence,
  
                     aExamen: aExamen,
                     bExamen: bExamen,
