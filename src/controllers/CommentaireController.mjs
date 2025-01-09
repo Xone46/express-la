@@ -11,34 +11,53 @@ import { ExamenFamilleFiveLevFive } from "../models/appareil_levage/famille5_lev
 const deleteByIndexAndRef = async (request, response) => {
 
     const { ref, number, titre, index, observateurId } = request.params;
-    const commentaire = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number });
+
+    const commentaire = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : Number(number) });
+
     if(commentaire) {
-        commentaire.modelSelected.splice(index, 1);
-        const newModelSelected = commentaire.modelSelected;
-        await Commentaire.updateOne({observateurId : observateurId }, { $set : { modelSelected : newModelSelected }})
-        .then(() => {
-            response.status(201).json(true);
-        })
-        .catch((error) => {
-            response.status(400).json(error);
-        });
+
+        if(commentaire.modelSelected.length == 1) {
+
+            await Commentaire.deleteOne({ observateurId : observateurId, ref : ref, number : Number(number) })
+            .then(() => {
+                response.status(201).json(true);
+            })
+            .catch((error) => {
+                response.status(400).json(error);
+            });
+        } 
+
+        if(commentaire.modelSelected.length > 1) {
+
+            commentaire.modelSelected.splice(index, 1);
+
+            await Commentaire.updateOne({ observateurId : observateurId, ref : ref, number : Number(number) }, { $set : { modelSelected : commentaire.modelSelected }})
+            .then(() => {
+                response.status(201).json(true);
+            })
+            .catch((error) => {
+                response.status(400).json(error);
+            });
+        } 
     }
 
 }
 
 const create = async (request, response) => {
 
+
     const { modelSelected } = request.body;
     for(let i = 0; i < modelSelected.length; i++) {
         modelSelected[i]["etat"] = "saved";
     }
+
+    console.log(modelSelected)
 
     try {
 
         const { observateurId, ref, number, titre, modelSelected } = request.body;
 
         const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number });
-
 
         if(exist != null) {
 
@@ -77,6 +96,7 @@ const create = async (request, response) => {
 
 
 const select = async (request, response) => {
+
 
     try {
 
@@ -147,6 +167,7 @@ const deleteByRefAndObservateurId = async (request, response) => {
 }
 
 const supprimer = async (request, response) => {
+
 
     try {
         
