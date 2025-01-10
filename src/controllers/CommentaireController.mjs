@@ -46,16 +46,16 @@ const deleteByIndexAndRef = async (request, response) => {
 const create = async (request, response) => {
 
 
-    const { modelSelected } = request.body;
+    const { observateurId, ref, number, titre, modelSelected } = request.body;
+
+    console.log(request.body);
+
     for(let i = 0; i < modelSelected.length; i++) {
         modelSelected[i]["etat"] = "saved";
     }
 
-    console.log(modelSelected)
-
     try {
 
-        const { observateurId, ref, number, titre, modelSelected } = request.body;
 
         const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number });
 
@@ -88,7 +88,7 @@ const create = async (request, response) => {
 
 
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         response.status(400).json(error);
     }
 
