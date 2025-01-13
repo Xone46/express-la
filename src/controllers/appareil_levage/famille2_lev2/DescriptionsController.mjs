@@ -136,7 +136,9 @@ const select = async (request, response) => {
         const description = await DescriptionFamilleTowLevTow.findOne({ observateurId : observateurId });
         if(description) {
             response.status(200).json({ description : description });
-        } 
+        } else {
+            response.status(200).json({ description : null });
+        }
 
     } catch (error) {
         console.log(error)
