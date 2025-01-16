@@ -1,4 +1,3 @@
-
 import { ConclusionFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/conclusion.mjs";
 import { CompletedFamilleTreeLevTree } from "../../../models/appareil_levage/famille3_lev3/completed.mjs";
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
@@ -10,9 +9,11 @@ const create = async (request, response) => {
     try {
 
         const { a, b, c, d, e, f, g, poids, commentaire, observateurId, child } = request.body;
+
         const conclusion = await ConclusionFamilleTreeLevTree.findOne({ observateurId: request.body.observateurId });
 
         if(conclusion) {
+
 
             await ConclusionFamilleTreeLevTree.updateOne({ observateurId: request.body.observateurId }, {
                 $set: {
@@ -48,6 +49,7 @@ const create = async (request, response) => {
                 });
 
         } else {
+
 
             await ConclusionFamilleTreeLevTree({ a, b, c, d, e, f, g, poids, commentaire, observateurId, child })
             .save()
@@ -116,7 +118,10 @@ const select = async (request, response) => {
     try {
 
         const observateurId = String(request.params.observateurId);
+        console.log(observateurId)
+
         const conclusion = await ConclusionFamilleTreeLevTree.findOne({ observateurId : observateurId });
+        console.log(conclusion)
         response.status(200).json(conclusion);
 
 
