@@ -48,49 +48,51 @@ const create = async (request, response) => {
 
     const { observateurId, ref, number, titre, modelSelected } = request.body;
 
-    console.log(request.body);
-
-    for(let i = 0; i < modelSelected.length; i++) {
-        modelSelected[i]["etat"] = "saved";
-    }
-
-    try {
-
-
-        const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number });
-
-        if(exist != null) {
-
-            await Commentaire.updateOne({observateurId : observateurId }, { $set : { ref : ref, number : number, titre : titre, modelSelected :modelSelected }})
-            .then(() => {
-                response.status(201).json(true)
-            })
-            .catch((error) => {
-                response.status(400).json(error);
-            });
-
-        }
+    if(modelSelected.length > 0) {
         
-        if(exist == null) {
-
-            await Commentaire({ observateurId, ref, number, titre, modelSelected })
-            .save()
-            .then(() => {
-                response.status(201).json(true);
-            })
-            .catch((error) => {
-                console.log(error)
-                response.status(400).json(error);
-            });
-
+        for(let i = 0; i < modelSelected.length; i++) {
+            modelSelected[i]["etat"] = "saved";
         }
 
+        try {
 
 
-    } catch (error) {
-        console.log(error)
-        response.status(400).json(error);
+            const exist = await Commentaire.findOne({ observateurId : observateurId, ref : ref, number : number });
+    
+            if(exist != null) {
+    
+                await Commentaire.updateOne({observateurId : observateurId }, { $set : { ref : ref, number : number, titre : titre, modelSelected :modelSelected }})
+                .then(() => {
+                    response.status(201).json(true)
+                })
+                .catch((error) => {
+                    response.status(400).json(error);
+                });
+    
+            }
+            
+            if(exist == null) {
+    
+                await Commentaire({ observateurId, ref, number, titre, modelSelected })
+                .save()
+                .then(() => {
+                    response.status(201).json(true);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    response.status(400).json(error);
+                });
+    
+            }
+    
+    
+    
+        } catch (error) {
+            console.log(error.message)
+            response.status(400).json(error);
+        }
     }
+
 
 }
 
