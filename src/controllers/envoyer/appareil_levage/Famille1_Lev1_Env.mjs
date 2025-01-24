@@ -1,7 +1,7 @@
 import { Observateur } from "../../../models/observateur.mjs";
 import { Inspecteur } from "../../../models/inspecteurs.mjs";
 import { Intervention } from "../../../models/intervention.mjs";
-import  { Parent } from "../../../models/parent.mjs";
+// import  { Parent } from "../../../models/parent.mjs";
 import { PhotoFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/photo.mjs";
 
 import geoip from 'geoip-lite'
@@ -21,8 +21,8 @@ const __dirname = path.dirname(__filename);
 
 const envoyer = async (observateurId, inspecteurId, ip, response) => {
 
-    const parent = await Parent.find();
-    console.log(parent)
+    // const parent = await Parent.find();
+    // console.log(parent)
 
     const EMAIL = process.env.EMAIL
     const CLIENT_ID = process.env.CLIENT_ID
