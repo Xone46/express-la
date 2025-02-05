@@ -1,36 +1,18 @@
-// import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-// const DB_NAME_ATLAS = process.env.DB_NAME_ATLAS
-// const DB_PASSWORD_ATLAS = process.env.DB_PASSWORD_ATLAS
-
-// const urlConnecteDev = `mongodb+srv://gthconsultservice:${DB_PASSWORD_ATLAS}@cluster0.gtvlx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-
-// mongoose.connect(urlConnecteDev, {
-//     dbName: DB_NAME_ATLAS,
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// })
-//     .then(() => {
-//         console.log('mongodb connected');
-//     })
-//     .catch(err => console.log(err.message))
-
-// mongoose.set('strictQuery', false);
-
-// mongoose.connection.on('connected', () => {
-//     console.log('Mongoose connected to DB');
-// })
-// mongoose.connection.on('error', (err) => {
-//     console.log(err.message);
-// })
-// mongoose.connection.on('disconnected', () => {
-//     console.log('Moongose connecton is disconnected');
-// })
-
-
-// // export default  // ✅
-
-// export default {
-//     con : mongoose
-// } 
-
+  // for prod "service.supports"
+  const uri = process.env.MONGO_URI;
+  
+  // Connexion à la base de données
+  const connectToDB = async () => {
+    try {
+      await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      console.log('MongoDB connecté avec Mongoose à la base de données "test"!');
+    } catch (error) {
+      console.error('Erreur de connexion MongoDB avec Mongoose:', error);
+    }
+  };
+  
+  // Exporter la fonction de connexion
+  export default connectToDB;
+  

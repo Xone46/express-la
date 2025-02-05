@@ -14,6 +14,7 @@ import interventionRouter from "./routes/interventions.mjs"
 import observateurRouter from "./routes/observateurs.mjs"
 import filoRouter from "./routes/filos.mjs"
 import commentaireRouter from "./routes/commentaire.mjs"
+import reserveRouter from "./routes/reserve.mjs"
 
 
 import appareil_levage_famille1_lev1_renseignements_Router from "./routes/appareil_levage/famille1_lev1/renseignement.mjs"
@@ -105,6 +106,7 @@ app.use("/api/v1/interventions", interventionRouter);
 app.use("/api/v1/observateurs", observateurRouter);
 app.use("/api/v1/filos", filoRouter);
 app.use("/api/v1/commentaires", commentaireRouter);
+app.use("/api/v1/reserves", reserveRouter);
 
 
 app.use("/api/v1/accessoire_levage-famille_ac1/renseignements", accessoire_levage_famille_ac1_renseignements_Router);

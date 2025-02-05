@@ -1,4 +1,5 @@
 import { Observateur } from "../../models/observateur.mjs";
+import Reserve from '../../models/reserves.mjs';
 import { CompletedFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
 
 
@@ -12,8 +13,22 @@ const terminer = async (observateurId, response) => {
     } else {
         try {
             await Observateur.updateOne({ _id: observateurId }, { $set: { etat: true } })
-                .then((result) => {
-                    response.status(201).json({ msg: true });
+                .then(async () => {
+
+                    await Reserve({
+                        name: name,
+                        status: "",
+                        etat: "not_saved",
+                    })
+                        .save()
+                        .then(() => {
+                            response.status(201).json({ msg: true });
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                            response.status(400).json(error);
+                        });
+
                 })
                 .catch((error) => {
                     response.status(400).json(error);
