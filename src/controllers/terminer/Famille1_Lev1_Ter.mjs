@@ -1,4 +1,5 @@
 import { Observateur } from "../../models/observateur.mjs";
+import { Commentaire } from "../../models/commentaire.mjs";
 import Reserve from '../../models/reserves.mjs';
 import { CompletedFamilleOneLevOne } from "../../models/appareil_levage/famille1_lev1/completed.mjs";
 
@@ -15,19 +16,33 @@ const terminer = async (observateurId, response) => {
             await Observateur.updateOne({ _id: observateurId }, { $set: { etat: true } })
                 .then(async () => {
 
-                    await Reserve({
-                        name: name,
-                        status: "",
-                        etat: "not_saved",
-                    })
-                        .save()
-                        .then(() => {
-                            response.status(201).json({ msg: true });
-                        })
-                        .catch((error) => {
-                            console.log(error)
-                            response.status(400).json(error);
-                        });
+                    const userArray = [];
+                    const commentaires = await Commentaire.find({ observateurId: observateurId });
+
+                    if (commentaires) {
+                        for (let i = 0; i < commentaires.length; i++) {
+                            for (let j = 0; j < commentaires[i].modelSelected.length; j++) {
+                                userArray.push({
+                                    name: commentaires[i].modelSelected[j].name,
+                                    status: "non critique",
+                                    etat: "not_saved"
+                                });
+                            }
+                        }
+
+                        await Reserve.insertMany(userArray)
+                            .save()
+                            .thne((result) => {
+                                console.log(result)
+                                response.status(201).json({ msg: true });
+                            })
+                            .catch((error) => {
+                                console.log(error)
+                            })
+                    } else {
+                        response.status(201).json({ msg: true });
+                    }
+
 
                 })
                 .catch((error) => {

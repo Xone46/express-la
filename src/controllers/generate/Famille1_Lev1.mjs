@@ -42,6 +42,7 @@ const generate = async (observateurId, inspecteurId, interventionId, type, respo
             const observateur = await Observateur.findById(observateurId);
 
             const pathFile = path.resolve(__dirname, `../../rapports/output.docx`);
+                
             fs.unlink(pathFile, (err) => {
                 if (!err) {
                     console.log('File output docx is deleted.');

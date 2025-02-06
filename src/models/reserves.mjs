@@ -1,29 +1,27 @@
 import mongoose from "mongoose";
+const ReserveSchema = new mongoose.Schema({
 
-// Définir un schéma pour la réserve
-const reserveSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,  // Le nom est requis
+    required: false,
   },
 
   etat: {
     type: String,
-    required: true,  // La date est requise
+    required: false,
   },
 
   status: {
     type: String,
-    required: true,  // La date est requise
+    required: false,
   },
 
-  date: {
-    type: Date,
-    required: true,  // La date est requise
+  dateCreated: {
+    type: mongoose.Schema.Types.Date,
+    default: new Date()
   }
 
-});
+})
 
-// Créer le modèle "Reserve" à partir du schéma
-const Reserve = mongoose.model('Reserve', reserveSchema, 'reserves');  // Nom de la collection 'reserves'
+const Reserve = mongoose.model('Reserve', ReserveSchema);
 export default Reserve
