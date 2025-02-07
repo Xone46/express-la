@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import express from "express";
 import cors from 'cors';
+import {connectAtlasDB } from "./dbAtlas.mjs"
 import mongoose from "mongoose";
 const app = express();
 const PORT = process.env.PORT
@@ -63,6 +64,10 @@ import accessoire_levage_famille_ac1_fiches_Router from "./routes/accessoire_lev
 import accessoire_levage_famille_ac1_photos_Router from "./routes/accessoire_levage/famille_ac1/photo.mjs"
 import accessoire_levage_famille_ac1_accessoires_Router from "./routes/accessoire_levage/famille_ac1/accessoire.mjs"
 import accessoire_levage_famille_ac1_completeds_Router from "./routes/accessoire_levage/famille_ac1/completed.mjs"
+
+
+// Connect to both MongoDB Atlas and Local databases
+connectAtlasDB(); // Connect to MongoDB Atlas
 
 
 mongoose.connect("mongodb://localhost/control")

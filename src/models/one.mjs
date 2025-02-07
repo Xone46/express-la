@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-import con from "../controllers/dbsite.mjs";
+import mongoose from 'mongoose';
+import { connectAtlasDB } from '../../src/dbAtlas.mjs';  // Import the connection function
 
-
+// Author schema
 const OneSchema = new mongoose.Schema({
 
       email: {
@@ -66,4 +66,10 @@ const OneSchema = new mongoose.Schema({
       }
 });
 
-export const One = con.model("One", OneSchema, "ones");
+// Create and return the Author model
+export const createOneModel = async () => {
+      const atlasConnection = await connectAtlasDB();  // Connect to MongoDB Atlas
+      const One = atlasConnection.model('One', OneSchema);
+      return One;
+};
+
