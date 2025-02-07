@@ -1,7 +1,7 @@
 import { Observateur } from "../../models/observateur.mjs";
 import { Commentaire } from "../../models/commentaire.mjs";
-import Reserve from '../../models/reserves.mjs';
 import { CompletedFamilleFiveLevFive } from "../../models/appareil_levage/famille5_lev5/completed.mjs";
+import { createReserveModel } from '../../models/reserves.mjs';
 
 
 const terminer = async (observateurId, response) => {
@@ -20,6 +20,7 @@ const terminer = async (observateurId, response) => {
                     const commentaires = await Commentaire.find({ observateurId: observateurId });
 
                     if(commentaires) {
+
                         for (let i = 0; i < commentaires.length; i++) {
                             for (let j = 0; j < commentaires[i].modelSelected.length; j++) {
                                 userArray.push({
@@ -29,16 +30,18 @@ const terminer = async (observateurId, response) => {
                                 });
                             }
                         }
+
+                        const Reserve = await createReserveModel();
+                        const reserve = Reserve.insertMany(userArray)
+                        console.log(reserve)
+
+                        if(reserve) {
+                            response.status(201).json({ msg: true });
+
+                        } else {
+                            response.status(201).json({ msg: true });
+                        }
     
-                        await Reserve.insertMany(userArray)
-                            .save()
-                            .thne((result) => {
-                                console.log(result)
-                                response.status(201).json({ msg: true });
-                            })
-                            .catch((error) => {
-                                console.log(error)
-                            })
                     } else {
                         response.status(201).json({ msg: true });
                     }

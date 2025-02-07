@@ -4,8 +4,6 @@ import { Intervention } from "../../../models/intervention.mjs";
 import { createOneModel } from '../../../models/one.mjs';
 import { createParentModel } from '../../../models/parent.mjs';
 import AWS from "aws-sdk";
-import multer from "multer";
-import multerS3 from "multer-s3";
 import { PhotoFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/photo.mjs";
 
 const DO_SPACES_ENDPOINT = process.env.DO_SPACES_ENDPOINT
@@ -44,6 +42,12 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
 
     // Get info Inspecteur
     const inspecteur = await Inspecteur.findById(inspecteurId);
+    const observateur = await Observateur.findById(observateurId);
+    const intervention = await Intervention.findById(observateur.interventionId);
+    const photo = await PhotoFamilleOneLevOne.findOne({ observateurId : observateurId});
+
+    const namefile = "Rapport -" + observateur.typeAppareil[0] + "--" + observateur.typeAppareil[1] + "--" + intervention.etablissement;
+
     const prenom = String(inspecteur.prenom).toLocaleLowerCase();
     const nom = String(inspecteur.nom).toLocaleUpperCase();
     const email = String(inspecteur.email);
@@ -81,7 +85,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
                 prenom: prenom,
                 nested: [],
                 partager: [],
-                originalname: fileName,
+                originalname: namefile,
                 filename: s3Key,
                 location: data.Location,
                 type: "Fichier",
@@ -96,17 +100,13 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
                 OAuth2_client.setCredentials({ refresh_token: REFRESH_TOKEN })
                 const accessToken = OAuth2_client.getAccessToken();
 
-                const observateur = await Observateur.findById(observateurId);
-                const inspecteur = await Inspecteur.findById(inspecteurId);
-                const intervention = await Intervention.findById(observateur.interventionId);
-                const photo = await PhotoFamilleOneLevOne.findOne({ observateurId : observateurId});
+
 
                 const emails = [
                     "jamal.ettariqi@gthconsult.ma",
                     "tarik.addioui@gthconsult.ma",
                     "service.clients@gthconsult.ma"
                 ];
-
 
                 var geo = geoip.lookup(ip);
 
@@ -177,12 +177,6 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
             console.error('Error uploading file:', err);
             throw err;
         });
-
-
-
-
-
-
 
 }
 

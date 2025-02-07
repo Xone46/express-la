@@ -1,7 +1,6 @@
 import { Observateur } from "../../models/observateur.mjs";
 import { Completed } from "../../models/accessoire_levage/famille_ac1/completed.mjs";
 import { Commentaire } from "../../models/commentaire.mjs";
-import Reserve from '../../models/reserves.mjs';
 
 const terminer = async (observateurId, response) => {
 

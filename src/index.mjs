@@ -1,9 +1,11 @@
 import "dotenv/config";
+import http from 'http';
+import https from 'https';
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import express from "express";
 import cors from 'cors';
-import {connectAtlasDB } from "./dbAtlas.mjs"
+import { connectAtlasDB } from "./dbAtlas.mjs"
 import mongoose from "mongoose";
 const app = express();
 const PORT = process.env.PORT
@@ -65,29 +67,40 @@ import accessoire_levage_famille_ac1_photos_Router from "./routes/accessoire_lev
 import accessoire_levage_famille_ac1_accessoires_Router from "./routes/accessoire_levage/famille_ac1/accessoire.mjs"
 import accessoire_levage_famille_ac1_completeds_Router from "./routes/accessoire_levage/famille_ac1/completed.mjs"
 
+const url = 'https://www.google.com';
+const protocol = url.startsWith('https') ? https : http;
+protocol.get(url, (res) => {
+    if (res.statusCode === 200) {
+        connectAtlasDB();
+    } else {
+        console.log("Not connecte with server GTHCONSULT")
+    }
+}).on('error', () => {
+    console.log(false)
+});
 
-// Connect to both MongoDB Atlas and Local databases
-connectAtlasDB(); // Connect to MongoDB Atlas
+
+
 
 
 mongoose.connect("mongodb://localhost/control")
-.then(() => {
-    console.log("connected Database");
-})
-.catch((error) => {
-    console.log(`Error : ${error}`)
-});
+    .then(() => {
+        console.log("connected Database");
+    })
+    .catch((error) => {
+        console.log(`Error : ${error}`)
+    });
 
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser(process.env.SECRET_COOKIE));
 // Add headers before the routes are defined
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
- });
+});
 // app.use(cookieParser(process.env.SECRET_COOKIE));
 
 // middelwares
@@ -95,11 +108,11 @@ app.use(loggingMiddleware);
 
 // session
 app.use(session({
-    secret : process.env.SESSION,
-    saveUninitialized : false,
-    resave : false,
-    cookie : {
-        maxAge : 60000 * 60 * 2
+    secret: process.env.SESSION,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: 60000 * 60 * 2
     }
 }));
 
@@ -165,13 +178,13 @@ app.use("/api/v1/appareil_levage-famille5_lev5/completeds", appareil_levage_fami
 
 // generate cookie for client ID
 app.get("/", (request, response) => {
-    response.cookie("name", "test", { maxAge : 60000 * 60 * 24, signed : true });
+    response.cookie("name", "test", { maxAge: 60000 * 60 * 24, signed: true });
     // response.cookie("name", "test", { maxAge : 60000 * 60 * 24 });
     request.session.visited = true;
     request.session.name = "Xone46";
     console.log(request.session);
     console.log(request.session.id);
-    response.status(200).json({ msg : "Hello World"});
+    response.status(200).json({ msg: "Hello World" });
 });
 
 

@@ -1,11 +1,11 @@
-import Reserve from '../models/reserves.mjs';
+import { createReserveModel } from '../models/reserves.mjs';
 
 
 const read = async (request, response) => {
 
     try {
+        const Reserve = await createReserveModel();
         const reserves = await Reserve.find();
-        console.log(reserves)
         if(reserves) {
             response.status(200).json(reserves);
         }

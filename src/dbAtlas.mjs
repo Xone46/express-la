@@ -14,11 +14,11 @@ export const connectAtlasDB = async () => {
         });
 
         atlasConnection.on('connected', () => {
-            console.log('Connected to MongoDB Atlas...');
+            console.log('you are Connected with gthconsult server...');
         });
 
         atlasConnection.on('error', (err) => {
-            console.error('MongoDB Atlas connection error:', err);
+            console.error('you are not Connected with gthconsult server:', err);
         });
 
         return atlasConnection; // Return the connection for use in your models

@@ -1,4 +1,7 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import { connectAtlasDB } from '../../src/dbAtlas.mjs';  // Import the connection function
+
+// Author schema
 const ReserveSchema = new mongoose.Schema({
 
   name: {
@@ -20,8 +23,12 @@ const ReserveSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Date,
     default: new Date()
   }
+    
+});
 
-})
-
-const Reserve = mongoose.model('Reserve', ReserveSchema);
-export default Reserve
+// Create and return the Author model
+export const createReserveModel = async () => {
+    const atlasConnection = await connectAtlasDB();  // Connect to MongoDB Atlas
+    const Reserve = atlasConnection.model('Reserve', ReserveSchema);
+    return Reserve;
+};
