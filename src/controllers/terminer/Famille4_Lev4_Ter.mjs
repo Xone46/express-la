@@ -1,6 +1,7 @@
 import { Observateur } from "../../models/observateur.mjs";
 import { Commentaire } from "../../models/commentaire.mjs";
 import { CompletedFamilleFourLevFour } from "../../models/appareil_levage/famille4_lev4/completed.mjs";
+import { Reserve } from '../../models/reserves.mjs';
 
 
 const terminer = async (observateurId, response) => {
@@ -29,14 +30,16 @@ const terminer = async (observateurId, response) => {
                                 });
                             }
                         }
-                        
-                        const Reserve = await createReserveModel();
+
+
                         const reserve = Reserve.insertMany(userArray)
-                        console.log(reserve)
 
-                        console.log(reserve)
+                        if(reserve) {
+                            response.status(201).json({ msg: true });
 
-
+                        } else {
+                            response.status(201).json({ msg: true });
+                        }
 
                     } else {
                         response.status(201).json({ msg: true });
