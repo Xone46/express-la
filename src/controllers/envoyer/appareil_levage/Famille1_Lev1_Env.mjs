@@ -46,7 +46,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
     const intervention = await Intervention.findById(observateur.interventionId);
     const photo = await PhotoFamilleOneLevOne.findOne({ observateurId : observateurId});
 
-    const namefile = "Rapport -" + observateur.typeAppareil[0] + "--" + observateur.typeAppareil[1] + "--" + intervention.etablissement;
+    const namefile = `Rapport-${observateur.typeAppareil[0]}-${observateur.typeAppareil[1]}-${intervention.etablissement}`
 
     const prenom = String(inspecteur.prenom).toLocaleLowerCase();
     const nom = String(inspecteur.nom).toLocaleUpperCase();
@@ -65,7 +65,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
 
     // Get the file name and set the S3 key (file name)
     const fileName = path.basename(filepath);
-    const s3Key = `gth-${fileName}-${Date.now().toString(10).slice(2, 10)}`;
+    const s3Key = `gth-${Date.now().toString(10).slice(2, 10)}-${fileName}`;
 
     // Define the S3 upload parameters
     const uploadParams = {
