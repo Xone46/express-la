@@ -10,7 +10,7 @@ const terminer = async (observateurId, response) => {
     const tab = new Array(completed.renseignement, completed.description, completed.examen, completed.conclusion, completed.photo);
     let checker = arr => arr.every(v => v === true);
     if (checker(tab) == false) {
-        response.status(400).json({ msg: "Le contrôle n'est pas entièrement terminé. Veuillez examiner toutes les entrées." });
+        response.status(200).json({ msg: false });
     } else {
         try {
             await Observateur.updateOne({ _id: observateurId }, { $set: { etat: true } })

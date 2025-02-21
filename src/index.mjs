@@ -85,7 +85,7 @@ protocol.get(url, (res) => {
 
 mongoose.connect("mongodb://localhost/control")
     .then(() => {
-        console.log("connected Database");
+        console.log("Connected Database Local");
     })
     .catch((error) => {
         console.log(`Error : ${error}`)

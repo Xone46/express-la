@@ -5,20 +5,21 @@ import { Commentaire } from "../../models/commentaire.mjs";
 const terminer = async (observateurId, response) => {
 
     const completed = await Completed.findOne({ observateurId: observateurId });
-
     const tab = new Array(completed.renseignement, completed.accessoire, completed.fiche, completed.photo);
+
     let checker = arr => arr.every(v => v === true);
+
     if (checker(tab) == false) {
-        response.status(400).json({ msg: "Le contrôle n'est pas entièrement terminé. Veuillez examiner toutes les entrées." });
+        response.status(200).json({ msg: false });
     } else {
         try {
             await Observateur.updateOne({ _id: observateurId }, { $set: { etat: true } })
-                .then(async() => {
-                    
+                .then(async () => {
+
                     const userArray = [];
                     const commentaires = await Commentaire.find({ observateurId: observateurId });
 
-                    if(commentaires) {
+                    if (commentaires) {
                         for (let i = 0; i < commentaires.length; i++) {
                             for (let j = 0; j < commentaires[i].modelSelected.length; j++) {
                                 userArray.push({
@@ -28,7 +29,7 @@ const terminer = async (observateurId, response) => {
                                 });
                             }
                         }
-    
+
                         await Reserve.insertMany(userArray)
                             .save()
                             .thne((result) => {

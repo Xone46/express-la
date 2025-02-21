@@ -57,42 +57,42 @@ const apercu = async (request, response) => {
     if (obs.typeAppareil[0] == "Famille AC1") {
         const res = await FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
         if(res == false) {
-            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+            response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
     if(obs.typeAppareil[0] == "Famille 1 LEV1"){
         const res = await Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
         if(res == false) {
-            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+            response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
     if(obs.typeAppareil[0] == "Famille 2 LEV2"){
         const res = await Famille2_Lev2.generate(observateurId, inspecteurId, interventionId, type, response);
         if(res == false) {
-            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+            response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
     if(obs.typeAppareil[0] == "Famille 3 LEV3"){
         const res = await Famille3_Lev3.generate(observateurId, inspecteurId, interventionId, type, response);
         if(res == false) {
-            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+            response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
     if(obs.typeAppareil[0] == "Famille 4 LEV4"){
         const res = await Famille4_Lev4.generate(observateurId, inspecteurId, interventionId, type, response);
         if(res == false) {
-            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+            response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
     if(obs.typeAppareil[0] == "Famille 5 LEV5"){
         const res = await Famille5_Lev5.generate(observateurId, inspecteurId, interventionId, type, response);
         if(res == false) {
-            response.status(200).json("Nous nous excusons, mais vous n'avez pas complété toutes les étapes");
+            response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
