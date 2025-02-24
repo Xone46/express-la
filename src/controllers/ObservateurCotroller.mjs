@@ -5,36 +5,36 @@ import { Observateur } from "../models/observateur.mjs";
 import Accessoire from "./completed/accessoire_levage/completedAccessoire.mjs"
 import Appareil from "./completed/appareil_levage/completedAppareil.mjs"
 
-import  FamilleAc1 from "../controllers/generate/FamilleAc1.mjs";
-import  Famille1_Lev1 from "../controllers/generate/Famille1_Lev1.mjs";
-import  Famille2_Lev2 from "../controllers/generate/Famille2_Lev2.mjs";
-import  Famille3_Lev3 from "../controllers/generate/Famille3_Lev3.mjs";
-import  Famille4_Lev4 from "../controllers/generate/Famille4_Lev4.mjs";
-import  Famille5_Lev5 from "../controllers/generate/Famille5_Lev5.mjs";
+import FamilleAc1 from "../controllers/generate/FamilleAc1.mjs";
+import Famille1_Lev1 from "../controllers/generate/Famille1_Lev1.mjs";
+import Famille2_Lev2 from "../controllers/generate/Famille2_Lev2.mjs";
+import Famille3_Lev3 from "../controllers/generate/Famille3_Lev3.mjs";
+import Famille4_Lev4 from "../controllers/generate/Famille4_Lev4.mjs";
+import Famille5_Lev5 from "../controllers/generate/Famille5_Lev5.mjs";
 
 
-import  FamilleAc1_Sup from "../controllers/supprimer/FamilleAc1_Sup.mjs";
-import  Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
-import  Famille2_Lev2_Sup from "../controllers/supprimer/Famille2_Lev2_Sup.mjs";
-import  Famille3_Lev3_Sup from "../controllers/supprimer/Famille3_Lev3_Sup.mjs";
-import  Famille4_Lev4_Sup from "../controllers/supprimer/Famille4_Lev4_Sup.mjs";
-import  Famille5_Lev5_Sup from "../controllers/supprimer/Famille5_Lev5_Sup.mjs";
+import FamilleAc1_Sup from "../controllers/supprimer/FamilleAc1_Sup.mjs";
+import Famille1_Lev1_Sup from "../controllers/supprimer/Famille1_Lev1_Sup.mjs";
+import Famille2_Lev2_Sup from "../controllers/supprimer/Famille2_Lev2_Sup.mjs";
+import Famille3_Lev3_Sup from "../controllers/supprimer/Famille3_Lev3_Sup.mjs";
+import Famille4_Lev4_Sup from "../controllers/supprimer/Famille4_Lev4_Sup.mjs";
+import Famille5_Lev5_Sup from "../controllers/supprimer/Famille5_Lev5_Sup.mjs";
 
 
-import  FamilleAc1_Ter from "../controllers/terminer/FamilleAc1_Ter.mjs";
-import  Famille1_Lev1_Ter from "../controllers/terminer/Famille1_Lev1_Ter.mjs";
-import  Famille2_Lev2_Ter from "../controllers/terminer/Famille2_Lev2_Ter.mjs";
-import  Famille3_Lev3_Ter from "../controllers/terminer/Famille3_Lev3_Ter.mjs";
-import  Famille4_Lev4_Ter from "../controllers/terminer/Famille4_Lev4_Ter.mjs";
-import  Famille5_Lev5_Ter from "../controllers/terminer/Famille5_Lev5_Ter.mjs";
+import FamilleAc1_Ter from "../controllers/terminer/FamilleAc1_Ter.mjs";
+import Famille1_Lev1_Ter from "../controllers/terminer/Famille1_Lev1_Ter.mjs";
+import Famille2_Lev2_Ter from "../controllers/terminer/Famille2_Lev2_Ter.mjs";
+import Famille3_Lev3_Ter from "../controllers/terminer/Famille3_Lev3_Ter.mjs";
+import Famille4_Lev4_Ter from "../controllers/terminer/Famille4_Lev4_Ter.mjs";
+import Famille5_Lev5_Ter from "../controllers/terminer/Famille5_Lev5_Ter.mjs";
 
 
-import  FamilleAc1_Env from "./envoyer/accessoire_levage/FamilleAc1_Env.mjs";
-import  Famille1_Lev1_Env from "./envoyer/appareil_levage/Famille1_Lev1_Env.mjs";
-import  Famille2_Lev2_Env from "./envoyer/appareil_levage/Famille2_Lev2_Env.mjs";
-import  Famille3_Lev3_Env from "./envoyer/appareil_levage/Famille3_Lev3_Env.mjs";
-import  Famille4_Lev4_Env from "./envoyer/appareil_levage/Famille4_Lev4_Env.mjs";
-import  Famille5_Lev5_Env from "./envoyer/appareil_levage/Famille5_Lev5_Env.mjs";
+import FamilleAc1_Env from "./envoyer/accessoire_levage/FamilleAc1_Env.mjs";
+import Famille1_Lev1_Env from "./envoyer/appareil_levage/Famille1_Lev1_Env.mjs";
+import Famille2_Lev2_Env from "./envoyer/appareil_levage/Famille2_Lev2_Env.mjs";
+import Famille3_Lev3_Env from "./envoyer/appareil_levage/Famille3_Lev3_Env.mjs";
+import Famille4_Lev4_Env from "./envoyer/appareil_levage/Famille4_Lev4_Env.mjs";
+import Famille5_Lev5_Env from "./envoyer/appareil_levage/Famille5_Lev5_Env.mjs";
 
 
 import { query, body, validationResult, matchedData, checkSchema } from "express-validator"
@@ -56,42 +56,42 @@ const apercu = async (request, response) => {
 
     if (obs.typeAppareil[0] == "Famille AC1") {
         const res = await FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
-        if(res == false) {
+        if (res == false) {
             response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
-    if(obs.typeAppareil[0] == "Famille 1 LEV1"){
+    if (obs.typeAppareil[0] == "Famille 1 LEV1") {
         const res = await Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
-        if(res == false) {
+        if (res == false) {
             response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
-    if(obs.typeAppareil[0] == "Famille 2 LEV2"){
+    if (obs.typeAppareil[0] == "Famille 2 LEV2") {
         const res = await Famille2_Lev2.generate(observateurId, inspecteurId, interventionId, type, response);
-        if(res == false) {
+        if (res == false) {
             response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
-    if(obs.typeAppareil[0] == "Famille 3 LEV3"){
+    if (obs.typeAppareil[0] == "Famille 3 LEV3") {
         const res = await Famille3_Lev3.generate(observateurId, inspecteurId, interventionId, type, response);
-        if(res == false) {
+        if (res == false) {
             response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
-    if(obs.typeAppareil[0] == "Famille 4 LEV4"){
+    if (obs.typeAppareil[0] == "Famille 4 LEV4") {
         const res = await Famille4_Lev4.generate(observateurId, inspecteurId, interventionId, type, response);
-        if(res == false) {
+        if (res == false) {
             response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
 
-    if(obs.typeAppareil[0] == "Famille 5 LEV5"){
+    if (obs.typeAppareil[0] == "Famille 5 LEV5") {
         const res = await Famille5_Lev5.generate(observateurId, inspecteurId, interventionId, type, response);
-        if(res == false) {
+        if (res == false) {
             response.status(200).json("Erreur :Nous nous excusons, mais vous n'avez pas complété toutes les étapes pour géneré le rapport");
         }
     }
@@ -127,7 +127,7 @@ const create = async (request, response) => {
                     Appareil.save(request, response, result._id);
                 }
 
-                if(ac) {
+                if (ac) {
                     Accessoire.save(request, response, result._id);
                 }
 
@@ -151,12 +151,12 @@ const select = async (request, response) => {
         const interventionId = String(request.params.interventionId);
         const observateurs = await Observateur.find({ interventionId: interventionId }).sort({ date: -1 });
 
-        if(observateurs.length == 0) {
+        if (observateurs.length == 0) {
             return response.status(200).json({ msg: "Il n'y a aucune Appareil(s), équipement(s) ou installation(s)" });
         } else {
-            return response.status(200).json({ observateurs : observateurs });
+            return response.status(200).json({ observateurs: observateurs });
         }
-        
+
     } catch (error) {
         console.log(error)
         response.status(400).json(error);
@@ -219,6 +219,24 @@ const readTerminer = async (request, response) => {
 }
 
 
+const remettre = async (request, response) => {
+    const observateurId = String(request.params.observateurId);
+    try {
+
+        await Observateur.updateOne({ _id: observateurId }, { $set: { etat: false } })
+            .then(() => {
+                response.status(201).json(true);
+            })
+            .catch((error) => {
+                response.status(400).json(error);
+            });
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json(error);
+    }
+}
+
 const update = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
@@ -247,26 +265,26 @@ const terminer = async (request, response) => {
         FamilleAc1_Ter.terminer(observateurId, response);
     }
 
-    if(obs.typeAppareil[0] == "Famille 1 LEV1"){
+    if (obs.typeAppareil[0] == "Famille 1 LEV1") {
         Famille1_Lev1_Ter.terminer(observateurId, response);
     }
 
-    if(obs.typeAppareil[0] == "Famille 2 LEV2"){
+    if (obs.typeAppareil[0] == "Famille 2 LEV2") {
         Famille2_Lev2_Ter.terminer(observateurId, response);
     }
 
-    if(obs.typeAppareil[0] == "Famille 3 LEV3"){
+    if (obs.typeAppareil[0] == "Famille 3 LEV3") {
         Famille3_Lev3_Ter.terminer(observateurId, response);
     }
 
-    if(obs.typeAppareil[0] == "Famille 4 LEV4"){
+    if (obs.typeAppareil[0] == "Famille 4 LEV4") {
         Famille4_Lev4_Ter.terminer(observateurId, response);
     }
 
-    if(obs.typeAppareil[0] == "Famille 5 LEV5"){
+    if (obs.typeAppareil[0] == "Famille 5 LEV5") {
         Famille5_Lev5_Ter.terminer(observateurId, response);
     }
-2
+    2
 }
 
 
@@ -275,7 +293,7 @@ const cacher = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     const observateur = await Observateur.findById(observateurId);
 
-    if(observateur.etat == true) {
+    if (observateur.etat == true) {
 
         await Observateur.updateOne({ _id: observateurId }, { $set: { cache: true } })
             .then(() => {
@@ -287,8 +305,8 @@ const cacher = async (request, response) => {
             });
     }
 
-    if(observateur.etat == false) {
-        response.status(200).json({ msg: false , content : "Nous nous excusons, mais vous n'avez pas terminé de remplir toutes les étapes et d'appuyer sur un bouton Je termine" })
+    if (observateur.etat == false) {
+        response.status(200).json({ msg: false, content: "Nous nous excusons, mais vous n'avez pas terminé de remplir toutes les étapes et d'appuyer sur un bouton Je termine" })
     }
 
 }
@@ -301,31 +319,31 @@ const deleteOne = async (request, response) => {
 
         const observateurId = String(request.params.observateurId)
         const obs = await Observateur.findById(observateurId);
-    
+
         if (obs.typeAppareil[0] == "Famille AC1") {
             FamilleAc1_Sup.supprimer(observateurId, response);
         }
-    
-        if(obs.typeAppareil[0] == "Famille 1 LEV1"){
+
+        if (obs.typeAppareil[0] == "Famille 1 LEV1") {
             Famille1_Lev1_Sup.supprimer(observateurId, response);
         }
 
-        if(obs.typeAppareil[0] == "Famille 2 LEV2"){
+        if (obs.typeAppareil[0] == "Famille 2 LEV2") {
             Famille2_Lev2_Sup.supprimer(observateurId, response);
         }
 
-        if(obs.typeAppareil[0] == "Famille 3 LEV3"){
+        if (obs.typeAppareil[0] == "Famille 3 LEV3") {
             Famille3_Lev3_Sup.supprimer(observateurId, response);
         }
 
-        if(obs.typeAppareil[0] == "Famille 4 LEV4"){
+        if (obs.typeAppareil[0] == "Famille 4 LEV4") {
             Famille4_Lev4_Sup.supprimer(observateurId, response);
         }
 
-        if(obs.typeAppareil[0] == "Famille 5 LEV5"){
+        if (obs.typeAppareil[0] == "Famille 5 LEV5") {
             Famille5_Lev5_Sup.supprimer(observateurId, response);
         }
-    
+
     } catch (error) {
         console.log(error)
         response.status(400).json(error);
@@ -350,58 +368,58 @@ const envoyer = async (request, response) => {
 
             const flag = FamilleAc1.generate(observateurId, inspecteurId, interventionId, type, response);
 
-            if(flag) {
+            if (flag) {
                 FamilleAc1_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
-    
-        if(obs.typeAppareil[0] == "Famille 1 LEV1") {
+
+        if (obs.typeAppareil[0] == "Famille 1 LEV1") {
 
             const flag = Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
 
-            if(flag) {
+            if (flag) {
                 Famille1_Lev1_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
 
-        if(obs.typeAppareil[0] == "Famille 2 LEV2") {
+        if (obs.typeAppareil[0] == "Famille 2 LEV2") {
 
             const flag = Famille1_Lev1.generate(observateurId, inspecteurId, interventionId, type, response);
 
-            if(flag) {
+            if (flag) {
                 Famille2_Lev2_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
-        
-        if(obs.typeAppareil[0] == "Famille 3 LEV3") {
+
+        if (obs.typeAppareil[0] == "Famille 3 LEV3") {
 
             const flag = Famille3_Lev3.generate(observateurId, inspecteurId, interventionId, type, response);
 
-            if(flag) {
+            if (flag) {
                 Famille3_Lev3_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
 
-        if(obs.typeAppareil[0] == "Famille 4 LEV4") {
+        if (obs.typeAppareil[0] == "Famille 4 LEV4") {
 
             const flag = Famille4_Lev4.generate(observateurId, inspecteurId, interventionId, type, response);
 
-            if(flag) {
+            if (flag) {
                 Famille4_Lev4_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
 
-        if(obs.typeAppareil[0] == "Famille 5 LEV5") {
+        if (obs.typeAppareil[0] == "Famille 5 LEV5") {
 
             const flag = Famille5_Lev5.generate(observateurId, inspecteurId, interventionId, type, response);
 
-            if(flag) {
+            if (flag) {
                 Famille5_Lev5_Env.envoyer(observateurId, inspecteurId, ip, response);
             }
         }
 
 
-    } catch(error) {
+    } catch (error) {
         console.log(error.message)
         response.status(400).json(error)
     }
@@ -409,4 +427,4 @@ const envoyer = async (request, response) => {
 
 }
 
-export default { create, read, update, deleteOne, select, apercu, selected, envoyer, terminer, cacher, readTerminer }
+export default { create, read, update, deleteOne, select, apercu, selected, envoyer, terminer, cacher, readTerminer, remettre }

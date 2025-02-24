@@ -16,5 +16,6 @@ router.get("/send/:observateurId/:inspecteurId/:ip/:interventionId", Observateur
 router.get("/selected/:observateurId", ObservateurCotroller.selected);
 router.put("/terminer/:observateurId", ObservateurCotroller.terminer);
 router.put("/cacher/:observateurId", ObservateurCotroller.cacher);
+router.put("/remettre/:observateurId", ObservateurCotroller.remettre);
 
 export default router;
