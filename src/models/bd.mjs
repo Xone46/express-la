@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const BackupsSchema = new mongoose.Schema({
+const BdSchema = new mongoose.Schema({
 
     nom : {
         type : mongoose.Schema.Types.String,
@@ -18,5 +18,5 @@ const BackupsSchema = new mongoose.Schema({
 
 })
 
-export const Backups = mongoose.model("Backups", BackupsSchema);
+export const Bd = mongoose.model("Bd", BdSchema);
 
