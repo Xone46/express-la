@@ -1,40 +1,102 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const mongodbSnapshot = require('mongodb-snapshot');
-const Backup = mongodbSnapshot.default || mongodbSnapshot;
 
-const sauvgarder = async (request, response) => {
+import { Bd } from "../models/bd.mjs"
+
+import { MongoTransferer, MongoDBDuplexConnector, LocalFileSystemDuplexConnector } from 'mongodb-snapshot';
+import fs from 'fs';
+
+const sauvegarder = async (request, response) => {
     try {
-        const backup = new Backup({
-            uri: 'mongodb://localhost:27017/control', // Utilisation de ta base de données
-            root: './backups' // Dossier où les sauvegardes seront stockées
-        });
+            const date = new Date();
+            await Bd({
+                date : date
+            })
+            .save()
+            .then(async (result) => {
 
-        await backup.dump(); // Crée un snapshot de la base de données
-        response.status(200).json({ success: true, message: "Sauvegarde effectuée avec succès" });
+                const backupId = String(result._id);
 
-        console.log("sauvegarder");
+                const backupDir = './backups';
+                if (!fs.existsSync(backupDir)) {
+                    fs.mkdirSync(backupDir);
+                } 
+        
+                const mongoConnector = new MongoDBDuplexConnector({
+                    connection: {
+                        uri: 'mongodb://localhost:27017/control',
+                        dbname: 'control',
+                    },
+                });
+        
+                const fileConnector = new LocalFileSystemDuplexConnector({
+                    connection: {
+                        path: './backups/backup.tar',
+                        path: `./backups/${backupId}.tar`,
+                    },
+                });
+        
+                const transferer = new MongoTransferer({
+                    source: mongoConnector,
+                    targets: [fileConnector],
+                });
+        
+                for await (const { total, write } of transferer) {
+                    console.log(`Bytes restants à écrire : ${total - write}`);
+                }
+        
+                response.status(200).json(result);
+            })
+            .catch((error) => {
+                response.status(400).json(error);
+            });
+
+        
+
     } catch (error) {
         console.error("Erreur lors de la sauvegarde :", error);
         response.status(500).json({ success: false, error: error.message });
     }
 };
 
-const restorer = async (request, response) => {
+const restaurer = async (request, response) => {
     try {
-        const backup = new Backup({
-            uri: 'mongodb://localhost:27017/control', 
-            root: './backups'
+        const mongoConnector = new MongoDBDuplexConnector({
+            connection: {
+                uri: 'mongodb://localhost:27017/control',
+                dbname: 'control',
+            },
         });
 
-        await backup.restore(); // Restaure le dernier snapshot
-        response.status(200).json({ success: true, message: "Restauration effectuée avec succès" });
+        const fileConnector = new LocalFileSystemDuplexConnector({
+            connection: {
+                path: './backups/backup.tar',
+            },
+        });
 
-        console.log("restorer");
+        const transferer = new MongoTransferer({
+            source: fileConnector,
+            targets: [mongoConnector],
+        });
+
+        for await (const { total, write } of transferer) {
+            console.log(`Bytes restants à écrire : ${total - write}`);
+        }
+
+        response.status(200).json({ success: true, message: "Restauration effectuée avec succès" });
     } catch (error) {
         console.error("Erreur lors de la restauration :", error);
         response.status(500).json({ success: false, error: error.message });
     }
 };
 
-export default { sauvgarder, restorer };
+
+const read = async (request, response) => {
+    try {
+        const backups = await Bd.find().sort({ date : -1})
+        response.status(200).json({ backups: backups });
+    } catch (error) {
+        console.error("Erreur lors de lire liste des sauvegardes :", error);
+        response.status(500).json({ success: false, error: error.message });
+    }
+};
+
+export default { sauvegarder, restaurer ,read }

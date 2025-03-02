@@ -162,14 +162,19 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
                         path: path.join(__dirname, `../../../uploads/${photo.filename}`)
                     }
                 ],
-                }, (error, res) => {
+                }, async (error, res) => {
                     if (error) {
                         console.log(1)
                         console.log(error.message)
                         response.status(400).json(error);
                     } else {
-                        console.log(true)
-                        response.status(200).json(true);
+                        await Observateur.updateOne({ _id : observateurId }, { $set: { cache: true } })
+                            .then(() => {
+                                response.status(200).json(true);
+                            })
+                            .catch((error) => {
+                                response.status(400).json(error);
+                            });
                     }
                 });
 

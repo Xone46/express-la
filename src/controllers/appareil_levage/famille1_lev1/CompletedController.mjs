@@ -15,6 +15,7 @@ const read = async (request, response) => {
 
 const checkRenseignement = async (request, response) => {
     const observateurId = String(request.params.observateurId);
+    console.log(observateurId)
     try {
         const renseignement = await RenseignementFamilleOneLevOne.find({ observateurId: observateurId });
         if (renseignement.length == 0) {

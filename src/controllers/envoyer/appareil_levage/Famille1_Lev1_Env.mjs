@@ -44,7 +44,7 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
     const inspecteur = await Inspecteur.findById(inspecteurId);
     const observateur = await Observateur.findById(observateurId);
     const intervention = await Intervention.findById(observateur.interventionId);
-    const photo = await PhotoFamilleOneLevOne.findOne({ observateurId : observateurId});
+    const photo = await PhotoFamilleOneLevOne.findOne({ observateurId: observateurId });
 
     const namefile = `Rapport-${observateur.typeAppareil[0]}-${observateur.typeAppareil[1]}-${intervention.etablissement}`
 
@@ -150,24 +150,29 @@ const envoyer = async (observateurId, inspecteurId, ip, response) => {
                     subject: `E-RAPPORT GTHCONSULT : Demande de validation rapport de ${intervention.etablissement}`,
                     html: htmlToSend,
                     attachments: [
-                    {
-                        filename: 'output.docx',
-                        path: path.join(__dirname, '../../../rapports/output.docx'),
-                        contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                    }, 
-                    {
-                        filename: photo.filename,
-                        path: path.join(__dirname, `../../../uploads/${photo.filename}`)
-                    }
-                ],
-                }, (error, res) => {
+                        {
+                            filename: 'output.docx',
+                            path: path.join(__dirname, '../../../rapports/output.docx'),
+                            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        },
+                        {
+                            filename: photo.filename,
+                            path: path.join(__dirname, `../../../uploads/${photo.filename}`)
+                        }
+                    ],
+                }, async (error, res) => {
                     if (error) {
                         console.log(1)
                         console.log(error.message)
                         response.status(400).json(error);
                     } else {
-                        console.log(true)
-                        response.status(200).json(true);
+                        await Observateur.updateOne({ _id : observateurId }, { $set: { cache: true } })
+                            .then(() => {
+                                response.status(200).json(true);
+                            })
+                            .catch((error) => {
+                                response.status(400).json(error);
+                            });
                     }
                 });
 
