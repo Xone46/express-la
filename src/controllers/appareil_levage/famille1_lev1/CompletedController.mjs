@@ -1,4 +1,3 @@
-
 import { CompletedFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/completed.mjs";
 import { Observateur } from "../../../models/observateur.mjs";
 import { RenseignementFamilleOneLevOne } from "../../../models/appareil_levage/famille1_lev1/renseignement.mjs";
@@ -98,4 +97,21 @@ const checkPhoto = async (request, response) => {
     }
 }
 
-export default { read, checkRenseignement, checkDescription, checkExamen, checkConclusion, checkPhoto }
+const checkAll = async (request, response) => {
+    const observateurId = String(request.params.observateurId);
+    try {
+
+        const completed = await CompletedFamilleOneLevOne.find({ observateurId: observateurId, renseignement: true , description : true, examen : true, conclusion : true, photo: true });
+        const res = await CompletedFamilleOneLevOne.find({ observateurId: observateurId });
+        if (completed.length == 0) {
+            response.status(200).json({ status : false, completed : res });
+        } else {
+            response.status(200).json({ status : true, completed : completed });
+        }
+
+    } catch (error) {
+        response.status(400).json(error)
+    }
+}
+
+export default { read, checkRenseignement, checkDescription, checkExamen, checkConclusion, checkPhoto, checkAll }

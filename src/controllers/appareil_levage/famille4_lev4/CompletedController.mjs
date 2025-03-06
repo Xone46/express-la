@@ -16,8 +16,8 @@ const read = async (request, response) => {
 const checkRenseignement = async (request, response) => {
     const observateurId = String(request.params.observateurId);
     try {
-        const renseignement = await RenseignementFamilleFourLevFour.find({ observateurId: observateurId });
-        if (renseignement.length == 0) {
+        const completed = await CompletedFamilleFourLevFour.find({ observateurId: observateurId, renseignement: true });
+        if (completed.length == 0) {
             response.status(200).json(false);
         } else {
             response.status(200).json(true);
@@ -97,4 +97,24 @@ const checkPhoto = async (request, response) => {
     }
 }
 
-export default { read, checkRenseignement, checkDescription, checkExamen, checkConclusion, checkPhoto }
+
+const checkAll = async (request, response) => {
+    const observateurId = String(request.params.observateurId);
+    try {
+
+        const completed = await CompletedFamilleFourLevFour.find({ observateurId: observateurId, renseignement: true , description : true, examen : true, conclusion : true, photo: true });
+        const res = await CompletedFamilleFourLevFour.find({ observateurId: observateurId });
+        
+        if (completed.length == 0) {
+            response.status(200).json({ status : false, completed : res });
+        } else {
+            response.status(200).json({ status : true, completed : completed });
+        }
+    } catch (error) {
+        response.status(400).json(error)
+    }
+} 
+
+
+
+export default { read, checkRenseignement, checkDescription, checkExamen, checkConclusion, checkPhoto, checkAll }
