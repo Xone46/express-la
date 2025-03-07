@@ -102,7 +102,7 @@ const checkAll = async (request, response) => {
     try {
 
         const completed = await CompletedFamilleFiveLevFive.find({ observateurId: observateurId, renseignement: true , description : true, examen : true, conclusion : true, photo: true });
-        const res = await CompletedFamilleFourLevFour.find({ observateurId: observateurId });
+        const res = await CompletedFamilleFiveLevFive.find({ observateurId: observateurId });
         
         if (completed.length == 0) {
             response.status(200).json({ status : false, completed : res });
